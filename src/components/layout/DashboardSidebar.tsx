@@ -321,7 +321,7 @@
 //       {/* Sticky on md+ so long pages scroll only the main column; inner nav still scrolls if needed */}
 //       <div className="hidden shrink-0 md:sticky md:top-4 md:ml-4 md:mt-4  md:block md:self-start">
 //         <div
-//           className="flex h-[calc(100vh-2rem)] max-h-[calc(100vh-2rem)] min-h-0 w-56 lg:w-60 flex-col overflow-y-auto overscroll-contain scrollbar-hide rounded-[24px] border-b border-r border-(--ds-border-accent) 
+//           className="flex h-[calc(100vh-2rem)] max-h-[calc(100vh-2rem)] min-h-0 w-56 lg:w-60 flex-col overflow-y-auto overscroll-contain scrollbar-hide rounded-[24px] border-b border-r border-(--ds-border-accent)
 //          bg-(--ds-bg-elevated) px-3 pb-4 pt-1"
 //         >
 //           {sidebarContent}

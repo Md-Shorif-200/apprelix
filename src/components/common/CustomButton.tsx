@@ -16,8 +16,7 @@ type CustomButtonProps = {
     | "outline"
     | "light"
     | "dark"
-    | "ghost"
-    | "solid";
+    | "accent" ;
   animation?: "scale" | "slide" | "none";
   className?: string;
   isActive?: boolean;
@@ -43,17 +42,17 @@ export const CustomButton = ({
 }: CustomButtonProps) => {
   const variantStyle = {
     primary:
-      "btn_gradient text-black text-xs sm:text-sm font-semibold hover:opacity-90 disabled:opacity-60",
-    secondary: "bg-gray-600 hover:bg-gray-700 text-white disabled:opacity-60",
-    danger: "bg-[#FF383C80] hover:bg-red-800  text-white disabled:opacity-60",
-    success: "bg-green-600 hover:bg-green-700 text-white disabled:opacity-60",
+      "bg-ds-primary text-ds-secondary  transition-colors duration-200  border-none outline-none",
+    secondary: "bg-gray-600 hover:bg-gray-700 text-white disabled:opacity-60 border-none outline-none",
+    danger: "bg-[#FF383C80] hover:bg-red-800  text-white disabled:opacity-60 border-none outline-none",
+    success: "bg-green-600 hover:bg-green-700 text-white disabled:opacity-60 border-none outline-none",
     outline:
-      "border border-(--ds-accent) text-white hover:text-(--ds-accent) bg-transparent",
+      "border border-(--ds-accent) text-white hover:text-(--ds-accent) bg-transparent border-none outline-none",
     light:
-      "bg-white text-gray-700 border border-gray-200 font-semibold text-sm sm:text-base disabled:opacity-60",
-    dark: "bg-gray-800 text-white hover:bg-gray-900 disabled:opacity-60",
-    ghost: "bg-transparent hover:bg-gray-100 text-gray-700 disabled:opacity-60",
-    solid: "bg-gray-600 hover:bg-gray-700 text-white disabled:opacity-60",
+      "bg-white text-gray-700 border border-gray-200 font-semibold text-sm sm:text-base disabled:opacity-60 border-none outline-none",
+    dark: "bg-gray-800 text-white hover:bg-gray-900 disabled:opacity-60 border-none outline-none",
+    accent : "bg-gradient-to-r from-ds-primary to-ds-accent hover:from-teal-600 hover:to-cyan-600 text-ds-secondary transition-colors duration-200 border-none outline-none  "
+    
   };
 
   const animationStyle = {
