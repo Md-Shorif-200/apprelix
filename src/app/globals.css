@@ -140,7 +140,7 @@
   --ds-muted: #115e59;
   --ds-muted-foreground: #99f6e4;
 
-   /* text size */
+  /* text size */
 
   --ds-text-title-lg: 1.5rem; /* 24px */
   --ds-text-title: 1.25rem; /* 20px */
@@ -151,7 +151,20 @@
 
   --ds-text-caption: 0.875rem; /* 14px */
   --ds-text-small: 0.75rem; /* 12px */
-
 }
 
+/* Smooth theme change (page + toggle) */
+@media (prefers-reduced-motion: no-preference) {
+  html,
+  body {
+    transition:
+      background-color 0.45s ease-in-out,
+      color 0.45s ease-in-out;
+  }
 
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.45s;
+    animation-timing-function: ease-in-out;
+  }
+}
