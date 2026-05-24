@@ -5,20 +5,21 @@ import Container from "@/components/common/Container";
 import BannerSlider from "./BannerSlider";
 
 const SIDE_BANNERS = [
-  { src: "/banner/img-4.webp", alt: "Micro investment — Bengali promotion banner" },
+  {
+    src: "/banner/img-4.webp",
+    alt: "Micro investment — Bengali promotion banner",
+  },
   { src: "/banner/img-5.webp", alt: "Factory and industrial manufacturing" },
 ] as const;
 
-/** Single right-side banner image */
 function SideBanner({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="relative  rounded-lg h-1/2 ">
+    <div className="relative w-full flex-1 rounded-lg overflow-hidden shrink-0">
       <Image
         src={src}
         alt={alt}
         fill
-        sizes="(max-width: 1024px) 100vw, 40vw"
-        className="object-cover rounded-lg"
+        className="object-cover transition-transform duration-500 hover:scale-105"
       />
     </div>
   );
@@ -27,18 +28,18 @@ function SideBanner({ src, alt }: { src: string; alt: string }) {
 const Banner = () => {
   return (
     <Container>
-      <div className="w-full flex gap-4 h-[450px] my-6">
+      <div className="w-full lg:flex gap-4 h-full  lg:h-[450px] my-6">
         {/* Main slider — 60% on large screens */}
         <div className="w-full lg:w-[70%] h-full">
           <BannerSlider />
         </div>
 
         {/* Stacked side banners — 40% on large screens */}
-        <div className="w-full lg:w-[30%] h-full flex flex-col gap-4">
-          {SIDE_BANNERS.map((banner) => (
-            <SideBanner key={banner.src} src={banner.src} alt={banner.alt} />
-          ))}
-        </div>
+     <div className="w-full lg:w-[30%] h-[180px] lg:h-[450px] flex gap-2 lg:gap-4 overflow-x-auto lg:overflow-hidden lg:flex-col mt-4 lg:mt-0">
+  {SIDE_BANNERS.map((banner) => (
+    <SideBanner key={banner.src} src={banner.src} alt={banner.alt} />
+  ))}
+</div>
       </div>
     </Container>
   );

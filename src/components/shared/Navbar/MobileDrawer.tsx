@@ -51,9 +51,9 @@ export function MobileDrawer() {
           <NavLinks />
         </div>
 
-         <div className="px-4 mt-8">
+        <div className="px-4 mt-8">
           <Support />
-         </div>
+        </div>
       </SheetContent>
     </Sheet>
   );

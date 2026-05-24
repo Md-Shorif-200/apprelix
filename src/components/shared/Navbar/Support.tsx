@@ -3,7 +3,6 @@ import { Headset } from "lucide-react";
 const Support = () => {
   return (
     <div
-
       className=" group flex items-center gap-3 rounded-2xl  cursor-pointer
         transition-all duration-300 ease-out   "
     >
@@ -18,7 +17,6 @@ const Support = () => {
             absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-emerald-400
             ring-2 ring-white dark:ring-ds-card animate-pulse
           "
-       
         />
       </div>
 
@@ -32,7 +30,7 @@ const Support = () => {
         </span>
       </div>
     </div>
-  );    
+  );
 };
 
 export default Support;

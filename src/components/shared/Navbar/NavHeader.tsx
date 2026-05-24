@@ -22,15 +22,14 @@ const NavHeader = () => {
         {/* ── Right Section ── */}
         <div className="flex items-center gap-5 flex-shrink-0">
           {/* Support — hidden below lg */}
-                  <div className="hidden lg:block">
-                  <Support />
-                  </div>
+          <div className="hidden lg:block">
+            <Support />
+          </div>
           {/* Divider — hidden below lg */}
           <div className="hidden lg:block h-8 w-px bg-ds-border" />
 
           {/* Login — always visible */}
           <div
-         
             className="
               group flex items-center gap-2.5 
               transition-all duration-300 ease-out
@@ -47,7 +46,6 @@ const NavHeader = () => {
             </span>
           </div>
 
-       
           <div className="lg:hidden">
             <MobileDrawer />
           </div>

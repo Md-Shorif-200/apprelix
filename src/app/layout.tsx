@@ -32,11 +32,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <TanStackQueryProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-          >
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
 
             <Toaster />
