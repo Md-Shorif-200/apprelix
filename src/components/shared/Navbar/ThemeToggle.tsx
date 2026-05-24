@@ -2,34 +2,66 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useSyncExternalStore } from "react";
+
+/** Changes theme with a smooth fade when the browser supports it. */
+function changeThemeSmoothly(
+  nextTheme: "light" | "dark",
+  setTheme: (theme: string) => void,
+) {
+  const applyTheme = () => setTheme(nextTheme);
+
+  if (typeof document !== "undefined" && "startViewTransition" in document) {
+    document.startViewTransition(applyTheme);
+    return;
+  }
+
+  applyTheme();
+}
+
+/** True only in the browser — avoids theme icon mismatch during SSR. */
+function useIsClient() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+}
 
 const ThemeToggle = () => {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const isClient = useIsClient();
 
-  const isDark = theme === "dark";
+  const isDark = resolvedTheme === "dark";
 
   const handleToggleTheme = () => {
-    setTheme(isDark ? "light" : "dark");
+    changeThemeSmoothly(isDark ? "light" : "dark", setTheme);
   };
+
+  if (!isClient) {
+    return (
+      <div
+        className="relative h-8 w-16 rounded-full border border-ds-border bg-ds-background"
+        aria-hidden
+      />
+    );
+  }
 
   return (
     <button
+      type="button"
       onClick={handleToggleTheme}
       className="
-        relative flex items-center w-16 h-8 rounded-full p-1
-        transition-all duration-300 ease-in-out
-        bg-ds-background border border-ds-border hover:bg-gray-200
-        dark:bg-[#0D3B38] dark:hover:bg-[#115E59]
-        cursor-pointer
+        relative flex h-8 w-16 cursor-pointer items-center rounded-full border border-ds-border
+        bg-ds-background p-1 transition-colors duration-500 ease-in-out
+        hover:bg-gray-200 dark:bg-[#0D3B38] dark:hover:bg-[#115E59]
       "
-      aria-label="Toggle Theme"
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {/* Background Icons */}
-
       <Moon
         size={16}
         className={`
-          absolute left-2 transition-all duration-300
+          absolute left-2 transition-colors duration-500 ease-in-out
           ${isDark ? "text-white/20" : "text-black"}
         `}
       />
@@ -37,18 +69,15 @@ const ThemeToggle = () => {
       <Sun
         size={16}
         className={`
-          absolute right-2 transition-all duration-300
+          absolute right-2 transition-colors duration-500 ease-in-out
           ${isDark ? "text-yellow-400" : "text-gray-400"}
         `}
       />
 
-      {/* Sliding Circle */}
-
       <span
         className={`
-          relative z-10 flex items-center justify-center
-          w-6 h-6 rounded-full bg-ds-primary shadow-md
-          transition-all duration-300 ease-in-out
+          relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-ds-primary shadow-md
+          transition-transform duration-500 ease-in-out
           ${isDark ? "translate-x-0" : "translate-x-8"}
         `}
       >

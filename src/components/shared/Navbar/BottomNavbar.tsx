@@ -3,16 +3,13 @@
 import Container from "@/components/common/Container";
 import { CustomButton } from "@/components/common/CustomButton";
 
-import { Sparkles, Bell, } from "lucide-react";
+import { Sparkles, Bell } from "lucide-react";
 
 import NavLinks from "./NavLinks";
 import ThemeToggle from "./ThemeToggle";
 // import { ThemeToggle } from "./ThemeToggle";
 
-
 const BottomNavbar = () => {
-
-
   return (
     <Container>
       <div className="flex items-center justify-between py-2.5">
@@ -40,8 +37,7 @@ const BottomNavbar = () => {
             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
           </button>
 
-  <ThemeToggle />
-         
+          <ThemeToggle />
         </div>
       </div>
     </Container>
