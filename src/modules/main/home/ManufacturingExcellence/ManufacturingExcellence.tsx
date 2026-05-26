@@ -1,203 +1,358 @@
+// ManufacturingExcellence.tsx
 import Image from "next/image";
-
 import {
-  Factory,
   Cpu,
   ShieldCheck,
   Users,
   ScanSearch,
   Workflow,
   Globe,
-  BookCopy,
+  Sparkles,
 } from "lucide-react";
 import Container from "@/components/common/Container";
 import DarkModeSectionCard from "@/components/common/DarkModeSectionCard";
 
-interface FeatureCardProps {
-  title: string;
-  description: string;
-  icon: React.ComponentType<{ size?: number }>;
-}
-
+/* ─── Images ─────────────────────────────────── */
 const img_1 = "/ManufacturingExcellence/img-1.jpg";
-const img_2 = "/ManufacturingExcellence/img-4.jpg";
 const img_3 = "/ManufacturingExcellence/img-4.jpg";
 
+/* ─── Data ────────────────────────────────────── */
 const manufacturingData = [
   {
     id: 1,
     title: "Advanced Factory Technology",
     description:
-      "AI-assisted operations, automated machinery, and digital manufacturing systems ensuring smarter and faster apparel production.",
+      "AI-assisted operations and automated machinery ensuring smarter, faster apparel production.",
     icon: Cpu,
   },
   {
     id: 2,
     title: "Premium Material Quality",
     description:
-      "High-quality fabrics, durable materials, and sustainable sourcing aligned with international manufacturing standards.",
+      "High-quality fabrics and sustainable sourcing aligned with international standards.",
     icon: ShieldCheck,
   },
   {
     id: 3,
     title: "Skilled Workforce",
     description:
-      "Experienced garment professionals and expert craftsmanship delivering precision, consistency, and premium finishing.",
+      "Experienced professionals delivering precision, consistency, and premium finishing.",
     icon: Users,
   },
   {
     id: 4,
     title: "AI Quality Inspection",
     description:
-      "AI-powered quality control systems detect defects, monitor precision, and reduce production inconsistencies efficiently.",
+      "AI-powered systems detect defects and reduce production inconsistencies efficiently.",
     icon: ScanSearch,
   },
   {
     id: 5,
     title: "Efficient Production Workflow",
     description:
-      "Organized workflows, real-time monitoring, and optimized operations ensure faster turnaround and production transparency.",
+      "Real-time monitoring and optimized operations ensure faster, transparent turnaround.",
     icon: Workflow,
   },
   {
     id: 6,
     title: "Global Manufacturing Standards",
     description:
-      "Certified production facilities following ethical practices and export-quality international compliance standards.",
+      "Certified facilities following ethical practices and export-quality compliance.",
     icon: Globe,
   },
 ];
 
+/* ─── Stats Bar ───────────────────────────────── */
+const stats = [
+  { value: "15+", label: "Years Experience" },
+  { value: "500+", label: "Happy Clients" },
+  { value: "98%", label: "Quality Rate" },
+];
+
+/* ─── Component ───────────────────────────────── */
 export const ManufacturingExcellence = () => {
   return (
-    <main className="mt-14">
+    <section className="mt-14 mb-6">
       <Container>
-        <div className="w-full h-full xl:h-175 bg-[#172C45] rounded-md px-2 sm:px-6 py-2 sm:py-8 xl:flex gap-6">
-          {/* Left Image */}
-          <section className="xl:w-[40%] relative h-80 md:h-100 lg:h-130 xl:h-full  rounded-xl overflow-hidden mb-8 xl:mb-0">
-            <Image
-              src={img_1}
-              alt="Why Choose AMYRAH"
-              fill
-              priority
-              className="object-cover"
-            />
-          </section>
 
-          {/* Right Content */}
-          <section className="xl:w-[60%] h-full space-y-6">
-            <div className="">
-              <div className="flex items-center gap-2 text-[#ffffff] ">
-                <BookCopy size="20" />
-                {/* title */}
-                <h2 className="text-[14px] sm:text-[16px] md:text-[18px] font-bold tracking-widest text-[#E6F1FF] uppercase ">
-                  Manufacturing Excellence
-                </h2>
-              </div>
-
-              {/* sub title */}
-              <h2 className="text-[20px] sm:text-[18px] md:text-[20px] text-[#BFD7F3] capitalize font-medium mt-4 sm:mt-3">
-                Manufacturing Excellence. Built for real-world impact.
-              </h2>
-            </div>
-
-            {/* feature data */}
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 ">
-              {/* Feature Cards */}
-              <div className="grid grid-cols-1  gap-3 ">
-                {
-                manufacturingData
-                  .slice(0, 4)
-                  .map((item,index) => (
-                      <DarkModeSectionCard
-                  key={index}
-                  icon={item.icon}
-                  title={item.title}
-                  description={item.description}
-                />
-                  ))}
-              </div>
-
-              {/*  section content image */}
-
-              <div className="w-full  grid grid-cols-1 gap-y-4">
-                <div className="grid grid-cols-1 gap-y-2">
-                   {
-                manufacturingData
-                  .slice(4,6)
-                  .map((item,index) => (
-                      <DarkModeSectionCard
-                  key={index}
-                  icon={item.icon}
-                  title={item.title}
-                  description={item.description}
-                />
-                  ))}
-                </div>
-
-                <div className="w-full h-50 sm:h-67 relative  rounded-xl ">
-                  <Image
-                    src={img_3}
-                    alt="Why Choose AMYRAH"
-                    fill
-                    priority
-                    className="object-cover rounded-xl"
-                  />
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </Container>
-    </main>
-  );
-};
-
-const FeatureCard: React.FC<FeatureCardProps> = ({
-  title,
-  description,
-  icon: Icon,
-}) => {
-  return (
-    <div
-      className="
-        bg-card 
-        rounded-xl 
-        p-4 
-        shadow-sm 
-        transition-all 
-        duration-300 
-        hover:shadow-lg 
-        hover:scale-[1.03] 
-        hover:bg-gray-50
-        cursor-pointer
-      "
-    >
-      <div className="flex items-start gap-3">
+        {/* ── Outer Wrapper ── */}
         <div
           className="
-            w-10 h-10 
-            flex justify-center items-center 
-            rounded-full 
-            transition-colors 
-            duration-300 
-            bg-accent 
-            text-primary 
-            hover:bg-text-primary 
-            hover:text-primary
+            relative
+            w-full
+            rounded-3xl
+            overflow-hidden
+            bg-gradient-to-br from-[#0F1F35] via-[#172C45] to-[#1a3a5c]
+            border border-white/10
+            shadow-2xl
           "
         >
-          <Icon size={20} />
+          {/* ── Decorative Background Blobs ── */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            {/* Top-left blob */}
+            <div
+              className="
+                absolute -top-24 -left-24
+                w-72 h-72
+                rounded-full
+                bg-blue-600/15
+                blur-3xl
+              "
+            />
+            {/* Bottom-right blob */}
+            <div
+              className="
+                absolute -bottom-24 -right-24
+                w-80 h-80
+                rounded-full
+                bg-cyan-500/10
+                blur-3xl
+              "
+            />
+            {/* Center blob */}
+            <div
+              className="
+                absolute top-1/2 left-1/2
+                -translate-x-1/2 -translate-y-1/2
+                w-96 h-96
+                rounded-full
+                bg-blue-500/5
+                blur-3xl
+              "
+            />
+
+            {/* Subtle dot-grid overlay */}
+            <div
+              className="absolute inset-0 opacity-[0.03]"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle, #ffffff 1px, transparent 1px)",
+                backgroundSize: "28px 28px",
+              }}
+            />
+          </div>
+
+          {/* ── Inner Padding ── */}
+          <div className="relative z-10 p-5 sm:p-8 xl:p-10">
+
+            {/* ════ Two-Column Layout ════ */}
+            <div className="xl:flex gap-10 items-stretch">
+
+              {/* ── LEFT COLUMN ── */}
+              <div className="xl:w-[38%] flex flex-col gap-5 mb-8 xl:mb-0">
+
+                {/* Main Image */}
+                <div
+                  className="
+                    relative
+                    flex-1
+                    min-h-72 md:min-h-96 xl:min-h-0
+                    rounded-2xl
+                    overflow-hidden
+                    border border-white/10
+                    shadow-xl
+                  "
+                >
+                  <Image
+                    src={img_1}
+                    alt="Manufacturing Excellence"
+                    fill
+                    priority
+                    className="object-cover"
+                  />
+
+                  {/* Dark gradient overlay on image */}
+                  <div
+                    className="
+                      absolute inset-0
+                      bg-gradient-to-t from-[#0F1F35]/80 via-transparent to-transparent
+                    "
+                  />
+
+                  {/* Badge on image */}
+                  <div
+                    className="
+                      absolute top-4 left-4
+                      flex items-center gap-2
+                      bg-white/10
+                      backdrop-blur-md
+                      border border-white/20
+                      rounded-full
+                      px-3 py-1.5
+                    "
+                  >
+                    <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                    <span className="text-xs text-white/90 font-medium tracking-wide">
+                      ISO Certified
+                    </span>
+                  </div>
+                </div>
+
+                {/* Stats Bar */}
+                <div
+                  className="
+                    grid grid-cols-3
+                    gap-3
+                    bg-white/5
+                    border border-white/10
+                    rounded-2xl
+                    p-4
+                  "
+                >
+                  {stats.map((stat, i) => (
+                    <div key={i} className="text-center">
+                      <p
+                        className="
+                          text-xl sm:text-2xl
+                          font-bold
+                          bg-gradient-to-r from-blue-300 to-cyan-300
+                          bg-clip-text text-transparent
+                        "
+                      >
+                        {stat.value}
+                      </p>
+                      <p className="text-[10px] sm:text-xs text-blue-200/60 mt-0.5 leading-tight">
+                        {stat.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* ── RIGHT COLUMN ── */}
+              <div className="xl:w-[62%] flex flex-col gap-6">
+
+                {/* Section Header */}
+                <div>
+                  {/* Label pill */}
+                  <div className="inline-flex items-center gap-2 bg-blue-500/15 border border-blue-400/25 rounded-full px-4 py-1.5 mb-4">
+                    <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+                    <span className="text-xs font-semibold tracking-[0.15em] text-blue-300 uppercase">
+                      Manufacturing Excellence
+                    </span>
+                  </div>
+
+                  {/* Heading */}
+                  <h2
+                    className="
+                      text-2xl sm:text-3xl
+                      font-bold
+                      text-white
+                      leading-snug
+                    "
+                  >
+                    Built for{" "}
+                    <span
+                      className="
+                        bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-400
+                        bg-clip-text text-transparent
+                      "
+                    >
+                      Real-World Impact
+                    </span>
+                  </h2>
+
+                  {/* Sub-heading */}
+                  <p className="text-sm text-blue-200/60 mt-2 max-w-lg leading-relaxed">
+                    Precision-engineered production systems, skilled craftsmanship,
+                    and cutting-edge technology — all under one roof.
+                  </p>
+                </div>
+
+                {/* ── Feature Cards + Bottom Image ── */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
+
+                  {/* Left card column: cards 1–4 */}
+                  <div className="flex flex-col gap-3">
+                    {manufacturingData.slice(0, 4).map((item, index) => (
+                      <DarkModeSectionCard
+                        key={item.id}
+                        index={index}
+                        icon={item.icon}
+                        title={item.title}
+                        description={item.description}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Right card column: cards 5–6 + image */}
+                  <div className="flex flex-col gap-3">
+
+                    {/* Cards 5 & 6 */}
+                    {manufacturingData.slice(4, 6).map((item, index) => (
+                      <DarkModeSectionCard
+                        key={item.id}
+                        index={index + 4}
+                        icon={item.icon}
+                        title={item.title}
+                        description={item.description}
+                      />
+                    ))}
+
+                    {/* Bottom decorative image */}
+                    <div
+                      className="
+                        relative
+                        flex-1
+                        min-h-44
+                        rounded-2xl
+                        overflow-hidden
+                        border border-white/10
+                        shadow-lg
+                      "
+                    >
+                      <Image
+                        src={img_3}
+                        alt="Factory Floor"
+                        fill
+                        priority
+                        className="object-cover"
+                      />
+
+                      {/* Overlay on bottom image */}
+                      <div
+                        className="
+                          absolute inset-0
+                          bg-gradient-to-br from-[#172C45]/60 to-transparent
+                        "
+                      />
+
+                      {/* Small label over image */}
+                      <div
+                        className="
+                          absolute bottom-3 left-3
+                          bg-white/10
+                          backdrop-blur-md
+                          border border-white/20
+                          rounded-xl
+                          px-3 py-2
+                        "
+                      >
+                        <p className="text-[11px] font-semibold text-white/90 leading-tight">
+                          State-of-the-Art
+                        </p>
+                        <p className="text-[10px] text-blue-200/70">
+                          Production Floor
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* end grid */}
+
+              </div>
+              {/* end right column */}
+
+            </div>
+            {/* end two-column layout */}
+
+          </div>
+          {/* end inner padding */}
+
         </div>
-        <div className="flex-1">
-          <h4 className="font-semibold text-sm md:text-base text-secondary transition-colors duration-300 hover:text-text-primary">
-            {title}
-          </h4>
-          <p className="text-xs md:text-sm text-muted-foreground mt-1">
-            {description}
-          </p>
-        </div>
-      </div>
-    </div>
+        {/* end outer wrapper */}
+
+      </Container>
+    </section>
   );
 };

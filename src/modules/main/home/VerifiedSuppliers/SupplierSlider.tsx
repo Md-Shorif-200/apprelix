@@ -32,33 +32,26 @@ const SupplierSlider = ({ suppliers }: SupplierSliderProps) => {
   return (
     <Swiper
       modules={[Pagination, Autoplay]}
-
       // Layout
       spaceBetween={24}
       slidesPerView={1}
-
       // Infinite Professional Loop
       loop={true}
       loopAdditionalSlides={2}
-
       // Smooth Continuous Feel
       speed={900}
-
       autoplay={{
         delay: 2800,
         disableOnInteraction: false,
         pauseOnMouseEnter: true,
       }}
-
       // Better UX
       grabCursor={true}
       watchSlidesProgress={true}
-
       pagination={{
         clickable: true,
         dynamicBullets: true,
       }}
-
       breakpoints={{
         640: {
           slidesPerView: 2,
@@ -72,7 +65,6 @@ const SupplierSlider = ({ suppliers }: SupplierSliderProps) => {
           slidesPerView: 4,
         },
       }}
-
       className="pb-14"
     >
       {suppliers.map((supplier) => (

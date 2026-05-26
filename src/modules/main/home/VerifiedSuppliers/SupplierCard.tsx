@@ -1,4 +1,14 @@
-import { ShieldCheck, MapPin, Star, Award, Factory, ArrowUpRight, CheckCircle2, Zap, Clock } from "lucide-react";
+import {
+  ShieldCheck,
+  MapPin,
+  Star,
+  Award,
+  Factory,
+  ArrowUpRight,
+  CheckCircle2,
+  Zap,
+  Clock,
+} from "lucide-react";
 
 interface Supplier {
   id: string;
@@ -21,7 +31,6 @@ interface SupplierCardProps {
 const SupplierCard = ({ supplier }: SupplierCardProps) => {
   return (
     <div className="group bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_8px_-3px_rgba(15,23,42,0.05)] hover:shadow-[0_16px_32px_-6px_rgba(15,23,42,0.08)] hover:border-slate-300/80 transition-all duration-400 flex flex-col h-full overflow-visible relative">
-
       {/* ---- ১. ফ্যাক্টরি ব্যানার সেকশন ---- */}
       <div className="relative h-28 w-full overflow-hidden rounded-t-2xl bg-slate-900">
         <img
@@ -53,7 +62,6 @@ const SupplierCard = ({ supplier }: SupplierCardProps) => {
 
       {/* ---- ৩. মেইন কন্টেন্ট বডি ---- */}
       <div className="pt-8 p-5 flex flex-col flex-grow">
-
         {/* কোম্পানি নেম এবং রেটিং */}
         <div className="mb-4">
           <h3 className="font-bold text-slate-900 text-base lg:text-lg leading-snug tracking-tight hover:text-teal-600 transition-colors cursor-pointer line-clamp-1">
@@ -62,15 +70,18 @@ const SupplierCard = ({ supplier }: SupplierCardProps) => {
           <div className="flex items-center gap-1.5 mt-1">
             <div className="flex items-center text-amber-500">
               <Star className="w-3.5 h-3.5 fill-current" />
-              <span className="text-xs font-bold text-slate-700 ml-1">{supplier.rating}</span>
+              <span className="text-xs font-bold text-slate-700 ml-1">
+                {supplier.rating}
+              </span>
             </div>
-            <span className="text-[11px] text-slate-400">({supplier.reviewsCount} verified audits)</span>
+            <span className="text-[11px] text-slate-400">
+              ({supplier.reviewsCount} verified audits)
+            </span>
           </div>
         </div>
 
         {/* ---- ৪. B2B ফ্যাক্টরি ম্যাট্রিক্স — REDESIGNED ---- */}
         <div className="grid grid-cols-2 gap-2.5 mb-4">
-
           {/* Capacity কার্ড */}
           <div className="relative flex items-start gap-2.5 p-3 rounded-xl bg-gradient-to-br from-teal-50 to-cyan-50/60 border border-teal-100/80 overflow-hidden">
             {/* সাটল ডেকোরেটিভ ব্লব */}

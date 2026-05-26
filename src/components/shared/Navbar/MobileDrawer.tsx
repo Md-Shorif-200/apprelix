@@ -16,7 +16,7 @@ import Support from "./Support";
 
 export function MobileDrawer() {
   return (
-    <Sheet >
+    <Sheet>
       {/* Trigger */}
       <SheetTrigger asChild>
         <button className="cursor-pointer rounded-md p-2 transition hover:bg-gray-100">

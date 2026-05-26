@@ -18,7 +18,7 @@ const NavHeader = () => {
         {/* ── Search Bar ── hidden below lg, visible lg+ ── */}
         <div className="hidden lg:flex flex-1 max-w-xl">
           {/* <NavSearch /> */}
-           <NavLinks />
+          <NavLinks />
         </div>
 
         {/* ── Right Section ── */}
