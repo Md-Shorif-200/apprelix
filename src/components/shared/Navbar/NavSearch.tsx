@@ -4,7 +4,7 @@ import { Search } from "lucide-react";
 
 const NavSearch = () => {
   return (
-    <div className="flex items-center bg-ds-background border border-ds-border rounded-full px-2 sm:px-4 py-1.5 sm:py-2 gap-2 sm:gap-3 focus-within:border-ds-ring focus-within:ds-bg-background transition-all duration-200 w-full">
+    <div className="  w-full lg:w-[400px]  flex items-center bg-ds-background border border-ds-border rounded-full px-2 sm:px-4 py-1.5 sm:py-2 gap-2 sm:gap-3 focus-within:border-ds-ring focus-within:ds-bg-background transition-all duration-200">
       {/* Search Icon */}
       <Search size={18} className=" text-muted flex-shrink-0" />
       {/* Input */}
