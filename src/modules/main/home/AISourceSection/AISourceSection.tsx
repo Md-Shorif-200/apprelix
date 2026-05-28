@@ -1,14 +1,12 @@
-
-
-const bg_img = "/AISourceSection/AISourceSection.jpg"
+const bg_img = "/AISourceSection/AISourceSection.jpg";
 
 export default function AISourceSection() {
   return (
-    <section 
-      className="relative h-[450px] w-full bg-fixed bg-center bg-cover flex items-center justify-center overflow-hidden"
-            style={{ 
-                backgroundImage: `url(${bg_img})`, 
-            }}
+    <section
+      className="relative h-[450px] w-full bg-fixed bg-center bg-cover flex items-center justify-center overflow-hidden mt-20"
+      style={{
+        backgroundImage: `url(${bg_img})`,
+      }}
     >
       {/* Dark Overlay with a hint of Teal/Cyan to match your platform theme */}
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-900/75 to-slate-950/85 pointer-events-none" />
@@ -18,12 +16,9 @@ export default function AISourceSection() {
 
       {/* Content Area */}
       <div className="relative z-10 container mx-auto px-6 text-center max-w-4xl">
-        
-    
-
         {/* Heading */}
         <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
-          Smart Sourcing, Powered by{' '}
+          Smart Sourcing, Powered by{" "}
           <span className="bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">
             Intelligent Algorithms
           </span>
@@ -31,9 +26,10 @@ export default function AISourceSection() {
 
         {/* Description */}
         <p className="mt-6 text-base md:text-xl text-slate-300 font-light leading-relaxed max-w-3xl mx-auto">
-          Eliminate months of supplier hunting. Our advanced AI matches your custom 
-          RFQs with the precise production capacity, machinery capability, and live 
-          pricing data of ideal manufacturers <span className="text-teal-300 font-medium">within minutes</span>.
+          Eliminate months of supplier hunting. Our advanced AI matches your
+          custom RFQs with the precise production capacity, machinery
+          capability, and live pricing data of ideal manufacturers{" "}
+          <span className="text-teal-300 font-medium">within minutes</span>.
         </p>
 
         {/* Decorative Bottom Elements */}
@@ -42,7 +38,6 @@ export default function AISourceSection() {
           <div className="w-4 h-1 rounded-full bg-cyan-500/50" />
           <div className="w-4 h-1 rounded-full bg-emerald-500/50" />
         </div>
-
       </div>
     </section>
   );

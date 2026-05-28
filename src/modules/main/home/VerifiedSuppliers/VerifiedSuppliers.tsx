@@ -4,6 +4,8 @@
 
 import Container from "@/components/common/Container";
 import SupplierSlider from "./SupplierSlider";
+import SectionTitle from "@/components/common/SectionTitle";
+import { Flame } from "lucide-react";
 
 export interface Supplier {
   id: string;
@@ -136,22 +138,17 @@ const TOP_SUPPLIERS: Supplier[] = [
 
 const VerifiedSuppliers = () => {
   return (
-    <section className="py-16 bg-gray-50/50">
+    <section className="mt-14">
       <Container>
-        {/* Header */}
-        <div className="text-center mb-12">
-          <span className="text-xs font-semibold text-teal-600 bg-teal-50 px-3 py-1 rounded-full uppercase tracking-wider">
-            Trust & Quality
-          </span>
-
-          <h2 className="text-3xl font-bold text-slate-800 mt-2">
-            Top Verified Suppliers
-          </h2>
-
-          <p className="text-gray-500 mt-2 text-sm sm:text-base max-w-xl mx-auto">
-            Partner with globally certified manufacturers ensuring premium
-            quality and compliance standards.
-          </p>
+        <div className="mb-10">
+          <SectionTitle
+            label=" Trust & Quality"
+            icon={Flame}
+            title="  Top Verified "
+            titleHighlight="Suppliers"
+            description="    Partner with globally certified manufacturers ensuring premium
+            quality and compliance standards."
+          />
         </div>
 
         {/* Slider */}

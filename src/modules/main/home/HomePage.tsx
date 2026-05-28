@@ -6,6 +6,8 @@ import { ManufacturingExcellence } from "./ManufacturingExcellence/Manufacturing
 import VerifiedSuppliers from "./VerifiedSuppliers/VerifiedSuppliers";
 import AISourceSection from "./AISourceSection/AISourceSection";
 import AIProcurementSection from "./AIProcurementSection/AIProcurementSection";
+import TestimonialSection from "./TestimonialSection/TestimonialSection";
+import FAQSection from "./FAQSection/FAQSection";
 
 const HomePage = () => {
   return (
@@ -15,8 +17,10 @@ const HomePage = () => {
       <FeaturedRfqs />
       <ManufacturingExcellence />
       <VerifiedSuppliers />
-      <AISourceSection />
       <AIProcurementSection />
+      <TestimonialSection />
+      {/* <AISourceSection /> */}
+      <FAQSection />
     </div>
   );
 };

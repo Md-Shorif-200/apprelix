@@ -41,8 +41,6 @@ const slides = [
 ];
 
 const BannerSlider = () => {
- 
-
   return (
     <div className="relative h-full min-h-[320px] w-full overflow-hidden rounded-2xl">
       <Swiper
@@ -56,7 +54,6 @@ const BannerSlider = () => {
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
             <div className="relative h-[320px] w-full lg:h-[450px]">
-
               {/* Background Image */}
               <Image
                 src={slide.image}
@@ -80,7 +77,6 @@ const BannerSlider = () => {
               {/* Slide Content */}
               <div className="absolute inset-0 flex items-center px-6 lg:px-12">
                 <div className="max-w-[420px] space-y-4">
-
                   {/* Badge */}
                   <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 backdrop-blur-md">
                     <span className="h-1.5 w-1.5 rounded-full bg-yellow-400 animate-pulse" />
@@ -91,8 +87,7 @@ const BannerSlider = () => {
 
                   {/* Title */}
                   <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-white lg:text-5xl">
-                    {slide.title}{" "}
-                    <br />
+                    {slide.title} <br />
                     <span className="text-yellow-300">{slide.highlight}</span>
                   </h1>
 
@@ -124,13 +119,10 @@ const BannerSlider = () => {
                   </button> */}
                 </div>
               </div>
-
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-
-    
     </div>
   );
 };

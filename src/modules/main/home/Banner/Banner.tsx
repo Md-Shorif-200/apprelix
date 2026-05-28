@@ -32,7 +32,6 @@ function SideBanner({
 }) {
   return (
     <div className="group relative w-full flex-1 shrink-0 overflow-hidden rounded-2xl min-h-[140px]">
-
       {/* Image */}
       <Image
         src={src}
@@ -73,7 +72,6 @@ const Banner = () => {
   return (
     <Container>
       <div className="my-6 w-full lg:flex lg:h-[450px] lg:gap-4">
-
         {/* Main slider — 70% width on large screens */}
         <div className="h-full w-full lg:w-[70%]">
           <BannerSlider />
@@ -96,7 +94,6 @@ const Banner = () => {
             />
           ))}
         </div>
-
       </div>
     </Container>
   );

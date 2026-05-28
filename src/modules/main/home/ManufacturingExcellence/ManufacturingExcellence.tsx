@@ -13,8 +13,8 @@ import Container from "@/components/common/Container";
 import DarkModeSectionCard from "@/components/common/DarkModeSectionCard";
 
 /* ─── Images ─────────────────────────────────── */
-const img_1 = "/ManufacturingExcellence/img-1.jpg";
-const img_3 = "/ManufacturingExcellence/img-4.jpg";
+const img_1 = "/ManufacturingExcellence/img-1.webp";
+const img_2 = "/ManufacturingExcellence/right-img-2.webp";
 
 /* ─── Data ────────────────────────────────────── */
 const manufacturingData = [
@@ -74,7 +74,6 @@ export const ManufacturingExcellence = () => {
   return (
     <section className="mt-14 mb-6">
       <Container>
-
         {/* ── Outer Wrapper ── */}
         <div
           className="
@@ -134,13 +133,10 @@ export const ManufacturingExcellence = () => {
 
           {/* ── Inner Padding ── */}
           <div className="relative z-10 p-5 sm:p-8 xl:p-10">
-
             {/* ════ Two-Column Layout ════ */}
             <div className="xl:flex gap-10 items-stretch">
-
               {/* ── LEFT COLUMN ── */}
               <div className="xl:w-[38%] flex flex-col gap-5 mb-8 xl:mb-0">
-
                 {/* Main Image */}
                 <div
                   className="
@@ -158,6 +154,7 @@ export const ManufacturingExcellence = () => {
                     alt="Manufacturing Excellence"
                     fill
                     priority
+                    quality={80}
                     className="object-cover"
                   />
 
@@ -221,7 +218,6 @@ export const ManufacturingExcellence = () => {
 
               {/* ── RIGHT COLUMN ── */}
               <div className="xl:w-[62%] flex flex-col gap-6">
-
                 {/* Section Header */}
                 <div>
                   {/* Label pill */}
@@ -254,14 +250,14 @@ export const ManufacturingExcellence = () => {
 
                   {/* Sub-heading */}
                   <p className="text-sm text-blue-200/60 mt-2 max-w-lg leading-relaxed">
-                    Precision-engineered production systems, skilled craftsmanship,
-                    and cutting-edge technology — all under one roof.
+                    Precision-engineered production systems, skilled
+                    craftsmanship, and cutting-edge technology — all under one
+                    roof.
                   </p>
                 </div>
 
                 {/* ── Feature Cards + Bottom Image ── */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
-
                   {/* Left card column: cards 1–4 */}
                   <div className="flex flex-col gap-3">
                     {manufacturingData.slice(0, 4).map((item, index) => (
@@ -277,7 +273,6 @@ export const ManufacturingExcellence = () => {
 
                   {/* Right card column: cards 5–6 + image */}
                   <div className="flex flex-col gap-3">
-
                     {/* Cards 5 & 6 */}
                     {manufacturingData.slice(4, 6).map((item, index) => (
                       <DarkModeSectionCard
@@ -302,10 +297,11 @@ export const ManufacturingExcellence = () => {
                       "
                     >
                       <Image
-                        src={img_3}
+                        src={img_2}
                         alt="Factory Floor"
                         fill
                         priority
+                        quality={80}
                         className="object-cover"
                       />
 
@@ -339,19 +335,14 @@ export const ManufacturingExcellence = () => {
                   </div>
                 </div>
                 {/* end grid */}
-
               </div>
               {/* end right column */}
-
             </div>
             {/* end two-column layout */}
-
           </div>
           {/* end inner padding */}
-
         </div>
         {/* end outer wrapper */}
-
       </Container>
     </section>
   );
