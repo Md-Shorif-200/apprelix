@@ -6,17 +6,19 @@ import NavSearch from "./NavSearch";
 import { MobileDrawer } from "./MobileDrawer";
 import Navlogo from "./Navlogo";
 import Support from "./Support";
+import NavLinks from "./NavLinks";
 
 // NavHeader now accepts onMenuClick prop to trigger drawer open
 const NavHeader = () => {
   return (
     <Container>
-      <div className="flex items-center justify-between py-4 gap-6">
+      <div className="flex items-center justify-between py-4 gap-6 ">
         {/* ── Logo ── */}
         <Navlogo />
         {/* ── Search Bar ── hidden below lg, visible lg+ ── */}
         <div className="hidden lg:flex flex-1 max-w-xl">
-          <NavSearch />
+          {/* <NavSearch /> */}
+          <NavLinks />
         </div>
 
         {/* ── Right Section ── */}

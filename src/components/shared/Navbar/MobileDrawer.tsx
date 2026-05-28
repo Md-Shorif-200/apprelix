@@ -25,7 +25,7 @@ export function MobileDrawer() {
       </SheetTrigger>
 
       {/* Drawer */}
-      <SheetContent side="left" showCloseButton={false} className="p-0">
+      <SheetContent side="left" showCloseButton={false} className="p-0  ">
         {/* Custom Header */}
         <div className="flex items-center justify-between border-b border-ds-border px-4 py-4">
           {/* Logo Section */}
