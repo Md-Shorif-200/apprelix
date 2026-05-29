@@ -5,7 +5,7 @@ import { CustomButton } from "@/components/common/CustomButton";
 
 import { Sparkles, Bell, ChevronDown, LayoutGrid } from "lucide-react";
 
-import ThemeToggle from "./ThemeToggle";
+// import ThemeToggle from "./ThemeToggle";
 import NavSearch from "./NavSearch";
 
 const BottomNavbar = () => {
@@ -50,9 +50,9 @@ const BottomNavbar = () => {
             </button>
 
             {/* Theme Toggle */}
-            <div className="rounded-full border border-gray-200 bg-white shadow-sm">
+            {/* <div className="rounded-full border border-gray-200 bg-white shadow-sm">
               <ThemeToggle />
-            </div>
+            </div> */}
           </div>
         </div>
       </Container>

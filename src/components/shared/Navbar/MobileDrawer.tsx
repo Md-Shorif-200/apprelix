@@ -9,10 +9,10 @@ import {
 
 import { Menu, X } from "lucide-react";
 
-import Navlogo from "./Navlogo";
 import NavSearch from "./NavSearch";
 import NavLinks from "./NavLinks";
 import Support from "./Support";
+import Logo from "./Logo";
 
 export function MobileDrawer() {
   return (
@@ -30,7 +30,7 @@ export function MobileDrawer() {
         <div className="flex items-center justify-between border-b border-ds-border px-4 py-4">
           {/* Logo Section */}
           <div>
-            <Navlogo />
+            <Logo section="navbar" />
           </div>
 
           {/* Close Button Section */}

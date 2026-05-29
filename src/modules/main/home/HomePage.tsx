@@ -8,6 +8,7 @@ import AISourceSection from "./AISourceSection/AISourceSection";
 import AIProcurementSection from "./AIProcurementSection/AIProcurementSection";
 import TestimonialSection from "./TestimonialSection/TestimonialSection";
 import FAQSection from "./FAQSection/FAQSection";
+import GlobalSupplyChain from "../about/GlobalSupplyChain";
 
 const HomePage = () => {
   return (
@@ -19,7 +20,8 @@ const HomePage = () => {
       <VerifiedSuppliers />
       <AIProcurementSection />
       <TestimonialSection />
-      {/* <AISourceSection /> */}
+      <AISourceSection />
+       <GlobalSupplyChain />
       <FAQSection />
     </div>
   );

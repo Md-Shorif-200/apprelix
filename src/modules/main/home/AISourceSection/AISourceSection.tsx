@@ -1,11 +1,11 @@
-const bg_img = "/AISourceSection/AISourceSection.jpg";
+const bg_img_1 = "/AISourceSection/bg_img_1.webp"
 
 export default function AISourceSection() {
   return (
     <section
       className="relative h-[450px] w-full bg-fixed bg-center bg-cover flex items-center justify-center overflow-hidden mt-20"
       style={{
-        backgroundImage: `url(${bg_img})`,
+        backgroundImage: `url(${bg_img_1})`,
       }}
     >
       {/* Dark Overlay with a hint of Teal/Cyan to match your platform theme */}
