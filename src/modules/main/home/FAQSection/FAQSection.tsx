@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import SectionTitle from "@/components/common/SectionTitle";
 import Container from "@/components/common/Container";
+import { getAosProps } from "@/lib/animations/aos";
+import { AosRefresh } from "@/components/animations/AosRefresh";
 
 /* ───────── Types ───────── */
 type FAQItem = {
@@ -90,6 +92,7 @@ const features: Feature[] = [
 function AccordionItem({ item, isOpen, onToggle, index }: AccordionItemProps) {
   return (
     <div
+      {...getAosProps("fade-up", index * 60)}
       className={`group overflow-hidden rounded-2xl transition-all duration-300 ${
         isOpen
           ? "border border-cyan-100 bg-white shadow-lg shadow-cyan-100/40"
@@ -180,7 +183,10 @@ export default function FAQSection() {
           {/* ── LEFT ── */}
           <div className="w-full lg:w-[38%] flex flex-col gap-5">
             {/* Info Card */}
-            <div className="relative bg-gradient-to-br from-cyan-500 to-sky-600 rounded-2xl p-7 text-white overflow-hidden shadow-lg shadow-cyan-200/40">
+            <div
+              {...getAosProps("fade-right", 0)}
+              className="relative bg-gradient-to-br from-cyan-500 to-sky-600 rounded-2xl p-7 text-white overflow-hidden shadow-lg shadow-cyan-200/40"
+            >
               {/* Decorative ring */}
               <div className="absolute -top-6 -right-6 w-28 h-28 border-4 border-white/10 rounded-full" />
               <div className="absolute -bottom-4 -right-4 w-16 h-16 border-4 border-white/10 rounded-full" />
@@ -201,7 +207,10 @@ export default function FAQSection() {
             </div>
 
             {/* Features */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-3">
+            <div
+              {...getAosProps("fade-right", 80)}
+              className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-3"
+            >
               {features.map((feature, index) => (
                 <div
                   key={index}
@@ -223,7 +232,10 @@ export default function FAQSection() {
             </div>
 
             {/* Support CTA */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4">
+            <div
+              {...getAosProps("fade-right", 160)}
+              className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4"
+            >
               <div className="w-11 h-11 bg-cyan-50 rounded-2xl flex items-center justify-center flex-shrink-0">
                 <MessageCircle size={20} className="text-cyan-500" />
               </div>
@@ -255,6 +267,7 @@ export default function FAQSection() {
             ))}
           </div>
         </div>
+        <AosRefresh />
       </Container>
     </section>
   );

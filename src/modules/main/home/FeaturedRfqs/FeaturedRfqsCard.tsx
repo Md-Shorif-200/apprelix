@@ -1,6 +1,7 @@
 // components/FeaturedRfqsCard.jsx
 
 import Image from "next/image";
+import { getAosProps } from "@/lib/animations/aos";
 import {
   Calendar,
   Package,
@@ -26,13 +27,17 @@ interface FeaturedRfqsCardProps {
     location: string;
     quotesCount: number;
   };
+  index?: number;
 }
 
-const FeaturedRfqsCard = ({ rfq }: FeaturedRfqsCardProps) => {
+const FeaturedRfqsCard = ({ rfq, index = 0 }: FeaturedRfqsCardProps) => {
   const isUrgent = rfq.status.toLowerCase() === "urgent";
 
   return (
-    <div className="group flex flex-col bg-white rounded-2xl border border-slate-100 hover:border-teal-200 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_40px_-8px_rgba(15,23,42,0.12)] transition-all duration-500 ease-out overflow-hidden h-full">
+    <div
+      {...getAosProps("fade-up", index * 80)}
+      className="group flex flex-col bg-white rounded-2xl border border-slate-100 hover:border-teal-200 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_40px_-8px_rgba(15,23,42,0.12)] transition-all duration-500 ease-out overflow-hidden h-full"
+    >
       {/* ==============================
           IMAGE + BADGE HEADER SECTION
       ============================== */}
@@ -41,8 +46,9 @@ const FeaturedRfqsCard = ({ rfq }: FeaturedRfqsCardProps) => {
           src={rfq.image}
           alt={rfq.title}
           fill
+          quality={75}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-          className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+          className="object-cover motion-safe:group-hover:scale-110 motion-safe:transition-transform motion-safe:duration-700 ease-out"
         />
 
         {/* Dark gradient overlay at bottom */}

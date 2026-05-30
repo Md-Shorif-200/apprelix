@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Container from "@/components/common/Container";
 import DarkModeSectionCard from "@/components/common/DarkModeSectionCard";
+import { getAosProps } from "@/lib/animations/aos";
 
 /* ─── Images ─────────────────────────────────── */
 const img_1 = "/ManufacturingExcellence/img-1.webp";
@@ -139,6 +140,7 @@ export const ManufacturingExcellence = () => {
               <div className="xl:w-[38%] flex flex-col gap-5 mb-8 xl:mb-0">
                 {/* Main Image */}
                 <div
+                  {...getAosProps("fade-right", 0)}
                   className="
                     relative
                     flex-1
@@ -153,8 +155,8 @@ export const ManufacturingExcellence = () => {
                     src={img_1}
                     alt="Manufacturing Excellence"
                     fill
-                    priority
-                    quality={80}
+                    quality={75}
+                    sizes="(max-width: 1280px) 100vw, 38vw"
                     className="object-cover"
                   />
 
@@ -178,7 +180,7 @@ export const ManufacturingExcellence = () => {
                       px-3 py-1.5
                     "
                   >
-                    <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-green-400 motion-safe:animate-pulse" />
                     <span className="text-xs text-white/90 font-medium tracking-wide">
                       ISO Certified
                     </span>
@@ -187,6 +189,7 @@ export const ManufacturingExcellence = () => {
 
                 {/* Stats Bar */}
                 <div
+                  {...getAosProps("fade-up", 120)}
                   className="
                     grid grid-cols-3
                     gap-3
@@ -219,7 +222,7 @@ export const ManufacturingExcellence = () => {
               {/* ── RIGHT COLUMN ── */}
               <div className="xl:w-[62%] flex flex-col gap-6">
                 {/* Section Header */}
-                <div>
+                <div {...getAosProps("fade-up", 80)}>
                   {/* Label pill */}
                   <div className="inline-flex items-center gap-2 bg-blue-500/15 border border-blue-400/25 rounded-full px-4 py-1.5 mb-4">
                     <Sparkles className="w-3.5 h-3.5 text-blue-400" />
@@ -286,6 +289,7 @@ export const ManufacturingExcellence = () => {
 
                     {/* Bottom decorative image */}
                     <div
+                      {...getAosProps("zoom-in", 200)}
                       className="
                         relative
                         flex-1
@@ -300,8 +304,8 @@ export const ManufacturingExcellence = () => {
                         src={img_2}
                         alt="Factory Floor"
                         fill
-                        priority
-                        quality={80}
+                        quality={75}
+                        sizes="(max-width: 1280px) 100vw, 30vw"
                         className="object-cover"
                       />
 

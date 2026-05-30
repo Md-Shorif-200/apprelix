@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
-import type { Swiper as SwiperType } from "swiper";
+// import type { Swiper as SwiperType } from "swiper";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -51,7 +51,7 @@ const BannerSlider = () => {
         pagination={{ clickable: true }}
         className="h-full w-full"
       >
-        {slides.map((slide) => (
+        {slides.map((slide, index) => (
           <SwiperSlide key={slide.id}>
             <div className="relative h-[320px] w-full lg:h-[450px]">
               {/* Background Image */}
@@ -59,10 +59,8 @@ const BannerSlider = () => {
                 src={slide.image}
                 alt={slide.title}
                 fill
-                priority
-                quality={80}
-                placeholder="blur"
-                blurDataURL="/blur-placeholder.jpg"
+                priority={true}
+                quality={75}
                 sizes="(max-width: 1024px) 100vw, 70vw"
                 className="object-cover object-center"
               />
@@ -79,7 +77,7 @@ const BannerSlider = () => {
                 <div className="max-w-[420px] space-y-4">
                   {/* Badge */}
                   <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 backdrop-blur-md">
-                    <span className="h-1.5 w-1.5 rounded-full bg-yellow-400 animate-pulse" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-yellow-400 motion-safe:animate-pulse" />
                     <span className="text-[10px] font-semibold uppercase tracking-widest text-white/80">
                       {slide.badge}
                     </span>

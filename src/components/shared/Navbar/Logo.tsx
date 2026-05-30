@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const logo = "/logo/logo.png";
 
-const Navlogo = () => {
+const Logo = ({ section }: { section: "navbar" | "footer" }) => {
   return (
     <div>
       <Link href="/" className="flex items-end gap-1">
@@ -25,10 +25,16 @@ const Navlogo = () => {
           {/* Brand Name */}
           <div className=" text-lg sm:text-xl  font-bold tracking-[.5px]">
             <span className="text-teal-500">Appre</span>
-            <span className="text-gray-800">lix</span>
+            <span
+              className={`section === "navbar" ? "text-gray-800" : "text-white"`}
+            >
+              lix
+            </span>
           </div>
           {/* Tagline */}
-          <span className="w-full text-[8px] xl:text-[10px] font-bold uppercase tracking-[.8px] text-ds-text mt-.5">
+          <span
+            className={`w-full text-[8px] xl:text-[10px] font-bold uppercase tracking-[.8px]  mt-.5 ${section === "navbar" ? "text-ds-text" : "text-white"}`}
+          >
             SMART SOURCING
           </span>
         </div>
@@ -37,4 +43,4 @@ const Navlogo = () => {
   );
 };
 
-export default Navlogo;
+export default Logo;

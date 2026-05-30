@@ -2,11 +2,11 @@ import { CircleUserRound } from "lucide-react";
 
 import Container from "@/components/common/Container";
 
-import NavSearch from "./NavSearch";
 import { MobileDrawer } from "./MobileDrawer";
-import Navlogo from "./Navlogo";
+
 import Support from "./Support";
 import NavLinks from "./NavLinks";
+import Logo from "./Logo";
 
 // NavHeader now accepts onMenuClick prop to trigger drawer open
 const NavHeader = () => {
@@ -14,7 +14,7 @@ const NavHeader = () => {
     <Container>
       <div className="flex items-center justify-between py-4 gap-6 ">
         {/* ── Logo ── */}
-        <Navlogo />
+        <Logo section="navbar" />
         {/* ── Search Bar ── hidden below lg, visible lg+ ── */}
         <div className="hidden lg:flex flex-1 max-w-xl">
           {/* <NavSearch /> */}
