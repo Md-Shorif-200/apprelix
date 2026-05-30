@@ -1,12 +1,12 @@
-import AboutPage from '@/modules/main/about/AboutPage'
-import React from 'react'
+import type { Metadata } from "next";
+import AboutPage from "@/modules/main/about/AboutPage";
 
-const page = () => {
-  return (
-    <div>
-        <AboutPage />
-    </div>
-  )
+export const metadata: Metadata = {
+  title: "About Us | Apprelix",
+  description:
+    "Learn about Apprelix — a complete B2B apparel sourcing ecosystem with AI-assisted matching, verified suppliers, and global supply chain tools.",
+};
+
+export default function About() {
+  return <AboutPage />;
 }
-
-export default page

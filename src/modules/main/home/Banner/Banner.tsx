@@ -37,8 +37,10 @@ function SideBanner({
         src={src}
         alt={alt}
         fill
-        quality={80}
-        className="object-cover transition-transform duration-700 group-hover:scale-110"
+        priority={true}
+        quality={75}
+        sizes="(max-width: 1024px) 50vw, 30vw"
+        className="object-cover motion-safe:transition-transform motion-safe:duration-700 motion-safe:group-hover:scale-110"
       />
 
       {/* Gradient overlay */}

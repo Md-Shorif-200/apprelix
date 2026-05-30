@@ -1,5 +1,3 @@
-
-
 export const RocketIcon = () => (
   <svg
     width="28"

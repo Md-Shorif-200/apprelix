@@ -3,7 +3,7 @@
 import Container from "@/components/common/Container";
 import { CustomButton } from "@/components/common/CustomButton";
 
-import { Sparkles, Bell, ChevronDown, LayoutGrid } from "lucide-react";
+import { Sparkles, Bell  } from "lucide-react";
 
 // import ThemeToggle from "./ThemeToggle";
 import NavSearch from "./NavSearch";

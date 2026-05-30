@@ -1,5 +1,4 @@
-// components/DarkModeSectionCard.tsx
-import React from "react";
+import { getAosProps } from "@/lib/animations/aos";
 
 interface CardProps {
   icon: React.ElementType;
@@ -16,10 +15,7 @@ const DarkModeSectionCard: React.FC<CardProps> = ({
 }) => {
   return (
     <div
-      data-aos="fade-up"
-      data-aos-delay={index * 100}
-      data-aos-duration="600"
-      data-aos-once="true"
+      {...getAosProps("fade-up", index * 100)}
       className="
         group
         relative

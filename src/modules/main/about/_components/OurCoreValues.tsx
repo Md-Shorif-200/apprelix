@@ -1,6 +1,13 @@
+import type { ReactElement } from "react";
 import { GlobeIcon, ShieldIcon, SparkleIcon, UsersIcon } from "../SvgIcons";
 
-const coreValues = [
+type CoreValue = {
+  icon: ReactElement;
+  title: string;
+  description: string;
+};
+
+const coreValues: CoreValue[] = [
   {
     icon: <ShieldIcon />,
     title: "Trust & Transparency",
@@ -42,57 +49,22 @@ const OurCoreValues = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {coreValues.map((value, index) => (
+        {coreValues.map((value) => (
           <div
-            key={index}
-            className="
-              group relative flex flex-col gap-3 p-5 rounded-2xl overflow-hidden
-              border border-white/10
-              bg-white/5
-              hover:bg-white/10
-              hover:border-blue-400/40
-              transition-all duration-300
-              cursor-pointer
-            "
+            key={value.title}
+            className="group relative flex flex-col gap-3 p-5 rounded-2xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400/40 transition-[background-color,border-color] duration-300 cursor-pointer"
           >
-            <div
-              className="
-                absolute -top-6 -right-6 w-20 h-20 rounded-full
-                bg-blue-500/10 group-hover:bg-blue-400/20
-                blur-xl transition-all duration-500
-                pointer-events-none
-              "
-            />
+            <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-blue-500/10 group-hover:bg-blue-400/20 transition-[background-color] duration-300 pointer-events-none" />
 
-            <div
-              className="
-                relative w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0
-                bg-blue-500/20 group-hover:bg-blue-500/40
-                border border-blue-400/20 group-hover:border-blue-400/50
-                text-blue-300 group-hover:text-blue-200
-                transition-all duration-300
-              "
-            >
+            <div className="relative w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-blue-500/20 group-hover:bg-blue-500/40 border border-blue-400/20 group-hover:border-blue-400/50 text-blue-300 group-hover:text-blue-200 transition-[background-color,border-color,color] duration-300">
               {value.icon}
             </div>
 
-            <h4
-              className="
-                relative font-semibold text-sm
-                text-white/90 group-hover:text-white
-                transition-colors duration-300 leading-tight
-              "
-            >
+            <h4 className="relative font-semibold text-sm text-white/90 group-hover:text-white transition-colors duration-300 leading-tight">
               {value.title}
             </h4>
 
-            <p
-              className="
-                relative text-xs leading-relaxed
-                text-blue-200/60 group-hover:text-blue-200/80
-                transition-colors duration-300
-              "
-            >
+            <p className="relative text-xs leading-relaxed text-blue-200/60 group-hover:text-blue-200/80 transition-colors duration-300">
               {value.description}
             </p>
           </div>

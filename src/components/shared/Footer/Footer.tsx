@@ -100,168 +100,174 @@ export default function Footer() {
     <footer className="bg-black text-white">
       {/* Main Footer Content */}
       <Container>
-     <div className="py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          <div className="space-y-6">
-            {/* Logo */}
-            <div>
-              <Logo section="footer" />
-            </div>
+        <div className="py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            <div className="space-y-6">
+              {/* Logo */}
+              <div>
+                <Logo section="footer" />
+              </div>
 
-            {/* Short Description */}
-            <p className="text-teal-100/70 text-sm leading-relaxed">
-              Connecting global buyers with trusted apparel suppliers through
-              AI-powered sourcing and seamless communication.
-            </p>
-
-            {/* Contact Info */}
-            <div className="space-y-3">
-              {contactLinks.map(({ label, Icon }) => (
-                <div key={label} className="flex items-center gap-3">
-                  <div className="bg-[#0d9488]/20 p-2 rounded-lg border border-[#14b8a6]/20">
-                    <Icon size={16} className="text-[#5eead4]" />
-                  </div>
-                  <span className="text-teal-100/80 text-sm">{label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            {/* Section Heading */}
-            <div>
-              <h3 className="text-white font-semibold text-base  ml-3">Platform</h3>
-
-              {/* Underline Accent */}
-              <div className="mt-2 h-0.5 w-10 bg-[#14b8a6] rounded ml-3" />
-            </div>
-
-            {/* Links */}
-            <ul className="space-y-3">
-              {platformLinks.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-teal-100/70 text-sm hover:text-[#5eead4] 
-                               transition-colors duration-200 flex items-center gap-2 group"
-                  >
-                    {/* Small arrow that shows on hover */}
-                    <span
-                      className="text-[#2dd4bf] opacity-0 group-hover:opacity-100 
-                                     transition-opacity duration-200"
-                    >
-                      ›
-                    </span>
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="space-y-6">
-            {/* Section Heading */}
-            <div>
-              <h3 className="text-white font-semibold text-base ml-3">Company</h3>
-
-              {/* Underline Accent */}
-              <div className="mt-2 h-0.5 w-10 bg-[#14b8a6] rounded ml-3" />
-            </div>
-
-            {/* Links */}
-            <ul className="space-y-3">
-              {campanyLinks.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-teal-100/70 text-sm hover:text-[#5eead4] 
-                               transition-colors duration-200 flex items-center gap-2 group"
-                  >
-                    {/* Small arrow that shows on hover */}
-                    <span
-                      className="text-[#2dd4bf] opacity-0 group-hover:opacity-100 
-                                     transition-opacity duration-200"
-                    >
-                      ›
-                    </span>
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="space-y-6">
-            {/* Section Heading */}
-            <div>
-              <h3 className="text-white font-semibold text-base">
-                Stay Connected
-              </h3>
-
-              {/* Underline Accent */}
-              <div className="mt-2 h-0.5 w-10 bg-[#14b8a6] rounded" />
-            </div>
-
-            {/* Social Media Icons */}
-            <div>
-              <p className="text-teal-100/70 text-sm mb-4">
-                Follow us on social media
+              {/* Short Description */}
+              <p className="text-teal-100/70 text-sm leading-relaxed">
+                Connecting global buyers with trusted apparel suppliers through
+                AI-powered sourcing and seamless communication.
               </p>
 
-              <div className="flex items-center gap-3">
-                {socialLinks.map((social) => (
-                  <Link
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={social.label}
-                    className={`bg-white/10 ${social.hover} p-2.5 rounded-lg 
-                  transition-all duration-300 group border border-white/10`}
-                  >
-                    <div className="text-teal-100/70 group-hover:text-white transition-colors duration-300">
-                      {social.Icon}
+              {/* Contact Info */}
+              <div className="space-y-3">
+                {contactLinks.map(({ label, Icon }) => (
+                  <div key={label} className="flex items-center gap-3">
+                    <div className="bg-[#0d9488]/20 p-2 rounded-lg border border-[#14b8a6]/20">
+                      <Icon size={16} className="text-[#5eead4]" />
                     </div>
-                  </Link>
+                    <span className="text-teal-100/80 text-sm">{label}</span>
+                  </div>
                 ))}
               </div>
             </div>
 
-            {/* Newsletter Subscription */}
-            <div>
-              <p className="text-white text-sm font-medium mb-1">Newsletter</p>
+            <div className="space-y-6">
+              {/* Section Heading */}
+              <div>
+                <h3 className="text-white font-semibold text-base  ml-3">
+                  Platform
+                </h3>
 
-              <p className="text-teal-100/70 text-xs mb-4">
-                Get the latest updates, sourcing tips, and industry news.
-              </p>
+                {/* Underline Accent */}
+                <div className="mt-2 h-0.5 w-10 bg-[#14b8a6] rounded ml-3" />
+              </div>
 
-              {/* Input + Button Group */}
-              <div
-                className="flex items-center bg-white/10 rounded-lg overflow-hidden 
+              {/* Links */}
+              <ul className="space-y-3">
+                {platformLinks.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-teal-100/70 text-sm hover:text-[#5eead4] 
+                               transition-colors duration-200 flex items-center gap-2 group"
+                    >
+                      {/* Small arrow that shows on hover */}
+                      <span
+                        className="text-[#2dd4bf] opacity-0 group-hover:opacity-100 
+                                     transition-opacity duration-200"
+                      >
+                        ›
+                      </span>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="space-y-6">
+              {/* Section Heading */}
+              <div>
+                <h3 className="text-white font-semibold text-base ml-3">
+                  Company
+                </h3>
+
+                {/* Underline Accent */}
+                <div className="mt-2 h-0.5 w-10 bg-[#14b8a6] rounded ml-3" />
+              </div>
+
+              {/* Links */}
+              <ul className="space-y-3">
+                {campanyLinks.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-teal-100/70 text-sm hover:text-[#5eead4] 
+                               transition-colors duration-200 flex items-center gap-2 group"
+                    >
+                      {/* Small arrow that shows on hover */}
+                      <span
+                        className="text-[#2dd4bf] opacity-0 group-hover:opacity-100 
+                                     transition-opacity duration-200"
+                      >
+                        ›
+                      </span>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="space-y-6">
+              {/* Section Heading */}
+              <div>
+                <h3 className="text-white font-semibold text-base">
+                  Stay Connected
+                </h3>
+
+                {/* Underline Accent */}
+                <div className="mt-2 h-0.5 w-10 bg-[#14b8a6] rounded" />
+              </div>
+
+              {/* Social Media Icons */}
+              <div>
+                <p className="text-teal-100/70 text-sm mb-4">
+                  Follow us on social media
+                </p>
+
+                <div className="flex items-center gap-3">
+                  {socialLinks.map((social) => (
+                    <Link
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={social.label}
+                      className={`bg-white/10 ${social.hover} p-2.5 rounded-lg 
+                  transition-all duration-300 group border border-white/10`}
+                    >
+                      <div className="text-teal-100/70 group-hover:text-white transition-colors duration-300">
+                        {social.Icon}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Newsletter Subscription */}
+              <div>
+                <p className="text-white text-sm font-medium mb-1">
+                  Newsletter
+                </p>
+
+                <p className="text-teal-100/70 text-xs mb-4">
+                  Get the latest updates, sourcing tips, and industry news.
+                </p>
+
+                {/* Input + Button Group */}
+                <div
+                  className="flex items-center bg-white/10 rounded-lg overflow-hidden 
                               border border-white/10 focus-within:border-[#14b8a6] 
                               transition-colors duration-200"
-              >
-                {/* Email Input */}
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 bg-transparent px-4 py-3 text-sm text-white 
-                             placeholder-teal-100/40 outline-none"
-                />
-
-                {/* Subscribe Button */}
-                <button
-                  className="bg-[#0d9488] hover:bg-[#0f766e] px-4 py-3 
-                             transition-colors duration-200 flex items-center"
-                  aria-label="Subscribe"
                 >
-                  <Send size={16} className="text-white" />
-                </button>
+                  {/* Email Input */}
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="flex-1 bg-transparent px-4 py-3 text-sm text-white 
+                             placeholder-teal-100/40 outline-none"
+                  />
+
+                  {/* Subscribe Button */}
+                  <button
+                    className="bg-[#0d9488] hover:bg-[#0f766e] px-4 py-3 
+                             transition-colors duration-200 flex items-center"
+                    aria-label="Subscribe"
+                  >
+                    <Send size={16} className="text-white" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-     </div>
       </Container>
 
       {/* ────────────────── */}

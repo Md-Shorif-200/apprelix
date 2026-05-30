@@ -1,6 +1,7 @@
 import Container from "@/components/common/Container";
 import SectionTitle from "@/components/common/SectionTitle";
 import { FileText, Users, CheckCircle, Package, Flame } from "lucide-react";
+import { getAosProps } from "@/lib/animations/aos";
 
 // Step data array - easy to modify or add more steps
 const steps = [
@@ -52,13 +53,14 @@ const HowItWorks = () => {
         </div>
         {/* Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {steps.map((step) => {
+          {steps.map((step, index) => {
             const Icon = step.icon;
 
             return (
               <div
                 key={step.id}
-                className="group relative bg-white rounded-2xl p-8 shadow-sm border border-gray-100 overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-[#0d9488]/30"
+                {...getAosProps("fade-up", index * 80)}
+                className="group relative bg-white rounded-2xl p-8 shadow-sm border border-gray-100 overflow-hidden cursor-pointer transition-all duration-300 motion-safe:hover:-translate-y-2 hover:shadow-xl hover:border-[#0d9488]/30"
               >
                 {/* Background Glow on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#0d9488]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -69,7 +71,7 @@ const HowItWorks = () => {
                 </span>
 
                 {/* Icon Box */}
-                <div className="relative z-10 w-14 h-14 rounded-xl bg-[#0d9488]/10 flex items-center justify-center mb-6 transition-all duration-300 group-hover:bg-[#0d9488] group-hover:scale-110">
+                <div className="relative z-10 w-14 h-14 rounded-xl bg-[#0d9488]/10 flex items-center justify-center mb-6 transition-all duration-300 group-hover:bg-[#0d9488] motion-safe:group-hover:scale-110">
                   <Icon className="w-6 h-6 text-[#0d9488] transition-colors duration-300 group-hover:text-white" />
                 </div>
 

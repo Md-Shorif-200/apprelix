@@ -1,6 +1,7 @@
 // components/common/SectionTitle.tsx
 
 import { LucideIcon } from "lucide-react";
+import { getAosProps, type AosAnimation } from "@/lib/animations/aos";
 
 interface SectionTitleProps {
   // Content - dynamic
@@ -14,6 +15,11 @@ interface SectionTitleProps {
 
   // Alignment - dynamic
   align?: "left" | "center" | "right";
+
+  // Scroll animation
+  animate?: boolean;
+  aosAnimation?: AosAnimation;
+  aosDelay?: number;
 }
 
 const SectionTitle = ({
@@ -23,6 +29,9 @@ const SectionTitle = ({
   description,
   icon: Icon,
   align = "center",
+  animate = true,
+  aosAnimation = "fade-up",
+  aosDelay = 0,
 }: SectionTitleProps) => {
   // ---- Alignment Classes ----
   const alignmentClass = {
@@ -34,8 +43,13 @@ const SectionTitle = ({
   // ---- Description max-width only for center ----
   const descMaxWidth = align === "center" ? "max-w-xl" : "";
 
+  const aosProps = animate ? getAosProps(aosAnimation, aosDelay) : {};
+
   return (
-    <div className={`flex flex-col gap-2 ${alignmentClass[align]}`}>
+    <div
+      className={`flex flex-col gap-2 ${alignmentClass[align]}`}
+      {...aosProps}
+    >
       {/* ---- Small Label Badge ---- */}
       {label && (
         <span className="inline-flex items-center gap-1.5 bg-[#0d9488]/10 text-[#0d9488] text-sm font-semibold px-4 py-1.5 rounded-full">

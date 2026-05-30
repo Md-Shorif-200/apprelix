@@ -2,7 +2,6 @@ import { CircleUserRound } from "lucide-react";
 
 import Container from "@/components/common/Container";
 
-
 import { MobileDrawer } from "./MobileDrawer";
 
 import Support from "./Support";

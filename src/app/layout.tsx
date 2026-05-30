@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import TanStackQueryProvider from "@/components/providers/TanStackQueryProvider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import AOSInit from "@/lib/AOSInit";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,10 +31,11 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col overflow-x-clip">
         <TanStackQueryProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <main className="bg-ds-background">{children}</main>
+             <AOSInit />
+            <main className="bg-ds-background overflow-x-clip">{children}</main>
 
             <Toaster />
           </ThemeProvider>
