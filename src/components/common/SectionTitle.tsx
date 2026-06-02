@@ -52,24 +52,24 @@ const SectionTitle = ({
     >
       {/* ---- Small Label Badge ---- */}
       {label && (
-        <span className="inline-flex items-center gap-1.5 bg-[#0d9488]/10 text-[#0d9488] text-sm font-semibold px-4 py-1.5 rounded-full">
-          {Icon && <Icon size={15} className="text-[#0d9488]" />}
+        <span className="ds-badge">
+          {Icon && <Icon size={15} />}
           {label}
         </span>
       )}
 
       {/* ---- Main Heading ---- */}
-      <h2 className="text-3xl  font-extrabold leading-tight text-[#0f172a]">
+      <h2 className="text-3xl font-extrabold leading-tight text-ds-text">
         {title}{" "}
         {titleHighlight && (
-          <span className="text-[#0d9488]">{titleHighlight}</span>
+          <span className="text-ds-primary">{titleHighlight}</span>
         )}
       </h2>
 
       {/* ---- Description ---- */}
       {description && (
         <p
-          className={`text-sm lg:text-base leading-relaxed text-[#64748b] ${descMaxWidth}`}
+          className={`text-sm lg:text-base leading-relaxed text-ds-muted-foreground ${descMaxWidth}`}
         >
           {description}
         </p>

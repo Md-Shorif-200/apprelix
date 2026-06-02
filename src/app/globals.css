@@ -5,6 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* ── Design System (ds) tokens ── */
   --color-ds-background: var(--ds-background);
   --color-ds-foreground: var(--ds-foreground);
 
@@ -32,6 +33,29 @@
   --color-ds-muted: var(--ds-muted);
   --color-ds-muted-foreground: var(--ds-muted-foreground);
 
+  /* Extended surface tokens */
+  --color-ds-navbar: var(--ds-navbar);
+  --color-ds-surface: var(--ds-surface);
+  --color-ds-surface-elevated: var(--ds-surface-elevated);
+
+  /* Shadcn UI aliases — always follow ds tokens */
+  --color-background: var(--ds-background);
+  --color-foreground: var(--ds-foreground);
+  --color-card: var(--ds-card);
+  --color-card-foreground: var(--ds-card-foreground);
+  --color-primary: var(--ds-primary);
+  --color-primary-foreground: var(--ds-primary-foreground);
+  --color-secondary: var(--ds-secondary);
+  --color-secondary-foreground: var(--ds-secondary-foreground);
+  --color-accent: var(--ds-accent);
+  --color-accent-foreground: var(--ds-accent-foreground);
+  --color-destructive: var(--ds-destructive);
+  --color-border: var(--ds-border);
+  --color-input: var(--ds-input);
+  --color-ring: var(--ds-ring);
+  --color-muted: var(--ds-muted);
+  --color-muted-foreground: var(--ds-muted-foreground);
+
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
@@ -39,26 +63,28 @@
   /* text size */
   --text-title-lg: var(--ds-text-title-lg);
   --text-title: var(--ds-text-title);
-
   --text-subtitle: var(--ds-text-subtitle);
-
   --text-paragraph-lg: var(--ds-text-paragraph-lg);
   --text-paragraph: var(--ds-text-paragraph);
-
   --text-caption: var(--ds-text-caption);
   --text-small: var(--ds-text-small);
 }
 
-/* LIGHT MODE */
+/* ══════════════════════════════════════════════
+   LIGHT MODE — unchanged brand palette
+   ══════════════════════════════════════════════ */
 
 :root {
   /* Background & Foreground */
   --ds-background: #f8fafc;
   --ds-foreground: #0f2723;
 
-  /* Card */
+  /* Card & Surfaces */
   --ds-card: #ffffff;
   --ds-card-foreground: #0f2723;
+  --ds-surface: #ffffff;
+  --ds-surface-elevated: #ffffff;
+  --ds-navbar: #f4f4f4;
 
   /* Primary */
   --ds-primary: #0d9488;
@@ -86,86 +112,222 @@
 
   /* Muted */
   --ds-muted: #64748b;
-  --ds-muted-foreground: #4b5563;
+  --ds-muted-foreground: #64748b;
+
+  /* Dark-feature sections (Manufacturing, Mission/Vision) — light mode only */
+  --ds-section-dark-from: #0f1f35;
+  --ds-section-dark-via: #172c45;
+  --ds-section-dark-to: #1a3a5c;
+
+  /* Glass / overlay on dark sections */
+  --ds-overlay: rgba(255, 255, 255, 0.05);
+  --ds-overlay-hover: rgba(255, 255, 255, 0.1);
+  --ds-overlay-border: rgba(255, 255, 255, 0.1);
 
   /* text size */
+  --ds-text-title-lg: 1.5rem;
+  --ds-text-title: 1.25rem;
+  --ds-text-subtitle: 1.125rem;
+  --ds-text-paragraph-lg: 1.125rem;
+  --ds-text-paragraph: 1rem;
+  --ds-text-caption: 0.875rem;
+  --ds-text-small: 0.75rem;
 
-  --ds-text-title-lg: 1.5rem; /* 24px */
-  --ds-text-title: 1.25rem; /* 20px */
-  --ds-text-subtitle: 1.125rem; /* 18px */
-
-  --ds-text-paragraph-lg: 1.125rem; /* 18px */
-  --ds-text-paragraph: 1rem; /* 16px */
-
-  --ds-text-caption: 0.875rem; /* 14px */
-  --ds-text-small: 0.75rem; /* 12px */
+  /* Theme toggle timing — keep JS + CSS in sync */
+  --theme-transition-duration: 420ms;
+  --theme-transition-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  --theme-reveal-x: 50%;
+  --theme-reveal-y: 50%;
+  --theme-reveal-radius: 100vmax;
 }
 
-/* dark mode  */
+/* ══════════════════════════════════════════════
+   DARK MODE — professional black system
+   Applied globally (.dark) or scoped (.ds-always-dark)
+   ══════════════════════════════════════════════ */
 
-.dark {
+.dark,
+.ds-always-dark {
   /* Background & Foreground */
-  --ds-background: #042f2e;
-  --ds-foreground: #f0fdfa;
+  --ds-background: #0a0a0a;
+  --ds-foreground: #fafafa;
 
-  /* Card */
-  --ds-card: #0d3b38;
-  --ds-card-foreground: #f0fdfa;
+  /* Card & Surfaces */
+  --ds-card: #141414;
+  --ds-card-foreground: #fafafa;
+  --ds-surface: #141414;
+  --ds-surface-elevated: #1c1c1c;
+  --ds-navbar: #111111;
 
-  /* Primary */
-  --ds-primary: #2dd4bf;
-  --ds-primary-foreground: #042f2e;
+  /* Primary — brand teal, tuned for black backgrounds */
+  --ds-primary: #14b8a6;
+  --ds-primary-foreground: #0a0a0a;
 
   /* Secondary */
-  --ds-secondary: #134e4a;
-  --ds-secondary-foreground: #ccfbf1;
+  --ds-secondary: #1c1c1c;
+  --ds-secondary-foreground: #e4e4e7;
 
   /* Accent */
-  --ds-accent: #22d3ee;
-  --ds-accent-foreground: #042f2e;
+  --ds-accent: #06b6d4;
+  --ds-accent-foreground: #0a0a0a;
 
   /* Destructive */
   --ds-destructive: #ef4444;
   --ds-destructive-foreground: #ffffff;
 
   /* Border & Input */
-  --ds-border: #134e4a;
-  --ds-input: #0d3b38;
-  --ds-ring: #2dd4bf;
+  --ds-border: #262626;
+  --ds-input: #1c1c1c;
+  --ds-ring: #14b8a6;
 
   /* Text */
-  --ds-text: #f8fafc;
+  --ds-text: #f4f4f5;
 
   /* Muted */
-  --ds-muted: #115e59;
-  --ds-muted-foreground: #99f6e4;
+  --ds-muted: #1a1a1a;
+  --ds-muted-foreground: #a3a3a3;
 
-  /* text size */
+  /* Dark-feature sections — professional black gradient */
+  --ds-section-dark-from: #0a0a0a;
+  --ds-section-dark-via: #111111;
+  --ds-section-dark-to: #171717;
 
-  --ds-text-title-lg: 1.5rem; /* 24px */
-  --ds-text-title: 1.25rem; /* 20px */
-  --ds-text-subtitle: 1.125rem; /* 18px */
-
-  --ds-text-paragraph-lg: 1.125rem; /* 18px */
-  --ds-text-paragraph: 1rem; /* 16px */
-
-  --ds-text-caption: 0.875rem; /* 14px */
-  --ds-text-small: 0.75rem; /* 12px */
+  /* Glass / overlay on dark sections */
+  --ds-overlay: rgba(255, 255, 255, 0.05);
+  --ds-overlay-hover: rgba(255, 255, 255, 0.1);
+  --ds-overlay-border: rgba(255, 255, 255, 0.1);
 }
 
-/* Smooth theme change (page + toggle) */
-@media (prefers-reduced-motion: no-preference) {
-  html,
-  body {
-    transition:
-      background-color 0.45s ease-in-out,
-      color 0.45s ease-in-out;
+/* ══════════════════════════════════════════════
+   Reusable component patterns
+   Use these in new sections to stay on-brand
+   ══════════════════════════════════════════════ */
+
+@layer components {
+  /* Page / section shell */
+  .ds-section {
+    @apply bg-ds-background text-ds-text;
   }
 
+  /* Standard content card */
+  .ds-card {
+    @apply rounded-2xl border border-ds-border bg-ds-card text-ds-card-foreground shadow-sm;
+  }
+
+  /* Interactive card with hover lift */
+  .ds-card-interactive {
+    @apply rounded-2xl border border-ds-border bg-ds-card text-ds-card-foreground shadow-sm
+           cursor-pointer overflow-hidden transition-all duration-300
+           motion-safe:hover:-translate-y-2 hover:border-ds-primary/30 hover:shadow-xl;
+  }
+
+  /* Badge / label pill */
+  .ds-badge {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-ds-primary/10 px-4 py-1.5
+           text-sm font-semibold text-ds-primary;
+  }
+
+  /* Icon container */
+  .ds-icon-box {
+    @apply flex items-center justify-center rounded-xl bg-ds-primary/10
+           border border-ds-primary/20 text-ds-primary;
+  }
+
+  /* Dark hero / feature section wrapper */
+  .ds-section-dark {
+    background: linear-gradient(
+      to bottom right,
+      var(--ds-section-dark-from),
+      var(--ds-section-dark-via),
+      var(--ds-section-dark-to)
+    );
+    border-color: var(--ds-overlay-border);
+  }
+
+  /* Glass card inside dark sections */
+  .ds-glass-card {
+    background-color: var(--ds-overlay);
+    border: 1px solid var(--ds-overlay-border);
+    @apply rounded-2xl transition-all duration-300;
+  }
+
+  .ds-glass-card:hover {
+    background-color: var(--ds-overlay-hover);
+  }
+
+  /* Navbar action button (notification, etc.) */
+  .ds-nav-action {
+    @apply flex h-10 w-10 items-center justify-center rounded-full
+           border border-ds-border bg-ds-card text-ds-muted-foreground shadow-sm
+           transition-[transform,box-shadow,opacity] duration-200
+           hover:border-ds-primary hover:bg-ds-primary/10 hover:text-ds-primary;
+  }
+}
+
+/* Smooth theme change — circular reveal from toggle + synced colors */
+@media (prefers-reduced-motion: no-preference) {
   ::view-transition-old(root),
   ::view-transition-new(root) {
-    animation-duration: 0.45s;
-    animation-timing-function: ease-in-out;
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-old(root) {
+    z-index: 1;
+  }
+
+  ::view-transition-new(root) {
+    z-index: 2;
+    animation: theme-circle-reveal var(--theme-transition-duration)
+      var(--theme-transition-easing) both;
+  }
+
+  @keyframes theme-circle-reveal {
+    from {
+      clip-path: circle(0px at var(--theme-reveal-x) var(--theme-reveal-y));
+    }
+    to {
+      clip-path: circle(var(--theme-reveal-radius) at var(--theme-reveal-x) var(--theme-reveal-y));
+    }
+  }
+
+  /* Fallback: simple crossfade when clip-path isn't supported */
+  @supports not (clip-path: circle(0px at 0 0)) {
+    ::view-transition-old(root) {
+      animation: theme-crossfade-out var(--theme-transition-duration)
+        var(--theme-transition-easing) both;
+    }
+
+    ::view-transition-new(root) {
+      animation: theme-crossfade-in var(--theme-transition-duration)
+        var(--theme-transition-easing) both;
+    }
+  }
+
+  @keyframes theme-crossfade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes theme-crossfade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Freeze per-element color transitions while the page animates */
+  html.theme-changing,
+  html.theme-changing *,
+  html.theme-changing *::before,
+  html.theme-changing *::after {
+    transition-property: none !important;
   }
 }
 

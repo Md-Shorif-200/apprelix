@@ -8,19 +8,34 @@ import Logo from "../Navbar/Logo";
 const platformLinks = [
   { label: "Explore RFQs", href: "/rfqs" },
   { label: "Find Suppliers", href: "/suppliers" },
-  { label: "How It Works", href: "/#how-it-works" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "AI Matching", href: "/features/ai" },
-  { label: "Success Stories", href: "/testimonials" },
+  { label: "AI Insight", href: "/ai-insight" },
+
+  // { label: "Supplier Directory", href: "/suppliers" }, // Fabric Showcase
+  // { label: "Resource Center", href: "/resources" }, // Resources
+  // { label: "Production Services", href: "/services" }, // Services
+  { label: "Success Stories", href: "/success-story" },
 ];
 
 const campanyLinks = [
   { label: "About Us", href: "/about" },
-  { label: "Careers", href: "/careers" },
-  { label: "Blog", href: "/blog" },
-  { label: "Press", href: "/press" },
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Use", href: "/terms" },
+  { label: "How It Works", href: "/how-it-works" }, // Work Process
+  // { label: "Sustainability", href: "/sustainability" },
+  { label: "Compliance & Standards", href: "/compliance" },
+  { label: "Blogs", href: "/blogs" },
+  { label: "Contact Us", href: "/contact" },
+];
+
+
+
+const legalLinks = [
+
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Service", href: "/terms-condition" },
+    { label: "Cookie Policy", href: "/cookies" },
+  
+    { label: "Code of Conduct", href: "/code-of-conduct" },
+
+
 ];
 
 const contactLinks = [
@@ -101,8 +116,9 @@ export default function Footer() {
       {/* Main Footer Content */}
       <Container>
         <div className="py-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            <div className="space-y-6">
+          <div className="grid grid-cols-12 gap-8">
+
+            <div className=" col-span-12 lg:col-span-3 space-y-6">
               {/* Logo */}
               <div>
                 <Logo section="footer" />
@@ -127,7 +143,7 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6  col-span-12  lg:col-span-2">
               {/* Section Heading */}
               <div>
                 <h3 className="text-white font-semibold text-base  ml-3">
@@ -161,7 +177,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6  col-span-12  lg:col-span-2">
               {/* Section Heading */}
               <div>
                 <h3 className="text-white font-semibold text-base ml-3">
@@ -195,7 +211,41 @@ export default function Footer() {
               </ul>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6  col-span-12  lg:col-span-2">
+              {/* Section Heading */}
+              <div>
+                <h3 className="text-white font-semibold text-base ml-3">
+                  Legal
+                </h3>
+
+                {/* Underline Accent */}
+                <div className="mt-2 h-0.5 w-10 bg-[#14b8a6] rounded ml-3" />
+              </div>
+
+              {/* Links */}
+              <ul className="space-y-3">
+                {legalLinks.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-teal-100/70 text-sm hover:text-[#5eead4] 
+                               transition-colors duration-200 flex items-center gap-2 group"
+                    >
+                      {/* Small arrow that shows on hover */}
+                      <span
+                        className="text-[#2dd4bf] opacity-0 group-hover:opacity-100 
+                                     transition-opacity duration-200"
+                      >
+                        ›
+                      </span>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className=" col-span-12 lg:col-span-3 space-y-6">
               {/* Section Heading */}
               <div>
                 <h3 className="text-white font-semibold text-base">
@@ -243,29 +293,32 @@ export default function Footer() {
 
                 {/* Input + Button Group */}
                 <div
-                  className="flex items-center bg-white/10 rounded-lg overflow-hidden 
-                              border border-white/10 focus-within:border-[#14b8a6] 
+                  className="flex items-stretch rounded-lg border border-white/10 
+                              bg-white/10 focus-within:border-[#14b8a6] 
                               transition-colors duration-200"
                 >
                   {/* Email Input */}
                   <input
                     type="email"
                     placeholder="Enter your email"
-                    className="flex-1 bg-transparent px-4 py-3 text-sm text-white 
+                    className="min-w-0 flex-1 rounded-l-lg bg-transparent px-4 py-3 text-sm text-white 
                              placeholder-teal-100/40 outline-none"
                   />
 
                   {/* Subscribe Button */}
                   <button
-                    className="bg-[#0d9488] hover:bg-[#0f766e] px-4 py-3 
-                             transition-colors duration-200 flex items-center"
+                    type="button"
+                    className="flex shrink-0 items-center justify-center rounded-r-lg bg-[#0d9488] 
+                             px-3.5 py-3 transition-colors duration-200 hover:bg-[#0f766e]"
                     aria-label="Subscribe"
                   >
-                    <Send size={16} className="text-white" />
+                    <Send size={16} className="shrink-0 text-white" />
                   </button>
                 </div>
               </div>
             </div>
+
+
           </div>
         </div>
       </Container>

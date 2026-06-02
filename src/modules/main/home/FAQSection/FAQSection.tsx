@@ -72,17 +72,17 @@ const faqData: FAQItem[] = [
 
 const features: Feature[] = [
   {
-    icon: <Zap size={18} className="text-cyan-500" />,
+    icon: <Zap size={18} className="text-ds-primary" />,
     title: "AI-Powered Matching",
     desc: "Smart algorithms match you instantly.",
   },
   {
-    icon: <Shield size={18} className="text-cyan-500" />,
+    icon: <Shield size={18} className="text-ds-primary" />,
     title: "Verified Suppliers",
     desc: "Every supplier is admin-approved.",
   },
   {
-    icon: <Users size={18} className="text-cyan-500" />,
+    icon: <Users size={18} className="text-ds-primary" />,
     title: "Multi-Role Access",
     desc: "Dashboards for Buyers, Suppliers & Admins.",
   },
@@ -92,11 +92,11 @@ const features: Feature[] = [
 function AccordionItem({ item, isOpen, onToggle, index }: AccordionItemProps) {
   return (
     <div
-      {...getAosProps("fade-up", index * 60)}
+      // {...getAosProps("fade-up", index * 60)}
       className={`group overflow-hidden rounded-2xl transition-all duration-300 ${
         isOpen
-          ? "border border-cyan-100 bg-white shadow-lg shadow-cyan-100/40"
-          : "border border-gray-100 bg-white shadow-sm hover:border-cyan-200 hover:shadow-md"
+          ? "border border-ds-primary/30 bg-ds-card shadow-lg shadow-ds-primary/10"
+          : "border border-ds-border bg-ds-card shadow-sm hover:border-ds-primary/30 hover:shadow-md"
       }`}
     >
       <button
@@ -107,7 +107,7 @@ function AccordionItem({ item, isOpen, onToggle, index }: AccordionItemProps) {
         <div className="flex items-center gap-4 pr-4">
           <span
             className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg text-xs font-black transition-all duration-300 ${
-              isOpen ? "bg-cyan-50 text-cyan-600" : "bg-cyan-50 text-cyan-500"
+              isOpen ? "bg-ds-primary/15 text-ds-primary" : "bg-ds-primary/10 text-ds-primary"
             }`}
           >
             {String(index + 1).padStart(2, "0")}
@@ -115,7 +115,7 @@ function AccordionItem({ item, isOpen, onToggle, index }: AccordionItemProps) {
 
           <span
             className={`text-sm font-semibold leading-snug transition-colors duration-300 ${
-              isOpen ? "text-gray-900" : "text-gray-800"
+              isOpen ? "text-ds-text" : "text-ds-text"
             }`}
           >
             {item.question}
@@ -126,14 +126,14 @@ function AccordionItem({ item, isOpen, onToggle, index }: AccordionItemProps) {
         <span
           className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
             isOpen
-              ? "rotate-180 bg-cyan-50"
-              : "bg-gray-100 group-hover:bg-cyan-100"
+              ? "rotate-180 bg-ds-primary/15"
+              : "bg-ds-primary/10"
           }`}
         >
           <ChevronDown
             size={15}
             className={`transition-colors duration-300 ${
-              isOpen ? "text-cyan-600" : "text-gray-500"
+              isOpen ? "text-ds-primary" : "text-ds-muted-foreground"
             }`}
           />
         </span>
@@ -146,7 +146,7 @@ function AccordionItem({ item, isOpen, onToggle, index }: AccordionItemProps) {
         }`}
       >
         <div className="px-6 pb-5 pt-0 pl-[4.5rem]">
-          <p className="text-sm leading-relaxed text-gray-600">{item.answer}</p>
+          <p className="text-sm leading-relaxed text-ds-muted-foreground">{item.answer}</p>
         </div>
       </div>
     </div>
@@ -162,10 +162,10 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-slate-50 via-white to-cyan-50/60 pt-10 mt-14 pb-20 overflow-hidden">
+    <section className="relative bg-ds-background pt-10 mt-14 pb-20 overflow-hidden">
       {/* Background Blobs */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-72 h-72 bg-sky-100/40 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-ds-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-ds-accent/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
       <Container>
         <div className="mb-10">
@@ -185,7 +185,7 @@ export default function FAQSection() {
             {/* Info Card */}
             <div
               {...getAosProps("fade-right", 0)}
-              className="relative bg-gradient-to-br from-cyan-500 to-sky-600 rounded-2xl p-7 text-white overflow-hidden shadow-lg shadow-cyan-200/40"
+              className="relative bg-gradient-to-br from-ds-primary to-ds-accent rounded-2xl p-7 text-ds-primary-foreground overflow-hidden shadow-lg shadow-ds-primary/20"
             >
               {/* Decorative ring */}
               <div className="absolute -top-6 -right-6 w-28 h-28 border-4 border-white/10 rounded-full" />
@@ -200,7 +200,7 @@ export default function FAQSection() {
                 <br />
                 We&apos;ve Got Answers.
               </h3>
-              <p className="text-cyan-100 text-sm leading-relaxed">
+              <p className="text-ds-primary-foreground/80 text-sm leading-relaxed">
                 Our platform simplifies global apparel sourcing — connecting
                 buyers with verified manufacturers, fast and transparently.
               </p>
@@ -209,21 +209,21 @@ export default function FAQSection() {
             {/* Features */}
             <div
               {...getAosProps("fade-right", 80)}
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-3"
+              className="ds-card p-5 space-y-3"
             >
               {features.map((feature, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-4 p-3 rounded-xl hover:bg-cyan-50/60 transition-colors duration-200 group cursor-default"
+                  className="flex items-center gap-4 p-3 rounded-xl hover:bg-ds-primary/5 transition-colors duration-200 group cursor-default"
                 >
-                  <div className="w-9 h-9 bg-cyan-50 group-hover:bg-cyan-100 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-200">
+                  <div className="w-9 h-9 bg-ds-primary/10 group-hover:bg-ds-primary/15 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-200">
                     {feature.icon}
                   </div>
                   <div className="min-w-0">
-                    <h4 className="text-sm font-semibold text-gray-800 leading-tight">
+                    <h4 className="text-sm font-semibold text-ds-text leading-tight">
                       {feature.title}
                     </h4>
-                    <p className="text-xs text-gray-400 mt-0.5 truncate">
+                    <p className="text-xs text-ds-muted-foreground mt-0.5 truncate">
                       {feature.desc}
                     </p>
                   </div>
@@ -234,20 +234,20 @@ export default function FAQSection() {
             {/* Support CTA */}
             <div
               {...getAosProps("fade-right", 160)}
-              className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4"
+              className="ds-card p-5 flex items-center gap-4"
             >
-              <div className="w-11 h-11 bg-cyan-50 rounded-2xl flex items-center justify-center flex-shrink-0">
-                <MessageCircle size={20} className="text-cyan-500" />
+              <div className="w-11 h-11 bg-ds-primary/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+                <MessageCircle size={20} className="text-ds-primary" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-gray-800">
+                <p className="text-sm font-semibold text-ds-text">
                   Still have questions?
                 </p>
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-ds-muted-foreground">
                   Support is 24/7 available.
                 </p>
               </div>
-              <button className="flex items-center gap-1.5 bg-gradient-to-r from-cyan-500 to-sky-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:opacity-90 transition-opacity duration-200 flex-shrink-0 shadow-md shadow-cyan-200/50">
+              <button className="flex items-center gap-1.5 bg-gradient-to-r from-ds-primary to-ds-accent text-ds-primary-foreground text-xs font-bold px-4 py-2.5 rounded-xl hover:opacity-90 transition-opacity duration-200 flex-shrink-0 shadow-md shadow-ds-primary/20">
                 Chat
                 <ArrowRight size={13} />
               </button>

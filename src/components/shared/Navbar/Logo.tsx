@@ -26,7 +26,7 @@ const Logo = ({ section }: { section: "navbar" | "footer" }) => {
           <div className=" text-lg sm:text-xl  font-bold tracking-[.5px]">
             <span className="text-teal-500">Appre</span>
             <span
-              className={`section === "navbar" ? "text-gray-800" : "text-white"`}
+              className={section === "navbar" ? "text-ds-text" : "text-white"}
             >
               lix
             </span>

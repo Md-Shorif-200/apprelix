@@ -51,7 +51,7 @@ const BannerSlider = () => {
         pagination={{ clickable: true }}
         className="h-full w-full"
       >
-        {slides.map((slide, index) => (
+        {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
             <div className="relative h-[320px] w-full lg:h-[450px]">
               {/* Background Image */}

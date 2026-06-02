@@ -36,12 +36,12 @@ const FeaturedRfqsCard = ({ rfq, index = 0 }: FeaturedRfqsCardProps) => {
   return (
     <div
       {...getAosProps("fade-up", index * 80)}
-      className="group flex flex-col bg-white rounded-2xl border border-slate-100 hover:border-teal-200 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_40px_-8px_rgba(15,23,42,0.12)] transition-all duration-500 ease-out overflow-hidden h-full"
+      className="group flex flex-col ds-card rounded-2xl hover:border-ds-primary/30 hover:shadow-[0_20px_40px_-8px_rgba(0,0,0,0.25)] transition-all duration-500 ease-out overflow-hidden h-full"
     >
       {/* ==============================
           IMAGE + BADGE HEADER SECTION
       ============================== */}
-      <div className="relative w-full h-48 overflow-hidden bg-slate-100">
+      <div className="relative w-full h-48 overflow-hidden bg-ds-muted">
         <Image
           src={rfq.image}
           alt={rfq.title}
@@ -88,10 +88,10 @@ const FeaturedRfqsCard = ({ rfq, index = 0 }: FeaturedRfqsCardProps) => {
       <div className="p-5 flex flex-col flex-grow">
         {/* Title & Description */}
         <div className="mb-4">
-          <h3 className="text-slate-900 font-bold text-base leading-snug tracking-tight mb-1.5 group-hover:text-teal-600 transition-colors duration-300 line-clamp-1">
+          <h3 className="text-ds-text font-bold text-base leading-snug tracking-tight mb-1.5 group-hover:text-ds-primary transition-colors duration-300 line-clamp-1">
             {rfq.title}
           </h3>
-          <p className="text-slate-400 text-xs leading-relaxed line-clamp-2">
+          <p className="text-ds-muted-foreground text-xs leading-relaxed line-clamp-2">
             {rfq.description}
           </p>
         </div>
@@ -99,55 +99,55 @@ const FeaturedRfqsCard = ({ rfq, index = 0 }: FeaturedRfqsCardProps) => {
         {/* ==============================
             DATA ROWS SECTION
         ============================== */}
-        <div className="space-y-2.5 pt-4 border-t border-slate-100 mb-4 text-xs">
+        <div className="space-y-2.5 pt-4 border-t border-ds-border mb-4 text-xs">
           {/* Volume Required */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-slate-400">
-              <div className="w-6 h-6 rounded-md bg-slate-50 flex items-center justify-center">
+            <div className="flex items-center gap-2 text-ds-muted-foreground">
+              <div className="w-6 h-6 rounded-md bg-ds-muted flex items-center justify-center">
                 <Package className="w-3.5 h-3.5" />
               </div>
               <span>Vol. Required</span>
             </div>
-            <span className="font-semibold text-slate-800">{rfq.quantity}</span>
+            <span className="font-semibold text-ds-text">{rfq.quantity}</span>
           </div>
 
           {/* Estimated Budget */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-slate-400">
-              <div className="w-6 h-6 rounded-md bg-teal-50 flex items-center justify-center">
-                <CircleDollarSign className="w-3.5 h-3.5 text-teal-500" />
+            <div className="flex items-center gap-2 text-ds-muted-foreground">
+              <div className="w-6 h-6 rounded-md bg-ds-primary/10 flex items-center justify-center">
+                <CircleDollarSign className="w-3.5 h-3.5 text-ds-primary" />
               </div>
               <span>Est. Budget</span>
             </div>
-            <span className="font-bold text-teal-600">{rfq.budget}</span>
+            <span className="font-bold text-ds-primary">{rfq.budget}</span>
           </div>
 
           {/* Material Spec */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-slate-400">
-              <div className="w-6 h-6 rounded-md bg-slate-50 flex items-center justify-center">
+            <div className="flex items-center gap-2 text-ds-muted-foreground">
+              <div className="w-6 h-6 rounded-md bg-ds-muted flex items-center justify-center">
                 <Layers className="w-3.5 h-3.5" />
               </div>
               <span>Material</span>
             </div>
-            <span className="font-medium text-slate-700 truncate max-w-[130px]">
+            <span className="font-medium text-ds-text truncate max-w-[130px]">
               {rfq.material}
             </span>
           </div>
 
           {/* Deadline */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-slate-400">
-              <div className="w-6 h-6 rounded-md bg-slate-50 flex items-center justify-center">
+            <div className="flex items-center gap-2 text-ds-muted-foreground">
+              <div className="w-6 h-6 rounded-md bg-ds-muted flex items-center justify-center">
                 <Calendar className="w-3.5 h-3.5" />
               </div>
               <span>Deadline</span>
             </div>
-            <span className="font-medium text-slate-700">{rfq.deadline}</span>
+            <span className="font-medium text-ds-text">{rfq.deadline}</span>
           </div>
         </div>
 
-        <div className="relative pt-4 border-t border-slate-100 h-14 overflow-hidden">
+        <div className="relative pt-4 border-t border-ds-border h-14 overflow-hidden">
           {/* --- BUYER INFO FOOTER ---
               Visible by default
               Slides down & hides on hover
@@ -159,10 +159,10 @@ const FeaturedRfqsCard = ({ rfq, index = 0 }: FeaturedRfqsCardProps) => {
                 {rfq.buyerName.charAt(0)}
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-slate-800 font-semibold text-xs tracking-tight truncate max-w-[100px]">
+                <span className="text-ds-text font-semibold text-xs tracking-tight truncate max-w-[100px]">
                   {rfq.buyerName}
                 </span>
-                <span className="text-slate-400 text-[10px] flex items-center gap-0.5 truncate max-w-[100px]">
+                <span className="text-ds-muted-foreground text-[10px] flex items-center gap-0.5 truncate max-w-[100px]">
                   <MapPin className="w-2.5 h-2.5 shrink-0" />
                   {rfq.location.split(",")[1]?.trim() || rfq.location}
                 </span>
@@ -170,7 +170,7 @@ const FeaturedRfqsCard = ({ rfq, index = 0 }: FeaturedRfqsCardProps) => {
             </div>
 
             {/* Quote Count Badge */}
-            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-slate-50 text-slate-600 font-semibold text-[11px] border border-slate-200/80">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-ds-muted text-ds-muted-foreground font-semibold text-[11px] border border-ds-border">
               {rfq.quotesCount} Quotes
             </span>
           </div>
