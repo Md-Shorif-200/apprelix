@@ -6,13 +6,18 @@ import BottomNavbar from "./BottomNavbar";
 const Navbar = () => {
   return (
     <>
-      {/* ── Main Navbar ── */}
-      <nav className="bg-[#F4F4F4] sticky top-0 z-50">
-        <NavHeader />
+      {/* Sticky wrapper for both nav bars */}
+      <div className="sticky top-0 z-50">
 
-        <div className="border-t border-gray-200" />
-      </nav>
-      <BottomNavbar />
+        {/* Top Nav */}
+        <nav className="bg-ds-navbar">
+          <NavHeader />
+        </nav>
+
+
+      </div>
+        {/* Bottom Nav */}
+        <BottomNavbar />
     </>
   );
 };

@@ -1,7 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { MotionStagger, MotionStaggerItem } from "@/components/animations/MotionStagger";
+import {
+  MotionStagger,
+  MotionStaggerItem,
+} from "@/components/animations/MotionStagger";
 
 const bg_img_1 = "/AISourceSection/bg_img_1.webp";
 

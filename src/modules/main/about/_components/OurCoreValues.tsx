@@ -38,11 +38,11 @@ const OurCoreValues = () => {
   return (
     <div>
       <div className="flex flex-col items-center text-center mb-10">
-        <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
+        <h3 className="text-2xl md:text-3xl font-bold text-ds-foreground mb-3">
           Our Core Values
         </h3>
 
-        <p className="text-sm max-w-md text-blue-200/60">
+        <p className="text-sm max-w-md text-ds-muted-foreground">
           The principles that guide every decision, feature, and relationship on
           our platform.
         </p>
@@ -52,19 +52,19 @@ const OurCoreValues = () => {
         {coreValues.map((value) => (
           <div
             key={value.title}
-            className="group relative flex flex-col gap-3 p-5 rounded-2xl overflow-hidden border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400/40 transition-[background-color,border-color] duration-300 cursor-pointer"
+            className="group relative flex flex-col gap-3 p-5 rounded-2xl overflow-hidden ds-glass-card hover:border-ds-primary/40 transition-[background-color,border-color] duration-300 cursor-pointer"
           >
-            <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-blue-500/10 group-hover:bg-blue-400/20 transition-[background-color] duration-300 pointer-events-none" />
+            <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-ds-primary/10 group-hover:bg-ds-primary/20 transition-[background-color] duration-300 pointer-events-none" />
 
-            <div className="relative w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-blue-500/20 group-hover:bg-blue-500/40 border border-blue-400/20 group-hover:border-blue-400/50 text-blue-300 group-hover:text-blue-200 transition-[background-color,border-color,color] duration-300">
+            <div className="relative w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-ds-primary/20 group-hover:bg-ds-primary/40 border border-ds-primary/20 group-hover:border-ds-primary/50 text-ds-primary transition-[background-color,border-color,color] duration-300">
               {value.icon}
             </div>
 
-            <h4 className="relative font-semibold text-sm text-white/90 group-hover:text-white transition-colors duration-300 leading-tight">
+            <h4 className="relative font-semibold text-sm text-ds-foreground/90 group-hover:text-ds-foreground transition-colors duration-300 leading-tight">
               {value.title}
             </h4>
 
-            <p className="relative text-xs leading-relaxed text-blue-200/60 group-hover:text-blue-200/80 transition-colors duration-300">
+            <p className="relative text-xs leading-relaxed text-ds-muted-foreground group-hover:text-ds-foreground/80 transition-colors duration-300">
               {value.description}
             </p>
           </div>

@@ -11,7 +11,7 @@ import { Menu, X } from "lucide-react";
 
 import NavSearch from "./NavSearch";
 import NavLinks from "./NavLinks";
-import Support from "./Support";
+import Support from "./ContactUs";
 import Logo from "./Logo";
 
 export function MobileDrawer() {
@@ -19,7 +19,7 @@ export function MobileDrawer() {
     <Sheet>
       {/* Trigger */}
       <SheetTrigger asChild>
-        <button className="cursor-pointer rounded-md p-2 transition hover:bg-gray-100">
+        <button className="cursor-pointer rounded-md p-2 transition hover:bg-ds-border/50">
           <Menu size={20} />
         </button>
       </SheetTrigger>
@@ -35,7 +35,7 @@ export function MobileDrawer() {
 
           {/* Close Button Section */}
           <SheetClose asChild>
-            <button className="cursor-pointer rounded-md p-2 transition hover:bg-gray-100">
+            <button className="cursor-pointer rounded-md p-2 transition hover:bg-ds-border/50">
               <X size={20} />
             </button>
           </SheetClose>

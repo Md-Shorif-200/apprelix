@@ -76,17 +76,7 @@ export const ManufacturingExcellence = () => {
     <section className="mt-14 mb-6">
       <Container>
         {/* ── Outer Wrapper ── */}
-        <div
-          className="
-            relative
-            w-full
-            rounded-3xl
-            overflow-hidden
-            bg-gradient-to-br from-[#0F1F35] via-[#172C45] to-[#1a3a5c]
-            border border-white/10
-            shadow-2xl
-          "
-        >
+        <div className="relative w-full rounded-3xl overflow-hidden ds-always-dark ds-section-dark border shadow-2xl text-ds-foreground">
           {/* ── Decorative Background Blobs ── */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
             {/* Top-left blob */}
@@ -95,7 +85,7 @@ export const ManufacturingExcellence = () => {
                 absolute -top-24 -left-24
                 w-72 h-72
                 rounded-full
-                bg-blue-600/15
+                bg-ds-primary/15
                 blur-3xl
               "
             />
@@ -105,7 +95,7 @@ export const ManufacturingExcellence = () => {
                 absolute -bottom-24 -right-24
                 w-80 h-80
                 rounded-full
-                bg-cyan-500/10
+                bg-ds-accent/10
                 blur-3xl
               "
             />
@@ -116,7 +106,7 @@ export const ManufacturingExcellence = () => {
                 -translate-x-1/2 -translate-y-1/2
                 w-96 h-96
                 rounded-full
-                bg-blue-500/5
+                bg-ds-primary/5
                 blur-3xl
               "
             />
@@ -164,7 +154,7 @@ export const ManufacturingExcellence = () => {
                   <div
                     className="
                       absolute inset-0
-                      bg-gradient-to-t from-[#0F1F35]/80 via-transparent to-transparent
+                      bg-gradient-to-t from-ds-background/80 via-transparent to-transparent
                     "
                   />
 
@@ -181,7 +171,7 @@ export const ManufacturingExcellence = () => {
                     "
                   >
                     <span className="w-2 h-2 rounded-full bg-green-400 motion-safe:animate-pulse" />
-                    <span className="text-xs text-white/90 font-medium tracking-wide">
+                    <span className="text-xs text-ds-foreground/90 font-medium tracking-wide">
                       ISO Certified
                     </span>
                   </div>
@@ -193,8 +183,8 @@ export const ManufacturingExcellence = () => {
                   className="
                     grid grid-cols-3
                     gap-3
-                    bg-white/5
-                    border border-white/10
+                    ds-glass-card
+                    border
                     rounded-2xl
                     p-4
                   "
@@ -205,13 +195,13 @@ export const ManufacturingExcellence = () => {
                         className="
                           text-xl sm:text-2xl
                           font-bold
-                          bg-gradient-to-r from-blue-300 to-cyan-300
+                          bg-gradient-to-r from-ds-primary via-ds-accent to-ds-primary
                           bg-clip-text text-transparent
                         "
                       >
                         {stat.value}
                       </p>
-                      <p className="text-[10px] sm:text-xs text-blue-200/60 mt-0.5 leading-tight">
+                      <p className="text-[10px] sm:text-xs text-ds-muted-foreground mt-0.5 leading-tight">
                         {stat.label}
                       </p>
                     </div>
@@ -224,9 +214,9 @@ export const ManufacturingExcellence = () => {
                 {/* Section Header */}
                 <div {...getAosProps("fade-up", 80)}>
                   {/* Label pill */}
-                  <div className="inline-flex items-center gap-2 bg-blue-500/15 border border-blue-400/25 rounded-full px-4 py-1.5 mb-4">
-                    <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-                    <span className="text-xs font-semibold tracking-[0.15em] text-blue-300 uppercase">
+                  <div className="inline-flex items-center gap-2 bg-ds-primary/15 border border-ds-primary/25 rounded-full px-4 py-1.5 mb-4">
+                    <Sparkles className="w-3.5 h-3.5 text-ds-primary" />
+                    <span className="text-xs font-semibold tracking-[0.15em] text-ds-primary uppercase">
                       Manufacturing Excellence
                     </span>
                   </div>
@@ -236,23 +226,18 @@ export const ManufacturingExcellence = () => {
                     className="
                       text-2xl sm:text-3xl
                       font-bold
-                      text-white
+                      text-ds-foreground
                       leading-snug
                     "
                   >
                     Built for{" "}
-                    <span
-                      className="
-                        bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-400
-                        bg-clip-text text-transparent
-                      "
-                    >
+                    <span className="bg-gradient-to-r from-ds-primary via-ds-accent to-ds-primary bg-clip-text text-transparent">
                       Real-World Impact
                     </span>
                   </h2>
 
                   {/* Sub-heading */}
-                  <p className="text-sm text-blue-200/60 mt-2 max-w-lg leading-relaxed">
+                  <p className="text-sm text-ds-muted-foreground mt-2 max-w-lg leading-relaxed">
                     Precision-engineered production systems, skilled
                     craftsmanship, and cutting-edge technology — all under one
                     roof.
@@ -313,7 +298,7 @@ export const ManufacturingExcellence = () => {
                       <div
                         className="
                           absolute inset-0
-                          bg-gradient-to-br from-[#172C45]/60 to-transparent
+                          bg-gradient-to-br from-ds-background/60 to-transparent
                         "
                       />
 
@@ -328,10 +313,10 @@ export const ManufacturingExcellence = () => {
                           px-3 py-2
                         "
                       >
-                        <p className="text-[11px] font-semibold text-white/90 leading-tight">
+                        <p className="text-[11px] font-semibold text-ds-foreground/90 leading-tight">
                           State-of-the-Art
                         </p>
-                        <p className="text-[10px] text-blue-200/70">
+                        <p className="text-[10px] text-ds-muted-foreground">
                           Production Floor
                         </p>
                       </div>

@@ -24,16 +24,16 @@ const CompanyOverviewSection = () => {
           delay={0.1}
         >
           <MotionStaggerItem>
-            <span className="w-32 flex justify-center items-center gap-1.5 bg-[#0d9488]/10 text-[#0d9488] text-sm font-semibold py-1.5 rounded-full">
-              <Flame size={15} className="text-[#0d9488]" />
+            <span className="ds-badge w-32 justify-center py-1.5">
+              <Flame size={15} />
               About Us
             </span>
           </MotionStaggerItem>
 
           <MotionStaggerItem>
-            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 leading-tight">
+            <h2 className="text-2xl lg:text-3xl font-bold text-ds-text leading-tight">
               A Complete B2B{" "}
-              <span className="bg-gradient-to-br from-[#0d9488] to-[#0891b2] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-br from-ds-primary to-ds-accent bg-clip-text text-transparent">
                 Apparel Sourcing
               </span>{" "}
               Ecosystem
@@ -41,7 +41,7 @@ const CompanyOverviewSection = () => {
           </MotionStaggerItem>
 
           <MotionStaggerItem>
-            <p className="text-gray-500 text-sm lg:text-base">
+            <p className="text-ds-muted-foreground text-sm lg:text-base">
               This platform is not just about AI — it is a full sourcing
               ecosystem. From posting an RFQ to receiving quotations, managing
               production, tracking shipments, and communicating in real time,
@@ -56,15 +56,15 @@ const CompanyOverviewSection = () => {
               return (
                 <MotionStaggerItem key={feature.title}>
                   <li className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center bg-[#f0fdfa] border border-[#99f6e4]">
-                      <Icon size={18} className="text-[#0d9488]" />
+                    <div className="ds-icon-box flex-shrink-0 w-10 h-10">
+                      <Icon size={18} />
                     </div>
 
                     <div className="flex flex-col gap-0.5">
-                      <p className="text-sm font-semibold text-gray-800">
+                      <p className="text-sm font-semibold text-ds-text">
                         {feature.title}
                       </p>
-                      <p className="text-sm text-gray-500 leading-relaxed">
+                      <p className="text-sm text-ds-muted-foreground leading-relaxed">
                         {feature.description}
                       </p>
                     </div>

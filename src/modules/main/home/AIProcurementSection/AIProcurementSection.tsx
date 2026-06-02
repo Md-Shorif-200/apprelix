@@ -4,10 +4,7 @@ import Container from "@/components/common/Container";
 import SectionTitle from "@/components/common/SectionTitle";
 
 import { Flame } from "lucide-react";
-import {
-  aiFeatures,
-  type AiFeature,
-} from "../_data/aiProcurementFeatures";
+import { aiFeatures, type AiFeature } from "../_data/aiProcurementFeatures";
 import { getAosProps } from "@/lib/animations/aos";
 import { AosRefresh } from "@/components/animations/AosRefresh";
 

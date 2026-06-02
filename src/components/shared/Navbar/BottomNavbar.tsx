@@ -3,25 +3,21 @@
 import Container from "@/components/common/Container";
 import { CustomButton } from "@/components/common/CustomButton";
 
-import { Sparkles, Bell  } from "lucide-react";
+import { Sparkles, Bell, Heart } from "lucide-react";
 
-// import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "./ThemeToggle";
 import NavSearch from "./NavSearch";
 
 const BottomNavbar = () => {
+  const wishlistCount = 10;
+  const notificationCount = 10;
+
   return (
-    <div className="bg-[#F4F4F4] backdrop-blur-md">
+    <div className="bg-ds-navbar backdrop-blur-md border-t border-ds-border">
       <Container>
         <div className="flex items-center justify-between py-3">
           {/* ================= Left Side ================= */}
           <div className="flex items-center gap-4 lg:gap-6">
-            {/* Category Button */}
-            {/* <button className="hidden lg:flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:border-teal-500 hover:bg-teal-50 hover:text-teal-600">
-              <LayoutGrid size={16} />
-              Categories
-              <ChevronDown size={15} />
-            </button> */}
-
             {/* AI Insight Button */}
             <CustomButton
               variant="accent"
@@ -38,21 +34,37 @@ const BottomNavbar = () => {
               <NavSearch />
             </div>
 
+            {/* Wishlist Icon Button */}
+            <IconBadgeButton
+              icon={<Heart size={17} />}
+              count={wishlistCount}
+              label="Wishlist"
+              badgeColor="bg-teal-500"
+            />
+
+            {/* Notification Icon Button */}
+            <IconBadgeButton
+              icon={<Bell size={17} />}
+              count={notificationCount}
+              label="Notifications"
+              badgeColor="bg-rose-500"
+            />
+
             {/* Notification */}
-            <button className="relative flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-sm transition-all duration-200 hover:border-teal-500 hover:bg-teal-50 hover:text-teal-600">
+            {/* <button className="ds-nav-action relative">
               <Bell size={18} />
 
-              {/* Notification Dot */}
+            
               <span className="absolute right-2 top-2 flex h-2.5 w-2.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
               </span>
-            </button>
+            </button> */}
 
             {/* Theme Toggle */}
-            {/* <div className="rounded-full border border-gray-200 bg-white shadow-sm">
+            <div className="rounded-full border border-ds-border bg-ds-card shadow-sm">
               <ThemeToggle />
-            </div> */}
+            </div>
           </div>
         </div>
       </Container>
@@ -61,3 +73,56 @@ const BottomNavbar = () => {
 };
 
 export default BottomNavbar;
+
+type IconBadgeButtonProps = {
+  icon: React.ReactNode;
+  count: number;
+  label: string;
+  badgeColor?: string;
+};
+
+const IconBadgeButton = ({
+  icon,
+  count,
+  label,
+  badgeColor = "bg-rose-500",
+}: IconBadgeButtonProps) => {
+  return (
+    <button
+      aria-label={label}
+      className="
+        relative flex items-center justify-center
+        w-9 h-9 rounded-full
+        text-ds-muted-foreground
+        hover:text-ds-text
+        hover:bg-ds-card
+        border border-transparent
+        hover:border-ds-border
+        transition-all duration-200
+        group
+      "
+    >
+      {/* Icon */}
+      <span className="group-hover:scale-110 transition-transform duration-200">
+        {icon}
+      </span>
+
+      {/* Badge */}
+      {count > 0 && (
+        <span
+          className={`
+            absolute -top-0.5 -right-0.5
+            flex items-center justify-center
+            min-w-[16px] h-4 px-1
+            rounded-full text-white font-bold
+            text-[9px] leading-none
+            shadow-sm ring-1 ring-white dark:ring-ds-navbar
+            ${badgeColor}
+          `}
+        >
+          {count > 9 ? "9+" : count}
+        </span>
+      )}
+    </button>
+  );
+};
