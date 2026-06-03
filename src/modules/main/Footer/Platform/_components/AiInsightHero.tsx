@@ -24,7 +24,10 @@ const IMAGE_SIZES = {
 const AiInsightHero = () => (
   <section className="py-10">
     <div className="flex flex-col items-center gap-10 lg:flex-row lg:gap-12">
-      <MotionReveal className="relative h-[500px] w-full lg:w-1/2" direction="right">
+      <MotionReveal
+        className="relative h-[500px] w-full lg:w-1/2"
+        direction="right"
+      >
         <div className="absolute top-0 left-0 h-[280px] w-[90%] overflow-hidden rounded-3xl shadow-sm">
           <Image
             src={HERO_IMAGES.primary}
@@ -81,10 +84,10 @@ const AiInsightHero = () => (
 
         <MotionStaggerItem>
           <p className="text-sm leading-relaxed text-ds-muted-foreground md:text-base">
-            Our built-in AI engine eliminates guesswork from B2B apparel sourcing.
-            Whether you&apos;re a buyer searching for the perfect supplier or a
-            supplier looking for the right orders — the AI works 24/7 to make the
-            best connections possible.
+            Our built-in AI engine eliminates guesswork from B2B apparel
+            sourcing. Whether you&apos;re a buyer searching for the perfect
+            supplier or a supplier looking for the right orders — the AI works
+            24/7 to make the best connections possible.
           </p>
         </MotionStaggerItem>
 

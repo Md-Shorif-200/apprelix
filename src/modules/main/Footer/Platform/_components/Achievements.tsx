@@ -21,7 +21,9 @@ const AchievementCard = ({
         <Icon className={`h-6 w-6 ${achievement.iconClassName}`} />
       </div>
       <div>
-        <h3 className="mb-2 text-lg font-bold text-ds-text">{achievement.title}</h3>
+        <h3 className="mb-2 text-lg font-bold text-ds-text">
+          {achievement.title}
+        </h3>
         <p className="text-sm leading-relaxed text-ds-muted-foreground">
           {achievement.description}
         </p>

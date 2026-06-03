@@ -38,7 +38,9 @@ const SupplierAISection = () => (
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-ds-muted">
               <div className="h-full w-[68%] rounded-full bg-ds-primary" />
             </div>
-            <p className="text-xs font-medium text-ds-primary">T-Shirt Category</p>
+            <p className="text-xs font-medium text-ds-primary">
+              T-Shirt Category
+            </p>
           </div>
 
           <div
@@ -74,7 +76,8 @@ const SupplierAISection = () => (
         <MotionStaggerItem>
           <h2 className="text-2xl leading-tight font-bold text-ds-text md:text-3xl">
             AI Helps Suppliers{" "}
-            <span className="text-ds-primary">Win More Orders</span> & Grow Faster
+            <span className="text-ds-primary">Win More Orders</span> & Grow
+            Faster
           </h2>
         </MotionStaggerItem>
 

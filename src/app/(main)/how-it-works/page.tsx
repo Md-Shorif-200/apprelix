@@ -1,12 +1,11 @@
-import HowItWorksPage from '@/modules/main/Footer/Company/components/HowItWorksPage'
-
+import HowItWorksPage from "@/modules/main/Footer/Company/components/HowItWorksPage";
 
 const page = () => {
   return (
     <div>
-        <HowItWorksPage/>
+      <HowItWorksPage />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

@@ -25,17 +25,12 @@ const campanyLinks = [
   { label: "Contact Us", href: "/contact" },
 ];
 
-
-
 const legalLinks = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Service", href: "/terms-condition" },
+  { label: "Cookie Policy", href: "/cookies" },
 
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms-condition" },
-    { label: "Cookie Policy", href: "/cookies" },
-  
-    { label: "Code of Conduct", href: "/code-of-conduct" },
-
-
+  { label: "Code of Conduct", href: "/code-of-conduct" },
 ];
 
 const contactLinks = [
@@ -117,7 +112,6 @@ export default function Footer() {
       <Container>
         <div className="py-12">
           <div className="grid grid-cols-12 gap-8">
-
             <div className=" col-span-12 lg:col-span-3 space-y-6">
               {/* Logo */}
               <div>
@@ -317,8 +311,6 @@ export default function Footer() {
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
       </Container>

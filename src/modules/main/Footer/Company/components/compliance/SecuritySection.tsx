@@ -28,7 +28,9 @@ const SecurityCard = memo(function SecurityCard({
       <div className="ds-icon-box mb-5 h-14 w-14 transition-colors duration-300 group-hover:bg-ds-primary/20">
         <Icon className="h-8 w-8" />
       </div>
-      <h3 className="mb-2 text-lg font-semibold text-ds-text">{feature.title}</h3>
+      <h3 className="mb-2 text-lg font-semibold text-ds-text">
+        {feature.title}
+      </h3>
       <p className="text-sm leading-relaxed text-ds-muted-foreground">
         {feature.description}
       </p>
@@ -66,7 +68,8 @@ const SecuritySection = () => (
               100% Secure & Compliant
             </h4>
             <p className="text-sm text-ds-primary-foreground/80">
-              Built with enterprise security standards for global B2B operations.
+              Built with enterprise security standards for global B2B
+              operations.
             </p>
           </div>
         </div>

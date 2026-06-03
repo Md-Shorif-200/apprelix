@@ -6,14 +6,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="">
-        <main className="w-full flex flex-col lg:flex-row min-h-screen">
-          <div className="w-full lg:w-1/2">
-            <AuthPageContent />{" "}
+    <html lang="en" className="lg:h-dvh">
+      <body className="lg:h-dvh lg:overflow-hidden">
+        <main className="flex min-h-screen w-full flex-col lg:h-dvh lg:flex-row lg:overflow-hidden">
+          {/* Marketing panel — always visible; fixed height + no scroll only on lg+ */}
+          <div className="w-full lg:h-dvh lg:w-[45%] lg:shrink-0 lg:overflow-hidden">
+            <AuthPageContent />
           </div>
 
-          <div className="w-full lg:w-1/2">{children}</div>
+          {/* Form — stacked below marketing on mobile; scrollable column on lg+ */}
+          <div className="w-full lg:min-h-0 lg:h-dvh lg:w-[55%] lg:flex-1 lg:overflow-y-auto">
+            {children}
+          </div>
         </main>
       </body>
     </html>

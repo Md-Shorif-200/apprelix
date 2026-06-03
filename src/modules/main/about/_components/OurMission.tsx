@@ -25,7 +25,9 @@ const OurMission = () => {
               Our Mission
             </p>
 
-            <h3 className="text-ds-foreground text-xl font-bold">What We Do Today</h3>
+            <h3 className="text-ds-foreground text-xl font-bold">
+              What We Do Today
+            </h3>
           </div>
         </div>
 

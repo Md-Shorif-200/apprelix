@@ -1,12 +1,11 @@
-import BlogsPage from '@/modules/main/Footer/Company/components/BlogsPage'
-
+import BlogsPage from "@/modules/main/Footer/Company/components/BlogsPage";
 
 const page = () => {
   return (
     <div>
-        <BlogsPage/>
-     </div>
-  )
-}
+      <BlogsPage />
+    </div>
+  );
+};
 
-export default page
+export default page;

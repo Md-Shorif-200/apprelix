@@ -64,13 +64,12 @@ const ProductionTracking = () => (
       >
         <div className="mb-6">
           <h2 className="mt-4 mb-4 text-4xl leading-tight font-bold text-ds-text">
-            From Order to{" "}
-            <span className="text-ds-primary">Your Doorstep</span>
+            From Order to <span className="text-ds-primary">Your Doorstep</span>
           </h2>
           <p className="mb-6 leading-relaxed text-ds-muted-foreground">
             Once a buyer places an order, the entire production journey is
-            digitally tracked — stage by stage. No more guessing, no more delays,
-            no more surprises.
+            digitally tracked — stage by stage. No more guessing, no more
+            delays, no more surprises.
           </p>
         </div>
 

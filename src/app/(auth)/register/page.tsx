@@ -1,11 +1,11 @@
-import RegistrationForm from "@/modules/auth/_components/RegistrationForm"
+import RegistrationForm from "@/modules/auth/_components/RegistrationForm";
 
 const page = () => {
   return (
     <div>
-        <RegistrationForm />
+      <RegistrationForm />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

@@ -107,7 +107,9 @@ function AccordionItem({ item, isOpen, onToggle, index }: AccordionItemProps) {
         <div className="flex items-center gap-4 pr-4">
           <span
             className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg text-xs font-black transition-all duration-300 ${
-              isOpen ? "bg-ds-primary/15 text-ds-primary" : "bg-ds-primary/10 text-ds-primary"
+              isOpen
+                ? "bg-ds-primary/15 text-ds-primary"
+                : "bg-ds-primary/10 text-ds-primary"
             }`}
           >
             {String(index + 1).padStart(2, "0")}
@@ -125,9 +127,7 @@ function AccordionItem({ item, isOpen, onToggle, index }: AccordionItemProps) {
         {/* Chevron */}
         <span
           className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
-            isOpen
-              ? "rotate-180 bg-ds-primary/15"
-              : "bg-ds-primary/10"
+            isOpen ? "rotate-180 bg-ds-primary/15" : "bg-ds-primary/10"
           }`}
         >
           <ChevronDown
@@ -146,7 +146,9 @@ function AccordionItem({ item, isOpen, onToggle, index }: AccordionItemProps) {
         }`}
       >
         <div className="px-6 pb-5 pt-0 pl-[4.5rem]">
-          <p className="text-sm leading-relaxed text-ds-muted-foreground">{item.answer}</p>
+          <p className="text-sm leading-relaxed text-ds-muted-foreground">
+            {item.answer}
+          </p>
         </div>
       </div>
     </div>

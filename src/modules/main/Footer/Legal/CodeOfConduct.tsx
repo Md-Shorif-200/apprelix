@@ -202,9 +202,9 @@ const CodeOfConduct = () => {
           <p className="text-ds-muted-foreground text-sm leading-8 mb-4">
             Any breach of this Code of Conduct is taken seriously by our
             compliance team. Upon receiving a report, our team initiates a
-            structured review process that is transparent, fair, and
-            time-bound. Both parties are given the opportunity to present their
-            case before any action is taken.
+            structured review process that is transparent, fair, and time-bound.
+            Both parties are given the opportunity to present their case before
+            any action is taken.
           </p>
           <p className="text-ds-muted-foreground text-sm leading-8 mb-6">
             Depending on the severity and frequency of the violation, actions

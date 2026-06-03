@@ -28,7 +28,10 @@ const SuccessStoryCtaBanner = () => (
         className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center"
         direction="up"
       >
-        <MotionStagger className="flex max-w-xl flex-col items-center gap-4" stagger={0.1}>
+        <MotionStagger
+          className="flex max-w-xl flex-col items-center gap-4"
+          stagger={0.1}
+        >
           <MotionStaggerItem>
             <h3 className="text-3xl font-bold text-ds-primary-foreground md:text-4xl">
               Ready to Write Your Success Story?

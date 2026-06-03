@@ -8,16 +8,13 @@ const Navbar = () => {
     <>
       {/* Sticky wrapper for both nav bars */}
       <div className="sticky top-0 z-50">
-
         {/* Top Nav */}
         <nav className="bg-ds-navbar">
           <NavHeader />
         </nav>
-
-
       </div>
-        {/* Bottom Nav */}
-        <BottomNavbar />
+      {/* Bottom Nav */}
+      <BottomNavbar />
     </>
   );
 };

@@ -25,7 +25,9 @@ const OurVission = () => {
               Our Vision
             </p>
 
-            <h3 className="text-ds-foreground text-xl font-bold">Where We Are Going</h3>
+            <h3 className="text-ds-foreground text-xl font-bold">
+              Where We Are Going
+            </h3>
           </div>
         </div>
 
