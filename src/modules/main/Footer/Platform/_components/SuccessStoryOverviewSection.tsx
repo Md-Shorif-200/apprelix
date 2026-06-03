@@ -43,8 +43,8 @@ const SuccessStoryOverviewSection = () => {
             What started as a simple idea to connect buyers and suppliers has
             become the world&apos;s most trusted B2B apparel sourcing platform.
             With AI-powered matching, real-time production tracking, and a
-            verified global supplier network, we help businesses source
-            smarter, faster, and more efficiently.
+            verified global supplier network, we help businesses source smarter,
+            faster, and more efficiently.
           </p>
         </MotionStaggerItem>
 

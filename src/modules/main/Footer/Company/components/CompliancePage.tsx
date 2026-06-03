@@ -2,7 +2,6 @@ import dynamic from "next/dynamic";
 import Container from "@/components/common/Container";
 import { AosRefresh } from "@/components/animations/AosRefresh";
 
-
 const SecuritySection = dynamic(() => import("./compliance/SecuritySection"));
 const NotificationSection = dynamic(
   () => import("./compliance/NotificationSection"),
@@ -16,11 +15,9 @@ const CompliancePage = () => (
         <SecuritySection />
       </div>
 
-        <NotificationSection />
-    
+      <NotificationSection />
 
-        <FutureSection />
-     
+      <FutureSection />
 
       <AosRefresh />
     </Container>

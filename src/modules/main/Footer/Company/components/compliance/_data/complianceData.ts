@@ -86,7 +86,11 @@ export const securityFeatures: SecurityFeature[] = [
   },
 ];
 
-export const trustBadges = ["SSL Encrypted", "GDPR Ready", "ISO Aligned"] as const;
+export const trustBadges = [
+  "SSL Encrypted",
+  "GDPR Ready",
+  "ISO Aligned",
+] as const;
 
 export const notificationChannels: NotificationChannel[] = [
   {
@@ -203,7 +207,12 @@ export const roadmapPhases: RoadmapPhase[] = [
 ];
 
 export const upcomingFeatures: UpcomingFeature[] = [
-  { id: "mobile", icon: Smartphone, title: "Mobile App", detail: "React Native" },
+  {
+    id: "mobile",
+    icon: Smartphone,
+    title: "Mobile App",
+    detail: "React Native",
+  },
   { id: "ai", icon: Bot, title: "AI Chatbot", detail: "Smart Assistant" },
   {
     id: "negotiation",

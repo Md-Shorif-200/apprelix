@@ -2,7 +2,13 @@ import { getAosProps } from "@/lib/animations/aos";
 import { Flame } from "lucide-react";
 import { platformStats, type PlatformStat } from "../_data/platformStats";
 
-const StatCardItem = ({ stat, index }: { stat: PlatformStat; index: number }) => {
+const StatCardItem = ({
+  stat,
+  index,
+}: {
+  stat: PlatformStat;
+  index: number;
+}) => {
   const Icon = stat.icon;
 
   return (

@@ -7,6 +7,7 @@ import { MobileDrawer } from "./MobileDrawer";
 import NavLinks from "./NavLinks";
 import Logo from "./Logo";
 import ContactUs from "./ContactUs";
+import Link from "next/link";
 
 // NavHeader now accepts onMenuClick prop to trigger drawer open
 const NavHeader = () => {
@@ -31,7 +32,8 @@ const NavHeader = () => {
           <div className="hidden lg:block h-8 w-px bg-ds-border" />
 
           {/* Login — always visible */}
-          <div
+          <Link
+            href="/login"
             className="
               group flex items-center gap-2.5
               transition-[transform,opacity] duration-200 ease-out
@@ -46,7 +48,7 @@ const NavHeader = () => {
             <span className="text-sm font-bold text-ds-text group-hover:text-ds-primary">
               Login
             </span>
-          </div>
+          </Link>
 
           <div className="lg:hidden">
             <MobileDrawer />

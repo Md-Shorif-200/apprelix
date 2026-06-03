@@ -50,10 +50,10 @@ export function LazySection({
         children
       ) : (
         <div
-        aria-hidden
-        className="h-full rounded-3xl bg-ds-muted/20 animate-pulse"
-        style={{ minHeight }}
-      />
+          aria-hidden
+          className="h-full rounded-3xl bg-ds-muted/20 animate-pulse"
+          style={{ minHeight }}
+        />
       )}
     </div>
   );

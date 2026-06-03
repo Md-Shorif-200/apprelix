@@ -35,8 +35,7 @@ const privacyCards = [
     id: "business",
     icon: Building2,
     title: "Business Privacy",
-    description:
-      "Company information and sourcing activities are kept secure.",
+    description: "Company information and sourcing activities are kept secure.",
   },
 ];
 
@@ -68,10 +67,7 @@ const Privacy = () => {
           const Icon = item.icon;
 
           return (
-            <div
-              key={item.id}
-              className="group ds-card-interactive p-6"
-            >
+            <div key={item.id} className="group ds-card-interactive p-6">
               <div className="w-14 h-14 rounded-xl bg-ds-primary/10 flex items-center justify-center mb-5">
                 <Icon className="w-7 h-7 text-ds-primary" />
               </div>
@@ -95,13 +91,13 @@ const Privacy = () => {
           </h3>
 
           <p className="text-ds-muted-foreground leading-8">
-            Our platform is designed for professional apparel sourcing and supply
-            chain management. We collect only the information required to
+            Our platform is designed for professional apparel sourcing and
+            supply chain management. We collect only the information required to
             facilitate RFQ creation, supplier matching, quotation management,
             production tracking, and business communication. Sensitive company
             information, uploaded documents, and conversations are protected
-            through secure authentication, encrypted storage practices, and strict
-            access controls.
+            through secure authentication, encrypted storage practices, and
+            strict access controls.
           </p>
         </div>
       </div>

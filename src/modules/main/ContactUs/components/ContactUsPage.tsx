@@ -1,7 +1,11 @@
 "use client";
 
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
-import { useForm, type FieldError, type UseFormRegister } from "react-hook-form";
+import {
+  useForm,
+  type FieldError,
+  type UseFormRegister,
+} from "react-hook-form";
 import {
   ArrowRight,
   CheckCircle,
@@ -82,7 +86,9 @@ const TextField = memo(function TextField({
   const shared = {
     id,
     placeholder,
-    className: multiline ? `${inputClass} resize-y leading-relaxed` : inputClass,
+    className: multiline
+      ? `${inputClass} resize-y leading-relaxed`
+      : inputClass,
     "aria-invalid": error ? true : undefined,
     ...register(name, rules),
   };
@@ -111,11 +117,16 @@ const ContactInfoCards = memo(function ContactInfoCards() {
     <section className="mb-16 max-w-6xl mx-auto">
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {contactCards.map(({ icon: Icon, title, detail, sub }) => (
-          <article key={title} className="ds-card flex flex-col items-center p-8 text-center">
+          <article
+            key={title}
+            className="ds-card flex flex-col items-center p-8 text-center"
+          >
             <div className="ds-icon-box mb-4 size-14 rounded-full">
               <Icon className="size-6" aria-hidden />
             </div>
-            <h3 className="mb-1 text-base font-semibold text-ds-text">{title}</h3>
+            <h3 className="mb-1 text-base font-semibold text-ds-text">
+              {title}
+            </h3>
             <p className="mb-1 text-sm font-medium text-ds-primary">{detail}</p>
             <p className="text-xs text-ds-muted-foreground">{sub}</p>
           </article>
@@ -128,7 +139,9 @@ const ContactInfoCards = memo(function ContactInfoCards() {
 const WhyReachOutPanel = memo(function WhyReachOutPanel() {
   return (
     <div className="rounded-2xl border border-ds-primary/20 bg-ds-primary/10 p-8">
-      <h3 className="mb-5 text-xl font-bold text-ds-text">Why Reach Out to Us?</h3>
+      <h3 className="mb-5 text-xl font-bold text-ds-text">
+        Why Reach Out to Us?
+      </h3>
       <ul className="space-y-3">
         {whyItems.map((text) => (
           <li key={text} className="flex items-start gap-3">
@@ -180,7 +193,9 @@ const MapPanel = memo(function MapPanel() {
   return (
     <div className="flex min-h-[160px] flex-col items-center justify-center gap-3 rounded-2xl border border-ds-border bg-ds-input p-8 text-center">
       <MapPin className="size-10 text-ds-primary" aria-hidden />
-      <p className="text-sm text-ds-muted-foreground">123 Fashion Street, New York, USA</p>
+      <p className="text-sm text-ds-muted-foreground">
+        123 Fashion Street, New York, USA
+      </p>
       <a
         href="https://maps.google.com"
         target="_blank"
@@ -244,7 +259,9 @@ const ContactForm = memo(function ContactForm() {
 
   return (
     <div className="ds-card p-8 shadow-md md:p-10">
-      <h2 className="mb-1 text-2xl font-bold text-ds-text">Send Us a Message</h2>
+      <h2 className="mb-1 text-2xl font-bold text-ds-text">
+        Send Us a Message
+      </h2>
       <p className="mb-8 text-sm text-ds-muted-foreground">
         Fill in the form and we&apos;ll get back to you shortly.
       </p>
@@ -254,7 +271,10 @@ const ContactForm = memo(function ContactForm() {
           className="mb-6 flex items-center gap-3 rounded-xl border border-ds-primary bg-ds-primary/10 px-4 py-3"
           role="status"
         >
-          <CheckCircle className="size-5 shrink-0 text-ds-primary" aria-hidden />
+          <CheckCircle
+            className="size-5 shrink-0 text-ds-primary"
+            aria-hidden
+          />
           <p className="text-sm font-medium text-ds-primary">
             Thank you! Your message has been sent successfully.
           </p>

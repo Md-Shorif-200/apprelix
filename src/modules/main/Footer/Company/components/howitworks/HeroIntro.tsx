@@ -14,10 +14,7 @@ import {
   MotionStagger,
   MotionStaggerItem,
 } from "@/components/animations/MotionStagger";
-import {
-  HOW_IT_WORKS_IMAGES,
-  heroStats,
-} from "./_data/howItWorksData";
+import { HOW_IT_WORKS_IMAGES, heroStats } from "./_data/howItWorksData";
 
 const HERO_IMAGE_SIZES = "(max-width: 1024px) 100vw, 50vw";
 

@@ -1,28 +1,38 @@
 "use client";
 
-import React from "react";
-import { useForm } from "react-hook-form";
+import CustomInput from "@/components/inputs/CustomInput";
+import CustomTextArea from "@/components/inputs/CustomTextArea";
+import FormInputSectionTitle from "@/components/inputs/FormInputSectionTitle";
 import {
-  User,
-  Mail,
-  Phone,
-  Lock,
+  ArrowRight,
   Building2,
-  Globe,
-  MapPin,
   Camera,
+  CheckCircle2,
+  Factory,
+  Globe,
+  Loader2,
+  Lock,
+  Mail,
+  MapPin,
+  Phone,
+  ShoppingBag,
+  User,
 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-type FormData = {
+// ─── Form shape ───────────────────────────────────────────────────────────────
+
+type RegistrationFormData = {
   fullName: string;
   email: string;
   phone: string;
   password: string;
   confirmPassword: string;
-  profilePhoto: FileList;
-  companyLogo: FileList;
-  accountType: string;
+  profilePhoto?: FileList;
+  companyLogo?: FileList;
+  accountType: "buyer" | "supplier";
   companyName: string;
   companyWebsite: string;
   country: string;
@@ -30,224 +40,342 @@ type FormData = {
   companyAddress: string;
 };
 
-const InputField = ({
-  icon: Icon,
-  ...props
-}: {
-  icon: React.ElementType;
-} & React.InputHTMLAttributes<HTMLInputElement>) => (
-  <div className="relative">
-    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-      <Icon size={16} />
-    </div>
-    <input
-      {...props}
-      className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-200 rounded-lg outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all bg-gray-50 focus:bg-white placeholder-gray-400"
-    />
-  </div>
-);
+const defaultValues: RegistrationFormData = {
+  fullName: "",
+  email: "",
+  phone: "",
+  password: "",
+  confirmPassword: "",
+  accountType: "buyer",
+  companyName: "",
+  companyWebsite: "",
+  country: "",
+  city: "",
+  companyAddress: "",
+};
 
-const SectionTitle = ({ title }: { title: string }) => (
-  <div className="flex items-center gap-3 mb-4">
-    <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
-      {title}
-    </h3>
-    {/* <div className="flex-1 h-px bg-gray-100" /> */}
-  </div>
-);
+const accountTypes = [
+  {
+    value: "buyer" as const,
+    label: "Buyer",
+    description: "Source & purchase products",
+    icon: ShoppingBag,
+  },
+  {
+    value: "supplier" as const,
+    label: "Supplier",
+    description: "Sell & fulfill orders",
+    icon: Factory,
+  },
+];
 
-const RegistrationForm = () => {
-  const { register, handleSubmit } = useForm<FormData>();
+function Divider() {
+  return <div className="my-6 border-t border-gray-100" />;
+}
 
-  const onSubmit = (data: FormData) => {
-    console.log("Submitted Data:", data);
-  };
+// ─── Main form ────────────────────────────────────────────────────────────────
+
+export default function RegistrationForm() {
+  const [formKey, setFormKey] = useState(0);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<RegistrationFormData>({
+    defaultValues,
+    mode: "onBlur",
+  });
+
+  const selectedAccountType = watch("accountType");
+
+  async function onSubmit(data: RegistrationFormData) {
+    // Replace with your real API call
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    console.log("Registration data:", data);
+    reset(defaultValues);
+    setFormKey((key) => key + 1);
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-50 via-white to-gray-50 px-4 py-10">
+    <div className="flex  items-center justify-center bg-gradient-to-br from-teal-50/60 via-white to-gray-50 px-4 py-6">
       <div className="w-full">
-        <div className=" mb-6 flex   gap-3">
-          <div className="flex items-center justify-center w-12 h-12 bg-teal-600 rounded-2xl mb-3 shadow-lg shadow-teal-200">
-            <User size={22} className="text-white" />
+        <div className="mb-7">
+          <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-teal-200 bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700">
+            <CheckCircle2 size={12} />
+            Free to join — no credit card needed
           </div>
-          <div className="flex flex-col ">
-            <h1 className="text-2xl font-bold text-ds-primary">
-              Create Your Account
-            </h1>
 
-            <p className="text-sm text-gray-500">
-              Already have an account? 
-              <Link
-                href="/login"
-                className="text-teal-600 font-semibold hover:underline ml-0.5"
-              >
-                Log in
-              </Link>
-            </p>
-          </div>
+          <h1 className="mb-1 text-2xl font-bold text-gray-900">
+            Create your account
+          </h1>
+          <p className="text-sm text-gray-500">
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              className="font-semibold text-teal-600 hover:underline"
+            >
+              Log in here
+            </Link>
+          </p>
         </div>
 
-        {/* Card */}
-        <div className="bg-white rounded-2xl shadow  border border-gray-100 p-6">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
-            {/* Personal Info */}
-            <div>
-              <SectionTitle title="Personal Information" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <InputField
-                  icon={User}
-                  {...register("fullName")}
-                  placeholder="Full Name"
-                />
-                <InputField
-                  icon={Mail}
-                  {...register("email")}
-                  type="email"
-                  placeholder="Email Address"
-                />
-                <InputField
-                  icon={Phone}
-                  {...register("phone")}
-                  placeholder="Phone Number"
-                />
+        <div className="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm">
+          <form key={formKey} onSubmit={handleSubmit(onSubmit)} noValidate>
+            {/* Step 1 — Personal */}
+            <FormInputSectionTitle
+              step={1}
+              title="Personal Information"
+              subtitle="Tell us a bit about yourself"
+            />
 
-                {/* File Upload */}
-                <label className="relative flex items-center gap-2 pl-9 pr-4 py-2.5 text-sm border border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-teal-400 hover:bg-teal-50 transition-all bg-gray-50 text-gray-400">
-                  <div className="absolute left-3 text-gray-400">
-                    <Camera size={16} />
-                  </div>
-                  <span>Upload Profile Photo</span>
-                  <input
-                    {...register("profilePhoto")}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                  />
-                </label>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <CustomInput
+                label="Full Name"
+                placeholder="John Doe"
+                leftIcon={<User size={15} />}
+                error={errors.fullName?.message}
+                {...register("fullName", {
+                  required: "Full name is required",
+                  minLength: { value: 2, message: "Name is too short" },
+                })}
+              />
 
-                <InputField
-                  icon={Lock}
-                  {...register("password")}
-                  type="password"
-                  placeholder="Password"
-                />
-                <InputField
-                  icon={Lock}
-                  {...register("confirmPassword")}
-                  type="password"
-                  placeholder="Confirm Password"
-                />
-              </div>
+              <CustomInput
+                label="Email Address"
+                type="email"
+                placeholder="john@example.com"
+                leftIcon={<Mail size={15} />}
+                error={errors.email?.message}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Enter a valid email address",
+                  },
+                })}
+              />
+
+              <CustomInput
+                label="Phone Number"
+                type="tel"
+                placeholder="+1 234 567 890"
+                leftIcon={<Phone size={15} />}
+                error={errors.phone?.message}
+                {...register("phone", {
+                  required: "Phone number is required",
+                  minLength: { value: 8, message: "Phone number is too short" },
+                })}
+              />
+
+              <CustomInput
+                label="Profile Photo"
+                type="file"
+                accept="image/*"
+                leftIcon={<Camera size={15} />}
+                error={errors.profilePhoto?.message}
+                {...register("profilePhoto")}
+              />
+
+              <CustomInput
+                label="Password"
+                type="password"
+                placeholder="Create a strong password"
+                leftIcon={<Lock size={15} />}
+                error={errors.password?.message}
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Password must be at least 8 characters",
+                  },
+                })}
+              />
+
+              <CustomInput
+                label="Confirm Password"
+                type="password"
+                placeholder="Repeat your password"
+                leftIcon={<Lock size={15} />}
+                error={errors.confirmPassword?.message}
+                {...register("confirmPassword", {
+                  required: "Please confirm your password",
+                  validate: (value, formValues) =>
+                    value === formValues.password || "Passwords do not match",
+                })}
+              />
             </div>
 
-            {/* Account Type */}
-            <div>
-              <SectionTitle title="Account Type" />
-              <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-3">
-                {["buyer", "supplier"].map((type) => (
+            <Divider />
+
+            {/* Step 2 — Account type */}
+            <FormInputSectionTitle
+              step={2}
+              title="Account Type"
+              subtitle="Choose how you'll use the platform"
+            />
+
+            <div className="grid grid-cols-2 gap-3">
+              {accountTypes.map((type) => {
+                const Icon = type.icon;
+                const isSelected = selectedAccountType === type.value;
+
+                return (
                   <label
-                    key={type}
-                    className="flex items-center gap-3 p-3.5 border border-gray-200 rounded-lg cursor-pointer  hover:bg-teal-50 transition-all has-[:checked]:border-teal-500 has-[:checked]:bg-teal-50"
+                    key={type.value}
+                    className={`relative flex cursor-pointer items-center gap-2.5 rounded-xl border-2 py-2.5 pl-2.5 pr-8 transition-all duration-200
+                      ${isSelected
+                        ? "border-teal-500 bg-teal-50/50"
+                        : "border-gray-200 bg-white hover:border-gray-300"
+                      }`}
                   >
                     <input
                       type="radio"
-                      value={type}
-                      {...register("accountType")}
-                      defaultChecked={type === "buyer"}
-                      className="accent-teal-600"
+                      value={type.value}
+                      className="hidden"
+                      {...register("accountType", {
+                        required: "Please select an account type",
+                      })}
                     />
-                    <div>
-                      <p className="text-sm font-medium text-gray-700 capitalize">
-                        {type}
+
+                    <div
+                      className={`shrink-0 rounded-md p-1.5 transition-colors ${isSelected ? "bg-teal-600 text-white" : "bg-gray-100 text-gray-500"}`}
+                    >
+                      <Icon size={14} />
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <p
+                        className={`text-xs font-bold leading-tight ${isSelected ? "text-teal-700" : "text-gray-700"}`}
+                      >
+                        {type.label}
                       </p>
-                      <p className="text-xs text-gray-400">
-                        {type === "buyer"
-                          ? "Purchase products"
-                          : "Sell your products"}
+                      <p className="mt-0.5 text-[11px] leading-tight text-gray-400">
+                        {type.description}
                       </p>
                     </div>
+
+                    {isSelected && (
+                      <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                        <CheckCircle2 size={14} className="text-teal-500" />
+                      </div>
+                    )}
                   </label>
-                ))}
+                );
+              })}
+            </div>
+            {errors.accountType && (
+              <p className="mt-2 text-xs text-red-500">
+                {errors.accountType.message}
+              </p>
+            )}
+
+            <Divider />
+
+            {/* Step 3 — Company */}
+            <FormInputSectionTitle
+              step={3}
+              title="Company Information"
+              subtitle="Help buyers and suppliers find you easily"
+            />
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <CustomInput
+                label="Company Name"
+                placeholder="Acme Textiles Ltd."
+                leftIcon={<Building2 size={15} />}
+                error={errors.companyName?.message}
+                {...register("companyName", {
+                  required: "Company name is required",
+                })}
+              />
+
+              <CustomInput
+                label="Website (Optional)"
+                type="url"
+                placeholder="https://yourwebsite.com"
+                leftIcon={<Globe size={15} />}
+                error={errors.companyWebsite?.message}
+                {...register("companyWebsite")}
+              />
+
+              <CustomInput
+                label="Country"
+                placeholder="United States"
+                leftIcon={<MapPin size={15} />}
+                error={errors.country?.message}
+                {...register("country", { required: "Country is required" })}
+              />
+
+              <CustomInput
+                label="City"
+                placeholder="New York"
+                leftIcon={<MapPin size={15} />}
+                error={errors.city?.message}
+                {...register("city", { required: "City is required" })}
+              />
+
+              <div className="sm:col-span-2">
+                <CustomInput
+                  label="Company Logo"
+                  type="file"
+                  accept="image/*"
+                  leftIcon={<Camera size={15} />}
+                  error={errors.companyLogo?.message}
+                  {...register("companyLogo")}
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <CustomTextArea
+                  label="Company Address"
+                  placeholder="Enter your full company address..."
+                  error={errors.companyAddress?.message}
+                  {...register("companyAddress", {
+                    required: "Company address is required",
+                    minLength: {
+                      value: 10,
+                      message: "Please enter a complete address",
+                    },
+                  })}
+                />
               </div>
             </div>
 
-            {/* Company Info */}
-            <div>
-              <SectionTitle title="Company Information" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <InputField
-                  icon={Building2}
-                  {...register("companyName")}
-                  placeholder="Company Name"
-                />
-                <InputField
-                  icon={Globe}
-                  {...register("companyWebsite")}
-                  placeholder="Website Link (Optional)"
-                />
-                <InputField
-                  icon={MapPin}
-                  {...register("country")}
-                  placeholder="Country"
-                />
-                <InputField
-                  icon={MapPin}
-                  {...register("city")}
-                  placeholder="City"
-                />
-
-                <div className="md:col-span-2 relative">
-                 {/* File Upload */}
-                <label className="relative flex items-center gap-2 pl-9 pr-4 py-2.5 text-sm border border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-teal-400 hover:bg-teal-50 transition-all bg-gray-50 text-gray-400">
-                  <div className="absolute left-3 text-gray-400">
-                    <Camera size={16} />
-                  </div>
-                  <span>Upload Company Logo</span>
-                  <input
-                    {...register("companyLogo")}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
+            <div className="pt-6">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="group flex w-full items-center justify-center gap-2 rounded-xl bg-teal-600 py-3 text-sm font-semibold text-white shadow-lg shadow-teal-600/20 transition-all duration-200 hover:bg-teal-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {isSubmitting && (
+                  <Loader2 size={16} className="animate-spin" />
+                )}
+                Create My Account
+                {!isSubmitting && (
+                  <ArrowRight
+                    size={16}
+                    className="transition-transform duration-200 group-hover:translate-x-1"
                   />
-                </label>
-                </div>
-                <div className="md:col-span-2 relative">
-                  <div className="absolute left-3 top-3 text-gray-400">
-                    <MapPin size={16} />
-                  </div>
-                  <textarea
-                    {...register("companyAddress")}
-                    placeholder="Company Address"
-                    rows={3}
-                    className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-200 rounded-lg outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 transition-all bg-gray-50 focus:bg-white placeholder-gray-400 resize-none"
-                  />
-                </div>
-              </div>
+                )}
+              </button>
             </div>
-
-            {/* Submit */}
-            <button
-              type="submit"
-              className="w-full bg-teal-600 hover:bg-teal-700 active:scale-[0.99] text-white font-semibold py-3 rounded-xl transition-all duration-200 shadow-lg shadow-teal-100 text-sm"
-            >
-              Create Account
-            </button>
           </form>
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-5">
+        <p className="mt-5 text-center text-xs leading-relaxed text-gray-400">
           By registering, you agree to our{" "}
-          <a href="#" className="underline hover:text-teal-600">
-            Terms
+          <a href="#" className="underline transition-colors hover:text-teal-600">
+            Terms of Service
           </a>{" "}
           and{" "}
-          <a href="#" className="underline hover:text-teal-600">
+          <a href="#" className="underline transition-colors hover:text-teal-600">
             Privacy Policy
           </a>
         </p>
       </div>
     </div>
   );
-};
-
-export default RegistrationForm;
+}

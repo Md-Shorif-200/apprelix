@@ -33,10 +33,11 @@ const statIcons = [FileText, Users, TrendingUp, BookOpen];
 const BlogsHero = () => (
   <header className="overflow-hidden rounded-2xl mt-14">
     <div className="grid min-h-[480px] grid-cols-1 lg:grid-cols-2">
-      
       {/* Left — Image */}
-      <div {...getAosProps("fade-right", 0)} className="relative min-h-[320px] lg:min-h-full">
-        
+      <div
+        {...getAosProps("fade-right", 0)}
+        className="relative min-h-[320px] lg:min-h-full"
+      >
         {/* Main large image */}
         <div className="absolute inset-0">
           <Image

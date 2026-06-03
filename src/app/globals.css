@@ -287,7 +287,10 @@
       clip-path: circle(0px at var(--theme-reveal-x) var(--theme-reveal-y));
     }
     to {
-      clip-path: circle(var(--theme-reveal-radius) at var(--theme-reveal-x) var(--theme-reveal-y));
+      clip-path: circle(
+        var(--theme-reveal-radius) at var(--theme-reveal-x)
+          var(--theme-reveal-y)
+      );
     }
   }
 
@@ -357,5 +360,14 @@ html {
   [data-aos="fade-left"],
   [data-aos="fade-right"] {
     transform: translate3d(0, 24px, 0);
+  }
+}
+
+/* Hide scrollbar while keeping scroll (mouse wheel, touch, keyboard) */
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }

@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const SupportForm = () => {
-  return (
-    <div>SupportForm</div>
-  )
-}
+  return <div>SupportForm</div>;
+};
 
-export default SupportForm
+export default SupportForm;

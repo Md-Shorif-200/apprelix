@@ -41,8 +41,8 @@ export default function CookiePolicy() {
             <p className="text-ds-muted-foreground leading-relaxed text-sm">
               We utilize both session cookies (which expire when you close your
               web browser) and persistent cookies (which stay on your device for
-              a set period or until deleted). These are categorized into distinct
-              operational layers below.
+              a set period or until deleted). These are categorized into
+              distinct operational layers below.
             </p>
 
             <div className="mt-6 space-y-4">
@@ -76,9 +76,9 @@ export default function CookiePolicy() {
               3. Third-Party Cookie Ecosystem
             </h2>
             <p className="text-ds-muted-foreground leading-relaxed text-sm">
-              In specific parts of the dashboard lifecycle, trusted third parties
-              operate analytical tracking. This includes secure global identity
-              layers, encrypted media hosting pipelines for showcasing
+              In specific parts of the dashboard lifecycle, trusted third
+              parties operate analytical tracking. This includes secure global
+              identity layers, encrypted media hosting pipelines for showcasing
               manufacturer facility walkthrough videos, and processing
               infrastructure endpoints.
             </p>
@@ -122,7 +122,9 @@ export default function CookiePolicy() {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-ds-muted-foreground">User Data Control</span>
+                <span className="text-ds-muted-foreground">
+                  User Data Control
+                </span>
                 <span className="text-ds-primary font-medium">
                   Fully Encrypted
                 </span>

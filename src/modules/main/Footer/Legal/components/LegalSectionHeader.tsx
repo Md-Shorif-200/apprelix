@@ -22,8 +22,7 @@ const LegalSectionHeader = ({
 
         <div>
           <h2 className="text-2xl font-bold text-ds-text tracking-tight">
-            {title}{" "}
-            <span className="text-ds-primary">{titleHighlight}</span>
+            {title} <span className="text-ds-primary">{titleHighlight}</span>
           </h2>
           <p className="text-sm text-ds-muted-foreground mt-0.5">{subtitle}</p>
         </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 const ContactUs = () => {
   return (
     <Link
-     href='/contact'
+      href="/contact"
       className="group flex items-center gap-3 rounded-2xl cursor-pointer
         transition-[transform,opacity] duration-200 ease-out"
     >
