@@ -12,7 +12,7 @@ type CustomTextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 const CustomTextArea = forwardRef<HTMLTextAreaElement, CustomTextAreaProps>(
   function CustomTextArea(
     { placeholder = "", label, error, id, className, ...props },
-    ref
+    ref,
   ) {
     const hasError = Boolean(error);
 
@@ -26,9 +26,10 @@ const CustomTextArea = forwardRef<HTMLTextAreaElement, CustomTextAreaProps>(
 
         <div
           className={`rounded-xl border bg-gray-50/80 px-3 py-2 transition focus-within:bg-white focus-within:ring-2
-            ${hasError
-              ? "border-red-500 focus-within:border-red-500 focus-within:ring-red-100"
-              : "border-gray-200 focus-within:border-teal-500 focus-within:ring-teal-100"
+            ${
+              hasError
+                ? "border-red-500 focus-within:border-red-500 focus-within:ring-red-100"
+                : "border-gray-200 focus-within:border-teal-500 focus-within:ring-teal-100"
             }`}
         >
           <Textarea
@@ -43,7 +44,7 @@ const CustomTextArea = forwardRef<HTMLTextAreaElement, CustomTextAreaProps>(
         {error && <p className="text-xs text-red-500">{error}</p>}
       </div>
     );
-  }
+  },
 );
 
 export default CustomTextArea;

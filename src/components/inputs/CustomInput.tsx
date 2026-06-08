@@ -3,12 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
-import {
-  forwardRef,
-  InputHTMLAttributes,
-  ReactNode,
-  useState,
-} from "react";
+import { forwardRef, InputHTMLAttributes, ReactNode, useState } from "react";
 
 type CustomInputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
@@ -16,20 +11,18 @@ type CustomInputProps = InputHTMLAttributes<HTMLInputElement> & {
   rightIcon?: ReactNode;
   onRightIconClick?: () => void;
   error?: string;
-  /** Shown inside the file upload button */
   fileHint?: string;
+  fileName?: string; // ✅ NEW
 };
 
-const inputClassName = (hasLeftIcon: boolean, hasRightIcon: boolean) =>
-  `
-    w-full text-sm border border-gray-200 rounded-xl outline-none
-    focus:border-[#0d9488] focus:ring-2 focus:ring-teal-100
-    transition-all bg-gray-50/80 focus:bg-white
-    placeholder:text-gray-400 text-gray-700
-    ${hasLeftIcon ? "pl-9" : "pl-4"}
-    ${hasRightIcon ? "pr-10" : "pr-4"}
-    py-2.5
-  `;
+const inputClassName = (left: boolean, right: boolean) => `
+  h-11 w-full rounded-xl border border-gray-200 bg-gray-50/80 text-sm text-gray-700
+  transition-all outline-none
+  placeholder:text-gray-400
+  focus:border-teal-600 focus:ring-2 focus:ring-teal-100 focus:bg-white
+  ${left ? "pl-10" : "pl-4"}
+  ${right ? "pr-10" : "pr-4"}
+`;
 
 const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
   function CustomInput(
@@ -41,7 +34,8 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
       rightIcon,
       onRightIconClick,
       error,
-      fileHint = "Choose file to upload",
+      fileHint = "Choose file",
+      fileName,
       className,
       id,
       ...props
@@ -49,55 +43,26 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
     ref
   ) {
     const [showPassword, setShowPassword] = useState(false);
+
     const isPassword = type === "password";
     const isFile = type === "file";
-    const inputType = isPassword ? (showPassword ? "text" : "password") : type;
-    const hasError = Boolean(error);
 
-    const errorBorder = hasError
-      ? "border-red-500 focus:border-red-500 focus:ring-red-100"
-      : "";
+    const inputType = isPassword
+      ? showPassword
+        ? "text"
+        : "password"
+      : type;
 
-    if (isFile) {
-      return (
-        <div className="flex flex-col gap-1">
-          {label && (
-            <Label htmlFor={id} className="text-xs font-medium text-gray-500">
-              {label}
-            </Label>
-          )}
-          <label
-            htmlFor={id}
-            className={`relative flex items-center gap-2 pl-9 pr-4 py-2.5 text-sm
-              border border-dashed rounded-xl cursor-pointer transition-all bg-gray-50/80 text-gray-400
-              hover:border-teal-400 hover:bg-teal-50
-              ${hasError ? "border-red-400" : "border-gray-300"}`}
-          >
-            {leftIcon && (
-              <div className="absolute left-3 text-gray-400">{leftIcon}</div>
-            )}
-            <span>{fileHint}</span>
-            <input
-              ref={ref}
-              id={id}
-              type="file"
-              className="hidden"
-              {...props}
-            />
-          </label>
-          {error && <p className="text-xs text-red-500">{error}</p>}
-        </div>
-      );
-    }
+    const hasRight = isPassword || Boolean(rightIcon);
 
     const passwordToggle = isPassword && (
       <button
         type="button"
-        onClick={() => setShowPassword((prev) => !prev)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-600 transition-colors"
         tabIndex={-1}
+        onClick={() => setShowPassword((p) => !p)}
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-600"
       >
-        {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
       </button>
     );
 
@@ -105,25 +70,53 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
       <button
         type="button"
         onClick={onRightIconClick}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
       >
         {rightIcon}
       </button>
     );
 
-    const showRightPadding = isPassword || Boolean(rightIcon);
+    // ✅ FILE INPUT UI FIX
+    if (isFile) {
+      return (
+        <div className="flex flex-col gap-1.5">
+          {label && (
+            <Label htmlFor={id} className="text-sm font-medium text-gray-700">
+              {label}
+            </Label>
+          )}
+
+          <label
+            htmlFor={id}
+            className="flex h-11 cursor-pointer items-center justify-between rounded-xl border border-gray-200 bg-gray-50 px-4 hover:border-teal-500"
+          >
+            <span className="text-sm text-gray-500 truncate">
+              {fileName ? fileName : fileHint}
+            </span>
+
+            <span className="text-xs bg-teal-600 text-white px-3 py-1 rounded-md">
+              Browse
+            </span>
+
+            <input ref={ref} id={id} type="file" className="hidden" {...props} />
+          </label>
+
+          {error && <p className="text-xs text-red-500">{error}</p>}
+        </div>
+      );
+    }
 
     return (
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
         {label && (
-          <Label htmlFor={id} className="text-xs font-medium text-gray-500">
+          <Label htmlFor={id} className="text-sm font-medium text-gray-700">
             {label}
           </Label>
         )}
 
         <div className="relative">
           {leftIcon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
               {leftIcon}
             </div>
           )}
@@ -133,7 +126,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
             id={id}
             type={inputType}
             placeholder={placeholder}
-            className={`${inputClassName(Boolean(leftIcon), showRightPadding)} ${errorBorder} ${className ?? ""}`}
+            className={`${inputClassName(Boolean(leftIcon), hasRight)} ${className ?? ""}`}
             {...props}
           />
 
@@ -147,4 +140,5 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
   }
 );
 
+CustomInput.displayName = "CustomInput";
 export default CustomInput;
