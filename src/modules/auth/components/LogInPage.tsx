@@ -1,28 +1,6 @@
-"use client";
-
-import CustomInput from "@/components/inputs/CustomInput";
-import {
-  ArrowRight,
-  FileText,
-  Loader2,
-  Lock,
-  LogIn,
-  Mail,
-  ShieldCheck,
-  Truck,
-} from "lucide-react";
+import { FileText, LogIn, ShieldCheck, Truck } from "lucide-react";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
-
-type LoginFormData = {
-  email: string;
-  password: string;
-};
-
-const defaultValues: LoginFormData = {
-  email: "",
-  password: "",
-};
+import LogInForm from "@/modules/auth/_components/LogInForm";
 
 const highlights = [
   {
@@ -43,23 +21,6 @@ const highlights = [
 ];
 
 export default function LogInPage() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginFormData>({
-    defaultValues,
-    mode: "onBlur",
-  });
-
-  async function onSubmit(data: LoginFormData) {
-    // Replace with your real API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("Login data:", data);
-    reset(defaultValues);
-  }
-
   return (
     <div className="flex min-h-full w-full items-center justify-center bg-gradient-to-br from-teal-50/60 via-white to-gray-50 px-4 py-10 lg:min-h-dvh">
       <div className="w-full max-w-2xl">
@@ -90,59 +51,7 @@ export default function LogInPage() {
           </p>
         </div>
 
-        {/* Form card */}
-        <div className="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm">
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
-            <CustomInput
-              label="Email Address"
-              type="email"
-              placeholder="john@example.com"
-              leftIcon={<Mail size={15} />}
-              error={errors.email?.message}
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Enter a valid email address",
-                },
-              })}
-            />
-
-            <CustomInput
-              label="Password"
-              type="password"
-              placeholder="Enter your password"
-              leftIcon={<Lock size={15} />}
-              error={errors.password?.message}
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 8,
-                  message: "Password must be at least 8 characters",
-                },
-              })}
-            />
-
-            <div className="pt-2">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="group flex w-full items-center justify-center gap-2 rounded-xl bg-teal-600 py-3 text-sm font-semibold text-white shadow-lg shadow-teal-600/20 transition-all duration-200 hover:bg-teal-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                {isSubmitting && (
-                  <Loader2 size={16} className="animate-spin" />
-                )}
-                Log In
-                {!isSubmitting && (
-                  <ArrowRight
-                    size={16}
-                    className="transition-transform duration-200 group-hover:translate-x-1"
-                  />
-                )}
-              </button>
-            </div>
-          </form>
-        </div>
+        <LogInForm />
 
         {/* Platform highlights */}
         <div className="mt-8 space-y-3">

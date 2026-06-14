@@ -1,5 +1,3 @@
-import { CircleUserRound } from "lucide-react";
-
 import Container from "@/components/common/Container";
 
 import { MobileDrawer } from "./MobileDrawer";
@@ -7,7 +5,7 @@ import { MobileDrawer } from "./MobileDrawer";
 import NavLinks from "./NavLinks";
 import Logo from "./Logo";
 import ContactUs from "./ContactUs";
-import Link from "next/link";
+import Authbutton from "./Authbutton";
 
 // NavHeader now accepts onMenuClick prop to trigger drawer open
 const NavHeader = () => {
@@ -31,24 +29,7 @@ const NavHeader = () => {
           {/* Divider — hidden below lg */}
           <div className="hidden lg:block h-8 w-px bg-ds-border" />
 
-          {/* Login — always visible */}
-          <Link
-            href="/login"
-            className="
-              group flex items-center gap-2.5
-              transition-[transform,opacity] duration-200 ease-out
-              cursor-pointer"
-          >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ds-primary/10 group-hover:bg-ds-primary/20">
-              <CircleUserRound
-                size={18}
-                className="text-ds-primary transition-transform duration-200 group-hover:scale-110"
-              />
-            </span>
-            <span className="text-sm font-bold text-ds-text group-hover:text-ds-primary">
-              Login
-            </span>
-          </Link>
+          <Authbutton />
 
           <div className="lg:hidden">
             <MobileDrawer />

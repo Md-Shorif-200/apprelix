@@ -18,9 +18,7 @@ export default function FormInputSectionTitle({
       </div>
       <div>
         <h3 className="text-sm font-bold text-gray-800">{title}</h3>
-        {subtitle && (
-          <p className="mt-0.5 text-xs text-gray-400">{subtitle}</p>
-        )}
+        {subtitle && <p className="mt-0.5 text-xs text-gray-400">{subtitle}</p>}
       </div>
     </div>
   );
