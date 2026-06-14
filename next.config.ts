@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    optimizePackageImports: ["lucide-react", "aos", "recharts"],
+  },
   images: {
     remotePatterns: [
       {

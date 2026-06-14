@@ -1,0 +1,46 @@
+export const productionCapacityOptions = [
+  { value: "5000-10000", label: "5K - 10K pcs/month" },
+  { value: "10000-20000", label: "10K - 20K pcs/month" },
+  { value: "20000-50000", label: "20K - 50K pcs/month" },
+  { value: "50000-100000", label: "50K - 1 Lakh pcs/month" },
+  { value: "100000-500000", label: "1 Lakh - 5 Lakh pcs/month" },
+  { value: "500000-1000000", label: "5 Lakh - 10 Lakh pcs/month" },
+  { value: "1000000-5000000", label: "10 Lakh - 50 Lakh pcs/month" },
+  { value: "5000000-10000000", label: "50 Lakh - 1 Crore pcs/month" },
+  { value: "10000000+", label: "Above 1 Crore pcs/month" },
+];
+
+export const numberOfEmployeesOptions = [
+  { value: "1-50", label: "1 - 50" },
+  { value: "50-100", label: "50 - 100" },
+  { value: "100-300", label: "100 - 300" },
+  { value: "300-600", label: "300 - 600" },
+  { value: "600-1000", label: "600 - 1,000" },
+  { value: "1000-1500", label: "1,000 - 1,500" },
+  { value: "1500-2500", label: "1,500 - 2,500" },
+  { value: "2500-5000", label: "2,500 - 5,000" },
+  { value: "5000+", label: "5,000+" },
+];
+
+export const productCategoriesOptions = [
+  { value: "t_shirts", label: "T-Shirts" },
+  { value: "shirts", label: "Shirts" },
+  { value: "polo_shirts", label: "Polo Shirts" },
+  { value: "hoodies", label: "Hoodies" },
+  { value: "sweatshirts", label: "Sweatshirts" },
+  { value: "jackets", label: "Jackets" },
+  { value: "blazers", label: "Blazers" },
+  { value: "jeans", label: "Jeans" },
+  { value: "trousers", label: "Trousers" },
+  { value: "shorts", label: "Shorts" },
+  { value: "joggers", label: "Joggers" },
+  { value: "leggings", label: "Leggings" },
+  { value: "skirts", label: "Skirts" },
+  { value: "dresses", label: "Dresses" },
+  { value: "suits", label: "Suits" },
+  { value: "nightwear", label: "Nightwear" },
+  { value: "innerwear", label: "Innerwear" },
+  { value: "sportswear", label: "Sportswear" },
+  { value: "uniforms", label: "Uniforms" },
+  { value: "kids_wear", label: "Kids Wear" },
+];

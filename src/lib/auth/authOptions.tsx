@@ -22,7 +22,7 @@ export const authOptions: NextAuthOptions = {
         },
       },
 
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const payload = {
           email: credentials?.email || "",
           password: credentials?.password || "",
@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
             id: user._id,
             name: `${user.firstName} ${user.lastName}`,
           };
-        } catch (error) {
+        } catch {
           return null;
         }
       },
@@ -53,7 +53,13 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: { id?: string; role?: string; phone?: string } }) {
+    async jwt({
+      token,
+      user,
+    }: {
+      token: JWT;
+      user?: { id?: string; role?: string; phone?: string };
+    }) {
       if (user) {
         token.id = user.id;
         token.role = user.role;
@@ -63,7 +69,13 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
 
-    async session({ session, token }: { session: Session; token: JWT & { id?: string; role?: string; phone?: string } }) {
+    async session({
+      session,
+      token,
+    }: {
+      session: Session;
+      token: JWT & { id?: string; role?: string; phone?: string };
+    }) {
       session.user = {
         ...session.user,
         id: token.id as string,

@@ -11,6 +11,10 @@ import {
 } from "@/components/animations/MotionStagger";
 
 const CompanyOverviewSection = () => {
+
+  // const { data, isPending, isError } = useGetUsers();
+  //  console.warn(data)
+    
   return (
     <Container>
       <section className="w-full lg:h-[630px] flex flex-col lg:flex-row gap-6 lg:gap-8 items-start mt-14">

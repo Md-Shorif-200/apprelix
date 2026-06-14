@@ -17,7 +17,7 @@ const getFolder = (type: ImageType) => {
 
 export const uploadImage = async (
   file: File,
-  type: ImageType
+  type: ImageType,
 ): Promise<UploadApiResponse> => {
   const buffer = Buffer.from(await file.arrayBuffer());
 
@@ -40,7 +40,7 @@ export const uploadImage = async (
       (error, result) => {
         if (error) return reject(error);
         resolve(result as UploadApiResponse);
-      }
+      },
     );
 
     stream.end(buffer);

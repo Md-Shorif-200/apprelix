@@ -31,32 +31,30 @@ const LogInForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const router = useRouter()
+  const router = useRouter();
 
   async function onSubmit(data: LoginFormData) {
+    try {
+      const result = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
 
+      console.log(result);
 
-     try{
-const result = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-    });
+      if (result?.error) {
+        toast.error("Invalid email or password");
+        return;
+      }
 
-    console.log(result)
-
-    if (result?.error) {
-      toast.error("Invalid email or password");
-      return;
+      toast.success("Login successful");
+      reset(defaultValues);
+      router.push("/");
+      router.refresh();
+    } catch (err) {
+      console.error("Login error:", err);
     }
-
-    toast.success("Login successful");
-    reset(defaultValues);
-    router.push("/")
-     }catch(err) {
-console.error("Login error:", err);
-     }
-    
   }
 
   return (

@@ -70,9 +70,7 @@
   --text-small: var(--ds-text-small);
 }
 
-/* ══════════════════════════════════════════════
-   LIGHT MODE — unchanged brand palette
-   ══════════════════════════════════════════════ */
+
 
 :root {
   /* Background & Foreground */
@@ -141,10 +139,7 @@
   --theme-reveal-radius: 100vmax;
 }
 
-/* ══════════════════════════════════════════════
-   DARK MODE — professional black system
-   Applied globally (.dark) or scoped (.ds-always-dark)
-   ══════════════════════════════════════════════ */
+
 
 .dark,
 .ds-always-dark {
@@ -198,10 +193,7 @@
   --ds-overlay-border: rgba(255, 255, 255, 0.1);
 }
 
-/* ══════════════════════════════════════════════
-   Reusable component patterns
-   Use these in new sections to stay on-brand
-   ══════════════════════════════════════════════ */
+
 
 @layer components {
   /* Page / section shell */
@@ -348,12 +340,29 @@
 /* AOS horizontal animations temporarily extend past the viewport */
 html {
   overflow-x: clip;
+  scrollbar-gutter: stable;
 }
 
 @supports not (overflow-x: clip) {
   html {
     overflow-x: hidden;
+    scrollbar-gutter: stable;
   }
+}
+
+/* scrollbar-gutter already reserves space — block extra scroll-lock padding (layout shift left) */
+html[data-scroll-locked],
+body[data-scroll-locked] {
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+}
+
+.right-scroll-bar-position {
+  right: 0 !important;
+}
+
+.width-before-scroll-bar {
+  margin-right: 0 !important;
 }
 
 @media (max-width: 767px) {

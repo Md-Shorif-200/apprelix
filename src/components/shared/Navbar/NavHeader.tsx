@@ -1,4 +1,3 @@
-
 import Container from "@/components/common/Container";
 
 import { MobileDrawer } from "./MobileDrawer";
@@ -7,7 +6,6 @@ import NavLinks from "./NavLinks";
 import Logo from "./Logo";
 import ContactUs from "./ContactUs";
 import Authbutton from "./Authbutton";
-
 
 // NavHeader now accepts onMenuClick prop to trigger drawer open
 const NavHeader = () => {
@@ -31,7 +29,7 @@ const NavHeader = () => {
           {/* Divider — hidden below lg */}
           <div className="hidden lg:block h-8 w-px bg-ds-border" />
 
-           <Authbutton />
+          <Authbutton />
 
           <div className="lg:hidden">
             <MobileDrawer />

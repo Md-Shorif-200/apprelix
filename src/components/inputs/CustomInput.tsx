@@ -40,18 +40,14 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
       id,
       ...props
     },
-    ref
+    ref,
   ) {
     const [showPassword, setShowPassword] = useState(false);
 
     const isPassword = type === "password";
     const isFile = type === "file";
 
-    const inputType = isPassword
-      ? showPassword
-        ? "text"
-        : "password"
-      : type;
+    const inputType = isPassword ? (showPassword ? "text" : "password") : type;
 
     const hasRight = isPassword || Boolean(rightIcon);
 
@@ -98,7 +94,13 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
               Browse
             </span>
 
-            <input ref={ref} id={id} type="file" className="hidden" {...props} />
+            <input
+              ref={ref}
+              id={id}
+              type="file"
+              className="hidden"
+              {...props}
+            />
           </label>
 
           {error && <p className="text-xs text-red-500">{error}</p>}
@@ -137,7 +139,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
         {error && <p className="text-xs text-red-500">{error}</p>}
       </div>
     );
-  }
+  },
 );
 
 CustomInput.displayName = "CustomInput";

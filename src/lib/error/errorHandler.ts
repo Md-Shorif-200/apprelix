@@ -2,8 +2,6 @@
 
 import { toast } from "sonner";
 
-
-
 type ErrorOptions = {
   showToast?: boolean;
   log?: boolean;
@@ -27,7 +25,7 @@ export const handleError = (
   options: ErrorOptions = {
     showToast: true,
     log: true,
-  }
+  },
 ) => {
   const message = isErrorWithMessage(error)
     ? error.message || "Something went wrong"

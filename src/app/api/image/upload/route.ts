@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     if (file.size > maxSize) {
       return NextResponse.json(
         { error: "File must be under 2MB" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -30,10 +30,7 @@ export async function POST(req: Request) {
       public_id: result.public_id,
       type,
     });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Upload failed" },
-      { status: 500 }
-    );
+  } catch {
+    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }

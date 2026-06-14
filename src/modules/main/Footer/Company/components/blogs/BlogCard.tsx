@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { memo } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Clock, Tag } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { getAosProps } from "@/lib/animations/aos";
 import type { BlogCard as BlogCardType } from "./_data/blogsData";
 
