@@ -70,8 +70,6 @@
   --text-small: var(--ds-text-small);
 }
 
-
-
 :root {
   /* Background & Foreground */
   --ds-background: #f8fafc;
@@ -139,8 +137,6 @@
   --theme-reveal-radius: 100vmax;
 }
 
-
-
 .dark,
 .ds-always-dark {
   /* Background & Foreground */
@@ -192,8 +188,6 @@
   --ds-overlay-hover: rgba(255, 255, 255, 0.1);
   --ds-overlay-border: rgba(255, 255, 255, 0.1);
 }
-
-
 
 @layer components {
   /* Page / section shell */

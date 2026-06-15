@@ -2,25 +2,36 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
-import { User, Mail, Phone, MapPin } from "lucide-react";
+import { User, Mail, Phone, MapPin, Camera } from "lucide-react";
 import CustomInput from "@/components/inputs/CustomInput";
+import { uploadImageClient } from "@/utils/uploadImageClient";
+import { useUpdateUserProfileData } from "@/modules/users/hooks/useUpdateUserProfile";
+import { handleError } from "@/lib/error/errorHandler";
+import { UpdateUserProfilePayload } from "@/modules/users/types/users.types";
+import { toast } from "sonner";
 
 type ProfileFormValues = {
+  id : string;
   fullName: string;
   email: string;
   phone?: string;
   country?: string;
-  city?:string;
+  city?: string;
+  profilePhoto?: FileList;
 };
 
 interface Props {
   user: ProfileFormValues;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
 }
 
-const ProfileUpdateForm = ({ user }: Props) => {
+const ProfileUpdateForm = ({ user,setIsModalOpen }: Props) => {
   const {
     register,
     handleSubmit,
+    watch,
+    setError,
     formState: { errors },
   } = useForm<ProfileFormValues>({
     defaultValues: {
@@ -28,18 +39,76 @@ const ProfileUpdateForm = ({ user }: Props) => {
       email: user.email,
       phone: user.phone,
       country: user.country,
-      city:user.city
+      city: user.city,
     },
   });
 
-  const onSubmit = (data: ProfileFormValues) => {
-    console.log("Profile Updated Data:", data);
+    const { mutateAsync } = useUpdateUserProfileData();
+
+
+  // FILE WATCH
+  const profileFile = watch("profilePhoto");
+
+  const onSubmit = async (data: ProfileFormValues) => {
+    try {
+      let profilePhotoUrl = "";
+
+      const file = data.profilePhoto?.[0];
+
+      // Image Upload (Optional)
+      if (file) {
+        const uploadResult = await uploadImageClient(file, "profile");
+         
+        console.log( "52",uploadResult)
+        
+         if (!uploadResult) {
+        setError("profilePhoto", {
+          type: "manual",
+          message: uploadResult?.error || "Upload failed",
+        });
+
+        return; // stop form submit
+      }
+        profilePhotoUrl = uploadResult.url;
+      }
+
+      const updatedProfile = {
+        fullName: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        country: data.country,
+        city: data.city,
+        profilePhoto: profilePhotoUrl,
+      };
+
+      const vars: { userId: string; payload: UpdateUserProfilePayload } = {
+        userId: user.id,
+        payload: updatedProfile,
+      };
+
+      const result = await mutateAsync(vars);
+
+         if(result?.success) {
+          toast.success(result.message)
+          setIsModalOpen(false)
+         }else {
+          toast.error('faild to Update profile')
+         }
+
+
+
+
+     
+
+      
+    } catch (err) {
+      handleError(err);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-
         {/* First Name */}
         <CustomInput
           label="Full Name"
@@ -71,8 +140,18 @@ const ProfileUpdateForm = ({ user }: Props) => {
           {...register("phone")}
         />
 
+        <CustomInput
+          label="Profile Photo (Optional)"
+          type="file"
+          // accept="image/*"
+          leftIcon={<Camera size={15} />}
+          fileName={profileFile?.[0]?.name}
+          error={errors.profilePhoto?.message}
+          {...register("profilePhoto")}
+        />
+
         {/* Country */}
-       <CustomInput
+        <CustomInput
           label="Country"
           placeholder="Bangladesh"
           leftIcon={<MapPin size={15} />}
@@ -81,14 +160,13 @@ const ProfileUpdateForm = ({ user }: Props) => {
         />
 
         {/* city */}
-       <CustomInput
+        <CustomInput
           label="City"
           placeholder="Bangladesh"
           leftIcon={<MapPin size={15} />}
           error={errors.city?.message}
           {...register("city")}
         />
-   
       </div>
 
       {/* Hidden submit trigger for modal footer */}

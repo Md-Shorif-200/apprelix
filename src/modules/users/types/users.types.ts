@@ -2,8 +2,7 @@ export type UserRole = "buyer" | "supplier" | "admin";
 
 export interface User {
   _id: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
   email: string;
   phone: string;
   role: UserRole;
@@ -14,19 +13,44 @@ export interface User {
   companyAddress: string;
   createdAt: string;
   updatedAt: string;
-  profile_img?: string;
+  profilePhoto?: string;
   profileCompleted?: boolean;
   adminApproved?: boolean;
   company_logo?: string;
+  status: "pending" | "accepted" | "rejected" | "blocked";
 }
 
+export type UpdateUserProfilePayload = {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  country?: string;
+  city?: string;
+  profilePhoto?: string;
+  [key: string]: unknown;
+};
+
 export function getUserDisplayName(
-  user: Pick<User, "firstName" | "lastName">
+  user: Pick<User, "fullName">,
 ): string {
-  return `${user.firstName} ${user.lastName}`.trim();
+  return `${user.fullName}`.trim();
 }
 
 export interface UsersResponse {
   success: boolean;
   data: User[];
 }
+
+
+ export type SingleUserResponse = {
+    success: boolean;
+    data: User;
+  };
+
+
+
+  export type UpdateUserProfileResponse = {
+  success: boolean;
+  message: string;
+  data?: UpdateUserProfilePayload;
+};

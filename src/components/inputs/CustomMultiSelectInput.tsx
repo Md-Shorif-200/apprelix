@@ -11,7 +11,11 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 type MultiSelectOption = {
@@ -23,7 +27,7 @@ type CustomMultiSelectProps = {
   placeholder?: string;
   options: MultiSelectOption[];
   value: string[];
-  onChange: (selectedValues: string[]) => void; 
+  onChange: (selectedValues: string[]) => void;
 };
 
 export default function CustomMultiSelectInput({
@@ -39,7 +43,9 @@ export default function CustomMultiSelectInput({
     return new Map(options.map((option) => [option.value, option]));
   }, [options]);
 
-  const selectedOptions = value.map((val) => optionsMap.get(val)).filter(Boolean) as MultiSelectOption[];
+  const selectedOptions = value
+    .map((val) => optionsMap.get(val))
+    .filter(Boolean) as MultiSelectOption[];
 
   const handleSelect = (selectedValue: string) => {
     if (value.includes(selectedValue)) {
@@ -53,7 +59,7 @@ export default function CustomMultiSelectInput({
     e.stopPropagation();
     onChange(value.filter((v) => v !== removedValue));
   };
-  
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -61,7 +67,7 @@ export default function CustomMultiSelectInput({
           className={cn(
             "flex w-full min-h-11 cursor-pointer items-center justify-between gap-2 rounded-xl border border-gray-200 bg-gray-50/80 px-4 py-2 text-sm text-gray-700 transition-all duration-200 hover:border-gray-300",
             "focus-within:border-[#0d9488] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#0d9488]/15 focus-within:outline-none focus-within:ring-offset-0",
-            open && "border-[#0d9488] bg-white ring-2 ring-[#0d9488]/15"
+            open && "border-[#0d9488] bg-white ring-2 ring-[#0d9488]/15",
           )}
         >
           <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
@@ -89,7 +95,7 @@ export default function CustomMultiSelectInput({
           <ChevronDown
             className={cn(
               "h-4 w-4 shrink-0 text-gray-400 transition-transform duration-200",
-              open && "rotate-180 text-[#0d9488]"
+              open && "rotate-180 text-[#0d9488]",
             )}
           />
         </div>
@@ -114,7 +120,7 @@ export default function CustomMultiSelectInput({
                     className={cn(
                       "cursor-pointer rounded-lg px-3 py-2 text-sm text-gray-700 transition-colors",
                       isSelected &&
-                        "bg-[#0d9488]/10 font-medium text-[#0d9488] data-[selected=true]:bg-[#0d9488] data-[selected=true]:text-white"
+                        "bg-[#0d9488]/10 font-medium text-[#0d9488] data-[selected=true]:bg-[#0d9488] data-[selected=true]:text-white",
                     )}
                   >
                     {option.label}

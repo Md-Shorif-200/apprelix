@@ -54,15 +54,13 @@ const CompanyInfoUpdateForm = ({ user }: Props) => {
         />
         {/* address  */}
         <div className="sm:col-span-2">
-                <CustomTextArea
-                  label="Company Address"
-                  placeholder="Enter your full company address..."
-                  error={errors.companyAddress?.message}
-                  {...register("companyAddress")}
-                />
-              </div>
-
-       
+          <CustomTextArea
+            label="Company Address"
+            placeholder="Enter your full company address..."
+            error={errors.companyAddress?.message}
+            {...register("companyAddress")}
+          />
+        </div>
       </div>
 
       {/* Hidden submit trigger for modal footer */}

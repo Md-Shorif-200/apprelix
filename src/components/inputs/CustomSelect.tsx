@@ -16,12 +16,14 @@ type Option = {
 type CustomSelectProps = {
   placeholder?: string;
   options: Option[];
+  value?: string;
   onChange?: (value: string) => void;
 };
 
 export default function CustomSelect({
   placeholder = "Select option",
   options,
+  value,
   onChange,
 }: CustomSelectProps) {
   return (

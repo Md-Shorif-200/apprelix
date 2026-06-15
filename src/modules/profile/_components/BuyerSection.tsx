@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import { ShoppingBag, Pencil } from "lucide-react"
-import { Tag, renderValue } from "./ProfileComponents"
+import { ShoppingBag, Pencil } from "lucide-react";
+import { Tag, renderValue } from "./ProfileComponents";
 
 // ─────────────────────────────────────────────
 // Types
 // ─────────────────────────────────────────────
 export interface BuyerFields {
-  businessType?: string
-  industry?: string
-  monthlyPurchasingVolume?: string
-  companySize?: string
-  taxVatNumber?: string
-  expectedCategories?: string[]
+  businessType?: string;
+  industry?: string;
+  monthlyPurchasingVolume?: string;
+  companySize?: string;
+  taxVatNumber?: string;
+  expectedCategories?: string[];
 }
 
 // ─────────────────────────────────────────────
@@ -29,7 +29,9 @@ const BuyerSection = ({ user }: { user: BuyerFields }) => {
       {/* Header */}
       <div className="mb-5 flex items-center gap-3 border-b border-gray-100 pb-4 pr-10">
         <ShoppingBag size={18} className="text-teal-600" />
-        <h2 className="text-base font-bold text-gray-800">Buyer Business Details</h2>
+        <h2 className="text-base font-bold text-gray-800">
+          Buyer Business Details
+        </h2>
       </div>
 
       {/* Content Grid */}
@@ -103,7 +105,7 @@ const BuyerSection = ({ user }: { user: BuyerFields }) => {
         </div>
       </dl>
     </div>
-  )
-}
+  );
+};
 
-export default BuyerSection
+export default BuyerSection;

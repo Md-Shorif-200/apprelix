@@ -80,60 +80,60 @@ const baseRegistrationSchema = z
     productionCapacity: z.string().optional(),
     yearEstablished: z.string().optional(),
     numberOfEmployees: z.string().optional(),
-      productCategories: z.array(z.string()).optional(), 
+    productCategories: z.array(z.string()).optional(),
     factoryLocation: z.string().optional(),
   })
- .superRefine((data, ctx) => {
-  if (data.role === "supplier") {
-    if (!data.factoryName || data.factoryName.trim().length < 2) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Factory name is required",
-        path: ["factoryName"],
-      });
-    }
+  .superRefine((data, ctx) => {
+    if (data.role === "supplier") {
+      if (!data.factoryName || data.factoryName.trim().length < 2) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Factory name is required",
+          path: ["factoryName"],
+        });
+      }
 
-    if (!data.productionCapacity) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Please select production capacity",
-        path: ["productionCapacity"],
-      });
-    }
+      if (!data.productionCapacity) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please select production capacity",
+          path: ["productionCapacity"],
+        });
+      }
 
-    if (!data.yearEstablished) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Please select a valid date",
-        path: ["yearEstablished"],
-      });
-    }
+      if (!data.yearEstablished) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please select a valid date",
+          path: ["yearEstablished"],
+        });
+      }
 
-    if (!data.numberOfEmployees) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Please select number of employees",
-        path: ["numberOfEmployees"],
-      });
-    }
+      if (!data.numberOfEmployees) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please select number of employees",
+          path: ["numberOfEmployees"],
+        });
+      }
 
-    if (!data.productCategories || data.productCategories.length === 0) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Please select at least one product category",
-        path: ["productCategories"],
-      });
-    }
+      if (!data.productCategories || data.productCategories.length === 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please select at least one product category",
+          path: ["productCategories"],
+        });
+      }
 
-    if (!data.factoryLocation || data.factoryLocation.trim().length < 10) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "Please enter a full factory address",
-        path: ["factoryLocation"],
-      });
+      if (!data.factoryLocation || data.factoryLocation.trim().length < 10) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please enter a full factory address",
+          path: ["factoryLocation"],
+        });
+      }
     }
-  }
-});
+  });
 
 /* ─────────────── With Confirm Password ─────────────── */
 export const registrationSchema = baseRegistrationSchema

@@ -3,7 +3,6 @@ import React from "react";
 const Loading = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center relative overflow-hidden">
-      
       {/* Background Decorations */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         {/* Top Left Blob */}
@@ -32,7 +31,6 @@ const Loading = () => {
 
       {/* Main Content */}
       <div className="relative flex flex-col items-center gap-10">
-        
         {/* Logo Mark */}
         <div className="flex flex-col items-center gap-4">
           <div
@@ -112,9 +110,27 @@ const Loading = () => {
             { size: 6, top: "10%", left: "20%", delay: "0s", duration: "3s" },
             { size: 4, top: "80%", left: "15%", delay: "0.5s", duration: "4s" },
             { size: 8, top: "20%", left: "85%", delay: "1s", duration: "3.5s" },
-            { size: 5, top: "70%", left: "80%", delay: "0.3s", duration: "2.8s" },
-            { size: 4, top: "50%", left: "5%", delay: "0.8s", duration: "4.2s" },
-            { size: 6, top: "40%", left: "92%", delay: "1.2s", duration: "3.2s" },
+            {
+              size: 5,
+              top: "70%",
+              left: "80%",
+              delay: "0.3s",
+              duration: "2.8s",
+            },
+            {
+              size: 4,
+              top: "50%",
+              left: "5%",
+              delay: "0.8s",
+              duration: "4.2s",
+            },
+            {
+              size: 6,
+              top: "40%",
+              left: "92%",
+              delay: "1.2s",
+              duration: "3.2s",
+            },
           ].map((p, i) => (
             <div
               key={i}
@@ -138,7 +154,8 @@ const Loading = () => {
         <div
           className="h-full"
           style={{
-            background: "linear-gradient(90deg, transparent, #0d9488, #5eead4, transparent)",
+            background:
+              "linear-gradient(90deg, transparent, #0d9488, #5eead4, transparent)",
             animation: "slideBar 2s ease-in-out infinite",
           }}
         />

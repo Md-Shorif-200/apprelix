@@ -10,8 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { PackageOpen } from "lucide-react";
 
-
-
 const sizeClasses = {
   sm: "max-w-sm",
   md: "max-w-md",
@@ -36,12 +34,18 @@ interface CustomModalProps {
 
   footer?: React.ReactNode;
 
-  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl";
+  size?:
+    | "sm"
+    | "md"
+    | "lg"
+    | "xl"
+    | "2xl"
+    | "3xl"
+    | "4xl"
+    | "5xl"
+    | "6xl"
+    | "7xl";
 }
-
-
-
-
 
 // Empty State
 
@@ -58,7 +62,6 @@ const EmptyState = () => (
     </p>
   </div>
 );
-
 
 // Main Component
 
@@ -80,22 +83,22 @@ const CustomModal = ({
           bg-white p-0 shadow-2xl ring-0
         `}
       >
-      {/* Header */}
-<DialogHeader className="relative overflow-hidden rounded-t-2xl border-b border-teal-500/20 bg-gradient-to-r from-teal-600 to-teal-400 p-4">
-  <div className="relative flex items-center justify-between gap-4">
-    <div>
-      <DialogTitle className="text-sm sm:text-base font-bold tracking-tight text-white">
-        {title}
-      </DialogTitle>
-      {subtitle && (
-        <p className="mt-0.5 flex items-center gap-1 text-xs sm:text-sm text-teal-100">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-white/80" />
-          {subtitle}
-        </p>
-      )}
-    </div>
-  </div>
-</DialogHeader>
+        {/* Header */}
+        <DialogHeader className="relative overflow-hidden rounded-t-2xl border-b border-teal-500/20 bg-gradient-to-r from-teal-600 to-teal-400 p-4">
+          <div className="relative flex items-center justify-between gap-4">
+            <div>
+              <DialogTitle className="text-sm sm:text-base font-bold tracking-tight text-white">
+                {title}
+              </DialogTitle>
+              {subtitle && (
+                <p className="mt-0.5 flex items-center gap-1 text-xs sm:text-sm text-teal-100">
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-white/80" />
+                  {subtitle}
+                </p>
+              )}
+            </div>
+          </div>
+        </DialogHeader>
         {/* Body */}
         <div className="max-h-[65vh] overflow-y-auto px-6 py-2">
           {children ? children : <EmptyState />}

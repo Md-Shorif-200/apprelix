@@ -33,7 +33,11 @@ import { signIn } from "next-auth/react";
 import CustomSelect from "@/components/inputs/CustomSelect"; // Assuming this is the correct path
 import CustomCalanderInput from "@/components/inputs/CustomCalanderInput";
 import CustomMultiSelectInput from "@/components/inputs/CustomMultiSelectInput";
-import { numberOfEmployeesOptions, productCategoriesOptions, productionCapacityOptions } from "../utils/register-select-options";
+import {
+  numberOfEmployeesOptions,
+  productCategoriesOptions,
+  productionCapacityOptions,
+} from "../utils/register-select-options";
 
 const defaultValues: RegistrationFormData = {
   fullName: "",
@@ -47,7 +51,7 @@ const defaultValues: RegistrationFormData = {
   country: "",
   city: "",
   companyAddress: "",
- 
+
   // Supplier
   factoryName: "",
   productionCapacity: "",
@@ -72,8 +76,6 @@ const roles = [
   },
 ];
 
-
-
 function Divider() {
   return <div className="my-6 border-t border-gray-100" />;
 }
@@ -97,81 +99,81 @@ export default function RegistrationForm() {
 
   const selectedRole = useWatch({ control, name: "role" });
 
-async function onSubmit(data: RegistrationFormData) {
-  try {
-    const {
-      role,
-      factoryName,
-      productionCapacity,
-      yearEstablished,
-      numberOfEmployees,
-      productCategories,
-      factoryLocation,
-      fullName,
-      email,
-      phone,
-      password,
-      companyName,
-      companyWebsite,
-      country,
-      city,
-      companyAddress,
-      preferredProduct,
-      purchaseVolume,
-    } = data;
+  async function onSubmit(data: RegistrationFormData) {
+    try {
+      const {
+        role,
+        factoryName,
+        productionCapacity,
+        yearEstablished,
+        numberOfEmployees,
+        productCategories,
+        factoryLocation,
+        fullName,
+        email,
+        phone,
+        password,
+        companyName,
+        companyWebsite,
+        country,
+        city,
+        companyAddress,
+        preferredProduct,
+        purchaseVolume,
+      } = data;
 
-    const roleDetails =
-      role === "supplier"
-        ? {
-            factoryName,
-            productionCapacity,
-            yearEstablished,
-            numberOfEmployees,
-            productCategories,
-            factoryLocation,
-          }
-        : {};
+      const roleDetails =
+        role === "supplier"
+          ? {
+              factoryName,
+              productionCapacity,
+              yearEstablished,
+              numberOfEmployees,
+              productCategories,
+              factoryLocation,
+            }
+          : {};
 
-    const payload = {
-      fullName,
-      email,
-      phone,
-      password,
-      companyName,
-      companyWebsite,
-      country,
-      city,
-      companyAddress,
-      preferredProduct,
-      purchaseVolume,
-      role,
-      roleDetails,
-    };
+      const payload = {
+        fullName,
+        email,
+        phone,
+        password,
+        companyName,
+        companyWebsite,
+        country,
+        city,
+        companyAddress,
+        preferredProduct,
+        purchaseVolume,
+        role,
+        roleDetails,
+      };
 
-    console.log(payload);
+      console.log(payload);
 
-    await mutateAsync(payload);
+      await mutateAsync(payload);
 
-    const res = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-    });
+      const res = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
 
-    if (res?.ok) {
-      toast.success("Registration & Login successful");
-      router.push("/");
-      router.refresh();
-    } else {
-      toast.error("Login failed after registration");
+      if (res?.ok) {
+        toast.success("Registration & Login successful");
+        router.push("/");
+        router.refresh();
+      } else {
+        toast.error("Login failed after registration");
+      }
+
+      reset();
+      setFormKey((k) => k + 1);
+    } catch (error) {
+      handleError(error);
     }
-
-    reset();
-    setFormKey((k) => k + 1);
-  } catch (error) {
-    handleError(error);
   }
-}
 
   return (
     <div className="flex min-h-full flex-col bg-gradient-to-br from-teal-50/60 via-white to-gray-50 p py-8  px-4">
@@ -373,126 +375,122 @@ async function onSubmit(data: RegistrationFormData) {
                   subtitle="Provide additional details based on your role"
                 />
 
-            
                 {/* Supplier Fields */}
 
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <CustomInput
-                      label="Factory Name"
-                      placeholder="ABC Garments Ltd."
-                      leftIcon={<Factory size={15} />}
-                      error={errors.factoryName?.message}
-                      {...register("factoryName")}
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <CustomInput
+                    label="Factory Name"
+                    placeholder="ABC Garments Ltd."
+                    leftIcon={<Factory size={15} />}
+                    error={errors.factoryName?.message}
+                    {...register("factoryName")}
+                  />
+
+                  {/* Production Capacity - UPDATED to CustomSelect */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      Production Capacity
+                    </label>
+                    <Controller
+                      name="productionCapacity"
+                      control={control}
+                      render={({ field }) => (
+                        <CustomSelect
+                          placeholder="Select capacity"
+                          options={productionCapacityOptions}
+                          onChange={field.onChange}
+                        />
+                      )}
                     />
-
-                    {/* Production Capacity - UPDATED to CustomSelect */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Production Capacity
-                      </label>
-                      <Controller
-                        name="productionCapacity"
-                        control={control}
-                        render={({ field }) => (
-                          <CustomSelect
-                            placeholder="Select capacity"
-                            options={productionCapacityOptions}
-                            onChange={field.onChange}
-                          />
-                        )}
-                      />
-                      {errors.productionCapacity && (
-                        <p className="mt-1 text-xs text-red-500">
-                          {errors.productionCapacity.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Date Established
-                      </label>
-                      <Controller
-                        control={control}
-                        name="yearEstablished"
-                        render={({
-                          field: { value, onChange },
-                          fieldState: { error },
-                        }) => {
-                          const parsedDate = value
-                            ? new Date(value)
-                            : undefined;
-
-                          return (
-                            <CustomCalanderInput
-                              value={parsedDate}
-                              onChange={(date) =>
-                                onChange(date ? date.toISOString() : undefined)
-                              }
-                              error={error?.message}
-                            />
-                          );
-                        }}
-                      />
-                    </div>
-
-                    {/* Number of Employees - UPDATED to CustomSelect */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Number of Employees
-                      </label>
-                      <Controller
-                        name="numberOfEmployees"
-                        control={control}
-                        render={({ field }) => (
-                          <CustomSelect
-                            placeholder="Select employee range"
-                            options={numberOfEmployeesOptions}
-                            onChange={field.onChange}
-                          />
-                        )}
-                      />
-                      {errors.numberOfEmployees && (
-                        <p className="mt-1 text-xs text-red-500">
-                          {errors.numberOfEmployees.message}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Product Categories - UPDATED to CustomSelect */}
-                    <div className="sm:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Product Categories
-                      </label>
-                      <Controller
-                        name="productCategories"
-                        control={control}
-                        render={({ field }) => (
-                          <CustomMultiSelectInput
-                            placeholder="Select categories"
-                            options={productCategoriesOptions}
-                            value={(field.value ?? []) as string[]} // ensure non-undefined array
-                            onChange={field.onChange}
-                          />
-                        )}
-                      />
-                      {errors.productCategories && (
-                        <p className="mt-1 text-xs text-red-500">
-                          {errors.productCategories.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="sm:col-span-2">
-                      <CustomTextArea
-                        label="Factory Location"
-                        placeholder="Enter your full factory address..."
-                        error={errors.factoryLocation?.message}
-                        {...register("factoryLocation")}
-                      />
-                    </div>
+                    {errors.productionCapacity && (
+                      <p className="mt-1 text-xs text-red-500">
+                        {errors.productionCapacity.message}
+                      </p>
+                    )}
                   </div>
-        
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      Date Established
+                    </label>
+                    <Controller
+                      control={control}
+                      name="yearEstablished"
+                      render={({
+                        field: { value, onChange },
+                        fieldState: { error },
+                      }) => {
+                        const parsedDate = value ? new Date(value) : undefined;
+
+                        return (
+                          <CustomCalanderInput
+                            value={parsedDate}
+                            onChange={(date) =>
+                              onChange(date ? date.toISOString() : undefined)
+                            }
+                            error={error?.message}
+                          />
+                        );
+                      }}
+                    />
+                  </div>
+
+                  {/* Number of Employees - UPDATED to CustomSelect */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      Number of Employees
+                    </label>
+                    <Controller
+                      name="numberOfEmployees"
+                      control={control}
+                      render={({ field }) => (
+                        <CustomSelect
+                          placeholder="Select employee range"
+                          options={numberOfEmployeesOptions}
+                          onChange={field.onChange}
+                        />
+                      )}
+                    />
+                    {errors.numberOfEmployees && (
+                      <p className="mt-1 text-xs text-red-500">
+                        {errors.numberOfEmployees.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Product Categories - UPDATED to CustomSelect */}
+                  <div className="sm:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      Product Categories
+                    </label>
+                    <Controller
+                      name="productCategories"
+                      control={control}
+                      render={({ field }) => (
+                        <CustomMultiSelectInput
+                          placeholder="Select categories"
+                          options={productCategoriesOptions}
+                          value={(field.value ?? []) as string[]} // ensure non-undefined array
+                          onChange={field.onChange}
+                        />
+                      )}
+                    />
+                    {errors.productCategories && (
+                      <p className="mt-1 text-xs text-red-500">
+                        {errors.productCategories.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <CustomTextArea
+                      label="Factory Location"
+                      placeholder="Enter your full factory address..."
+                      error={errors.factoryLocation?.message}
+                      {...register("factoryLocation")}
+                    />
+                  </div>
+                </div>
               </>
             )}
 
