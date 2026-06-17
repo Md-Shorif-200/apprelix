@@ -19,10 +19,11 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { useForm, Controller, useWatch } from "react-hook-form";
+import { useForm, Controller, useWatch, SubmitHandler, FieldErrors } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  RegistrationFormData,
+  RegistrationFormInput,
+  RegistrationFormOutput,
   registrationSchema,
 } from "../schema/auth.schema";
 import { toast } from "sonner";
@@ -38,8 +39,12 @@ import {
   productCategoriesOptions,
   productionCapacityOptions,
 } from "../utils/register-select-options";
+import CustomTelInput from "@/components/inputs/CustomTelInput";
+import LocationSelector from "./LocationSelector";
+import { Country, State } from "country-state-city";
+import { RoleDetailsType } from "@/modules/users/types/users.types";
 
-const defaultValues: RegistrationFormData = {
+const defaultValues: RegistrationFormInput = {
   fullName: "",
   email: "",
   phone: "",
@@ -48,9 +53,8 @@ const defaultValues: RegistrationFormData = {
   role: "",
   companyName: "",
   companyWebsite: "",
-  country: "",
-  city: "",
-  companyAddress: "",
+  location: { country: "", state: "", city: "" },
+  streetAddress: "",
 
   // Supplier
   factoryName: "",
@@ -76,6 +80,21 @@ const roles = [
   },
 ];
 
+function getFirstErrorMessage(errors: FieldErrors): string | undefined {
+  for (const value of Object.values(errors)) {
+    if (!value) continue;
+
+    if (typeof value === "object" && "message" in value && value.message) {
+      return String(value.message);
+    }
+
+    if (typeof value === "object") {
+      const nested = getFirstErrorMessage(value as FieldErrors);
+      if (nested) return nested;
+    }
+  }
+}
+
 function Divider() {
   return <div className="my-6 border-t border-gray-100" />;
 }
@@ -91,15 +110,25 @@ export default function RegistrationForm() {
     reset,
     control,
     formState: { errors },
-  } = useForm<RegistrationFormData>({
+  } = useForm<RegistrationFormInput, unknown, RegistrationFormOutput>({
     defaultValues,
-    mode: "onBlur",
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+    shouldFocusError: true,
     resolver: zodResolver(registrationSchema),
   });
 
   const selectedRole = useWatch({ control, name: "role" });
 
-  async function onSubmit(data: RegistrationFormData) {
+  const onInvalid = (formErrors: FieldErrors<RegistrationFormInput>) => {
+    const message = getFirstErrorMessage(formErrors);
+    if (message) {
+      toast.error(message);
+    }
+  };
+
+  const onSubmit: SubmitHandler<RegistrationFormOutput> = async (data) => {
+    console.log(data);
     try {
       const {
         role,
@@ -115,42 +144,54 @@ export default function RegistrationForm() {
         password,
         companyName,
         companyWebsite,
-        country,
-        city,
-        companyAddress,
-        preferredProduct,
-        purchaseVolume,
+        location,
+        streetAddress,
       } = data;
 
-      const roleDetails =
+      // country name
+      const countryName =
+        Country.getCountryByCode(location.country)?.name ?? "";
+      const stateName =
+        State.getStateByCodeAndCountry(location.state, location.country)
+          ?.name ?? "";
+
+      // role details
+
+      const roleDetails: RoleDetailsType | undefined =
         role === "supplier"
           ? {
-              factoryName,
-              productionCapacity,
-              yearEstablished,
-              numberOfEmployees,
-              productCategories,
-              factoryLocation,
+              factoryName: factoryName!,
+              productionCapacity: productionCapacity!,
+              yearEstablished: yearEstablished!,
+              numberOfEmployees: numberOfEmployees!,
+              productCategories: productCategories!,
+              factoryLocation: factoryLocation!,
             }
-          : {};
+          : undefined;
+
+      // submited payload
 
       const payload = {
         fullName,
         email,
         phone,
         password,
-        companyName,
-        companyWebsite,
-        country,
-        city,
-        companyAddress,
-        preferredProduct,
-        purchaseVolume,
+
+        companyInfo: {
+          companyName,
+          companyWebsite: companyWebsite ?? "",
+          location: {
+            countryCode: location.country,
+            countryName: countryName,
+            stateCode: location.state,
+            stateName: stateName,
+            city: location.city,
+          },
+          streetAddress,
+        },
         role,
         roleDetails,
       };
-
-      console.log(payload);
 
       await mutateAsync(payload);
 
@@ -173,11 +214,10 @@ export default function RegistrationForm() {
     } catch (error) {
       handleError(error);
     }
-  }
+  };
 
   return (
     <div className="flex min-h-full flex-col bg-gradient-to-br from-teal-50/60 via-white to-gray-50 p py-8  px-4">
-      {/* ৩. m-auto দেওয়া হয়েছে যাতে ফর্মটি পারফেক্টলি মাঝখানে থাকে এবং স্ক্রল করলে ভাঙে না */}
       <div className="m-auto w-full">
         {/* Header */}
         <div className="mb-7">
@@ -200,7 +240,11 @@ export default function RegistrationForm() {
         </div>
 
         <div className="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm">
-          <form key={formKey} onSubmit={handleSubmit(onSubmit)}>
+          <form
+            key={formKey}
+            onSubmit={handleSubmit(onSubmit, onInvalid)}
+            noValidate
+          >
             {/* Step 1 */}
             <FormInputSectionTitle
               step={1}
@@ -215,24 +259,28 @@ export default function RegistrationForm() {
                 error={errors.fullName?.message}
                 {...register("fullName")}
               />
-
               <CustomInput
-                label="Phone Number"
-                type="tel"
-                placeholder="+1 234 567 890"
-                leftIcon={<Phone size={15} />}
-                error={errors.phone?.message}
-                {...register("phone")}
+                label="Email Address"
+                type="email"
+                placeholder="john@example.com"
+                leftIcon={<Mail size={15} />}
+                error={errors.email?.message}
+                {...register("email")}
               />
 
               <div className="sm:col-span-2">
-                <CustomInput
-                  label="Email Address"
-                  type="email"
-                  placeholder="john@example.com"
-                  leftIcon={<Mail size={15} />}
-                  error={errors.email?.message}
-                  {...register("email")}
+                <Controller
+                  name="phone"
+                  control={control}
+                  render={({ field, fieldState: { error } }) => (
+                    <CustomTelInput
+                      label="Phone Number"
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      error={error?.message ?? errors.phone?.message}
+                    />
+                  )}
                 />
               </div>
 
@@ -341,26 +389,29 @@ export default function RegistrationForm() {
                 error={errors.companyWebsite?.message}
                 {...register("companyWebsite")}
               />
-              <CustomInput
-                label="Country"
-                placeholder="United States"
-                leftIcon={<MapPin size={15} />}
-                error={errors.country?.message}
-                {...register("country")}
-              />
-              <CustomInput
-                label="City"
-                placeholder="New York"
-                leftIcon={<MapPin size={15} />}
-                error={errors.city?.message}
-                {...register("city")}
-              />
+              <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <Controller
+                  name="location"
+                  control={control}
+                  render={({ field }) => (
+                    <LocationSelector
+                      value={field.value}
+                      onChange={field.onChange}
+                      errors={{
+                        country: errors.location?.country,
+                        state: errors.location?.state,
+                        city: errors.location?.city,
+                      }}
+                    />
+                  )}
+                />
+              </div>
               <div className="sm:col-span-2">
                 <CustomTextArea
-                  label="Company Address"
-                  placeholder="Enter your full company address..."
-                  error={errors.companyAddress?.message}
-                  {...register("companyAddress")}
+                  label="Street  Address"
+                  placeholder="House #12, Road #5, Bahadderhat"
+                  error={errors.streetAddress?.message}
+                  {...register("streetAddress")}
                 />
               </div>
             </div>
@@ -420,7 +471,9 @@ export default function RegistrationForm() {
                         field: { value, onChange },
                         fieldState: { error },
                       }) => {
-                        const parsedDate = value ? new Date(value) : undefined;
+                        const parsedDate = value?.trim()
+                          ? new Date(value)
+                          : undefined;
 
                         return (
                           <CustomCalanderInput

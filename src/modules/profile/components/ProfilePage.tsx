@@ -4,22 +4,14 @@ import { useSingleUser } from "@/modules/users/hooks/useSingleUser";
 import ProfileHero from "../_components/ProfileHero";
 import CompanyInformation from "../_components/CompanyInformation";
 import RoleBasedSection from "../_components/RoleBasedSection";
+import { ProfilePageSkeleton } from "./ProfilePageSkeleton";
 
 const ProfilePage = () => {
   const { data, isPending, isError } = useSingleUser();
 
   // ── Loading ──
   if (isPending) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="flex flex-col items-center gap-3">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-teal-600 border-t-transparent" />
-          <p className="text-sm font-medium text-gray-500">
-            Loading your profile...
-          </p>
-        </div>
-      </div>
-    );
+    return <ProfilePageSkeleton />;
   }
 
   // ── Error ──

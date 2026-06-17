@@ -6,14 +6,19 @@ import { getInitials, InfoPill, StatusBadge } from "./ProfileComponents";
 import { useState } from "react";
 import CustomModal from "@/components/common/CustomModal";
 import ProfileUpdateForm from "./ProfileUpdateForm";
-import { User, getUserDisplayName } from "@/modules/users/types/users.types";
+import {
+  getUserDisplayName,
+  UserType,
+} from "@/modules/users/types/users.types";
 
 interface ProfileHeroProps {
-  user: User;
+  user: UserType;
 }
 
 const ProfileHero = ({ user }: ProfileHeroProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [updatingData, setUpdatingData] = useState(false);
+
   const displayName = getUserDisplayName(user);
   return (
     <div className="relative overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100">
@@ -74,11 +79,6 @@ const ProfileHero = ({ user }: ProfileHeroProps) => {
             {user.phone || "N/A"}
           </InfoPill>
 
-          {/* Country */}
-          <InfoPill icon={<MapPin size={13} className="text-teal-600" />}>
-            {user.country || "N/A"}
-          </InfoPill>
-
           {/* Member Since */}
           <InfoPill icon={<Calendar size={13} className="text-teal-600" />}>
             Joined{" "}
@@ -121,27 +121,31 @@ const ProfileHero = ({ user }: ProfileHeroProps) => {
             </button>
 
             <button
+              disabled={updatingData}
               onClick={() => {
                 document.getElementById("profile-submit")?.click();
               }}
-              className="px-4 py-2 rounded-xl bg-ds-primary text-white hover:bg-teal-700"
+              className={`px-4 py-2 rounded-xl text-white ${
+                updatingData
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-ds-primary hover:bg-teal-700"
+              }`}
             >
-              Save Changes
+              {updatingData ? "Saving..." : "Save Changes"}
             </button>
           </div>
         }
       >
         <ProfileUpdateForm
           user={{
-            id : user._id,
+            id: user._id,
             fullName: displayName,
             email: user.email,
             phone: user.phone,
-            country: user.country,
             city: user.city,
           }}
-
           setIsModalOpen={setIsModalOpen}
+          setUpdatingData={setUpdatingData}
         />
       </CustomModal>
     </div>

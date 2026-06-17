@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 /* ─────────────── Base Schema ─────────────── */
 const baseRegistrationSchema = z
   .object({
@@ -20,9 +20,26 @@ const baseRegistrationSchema = z
     phone: z
       .string()
       .trim()
-      .nonempty("Phone number is required")
-      .min(8, "Phone number is too short")
-      .max(20, "Phone number is too long"),
+      .min(1, "Phone number is required")
+      .superRefine((value, ctx) => {
+        try {
+          const phoneNumber = parsePhoneNumberFromString(value);
+          if (!phoneNumber?.isValid()) {
+            ctx.addIssue({
+              code: "custom",
+              message: "Please enter a valid phone number",
+              fatal: true,
+            });
+          }
+        } catch {
+          ctx.addIssue({
+            code: "custom",
+            message: "Please enter a valid phone number",
+            fatal: true,
+          });
+        }
+      })
+      .transform((value) => parsePhoneNumberFromString(value)!.format("E.164")),
 
     password: z
       .string()
@@ -53,29 +70,19 @@ const baseRegistrationSchema = z
       .optional()
       .or(z.literal("")),
 
-    country: z
-      .string()
-      .trim()
-      .nonempty("Country is required")
-      .min(2, "Country must be at least 2 characters"),
+    location: z.object({
+      country: z.string().nonempty("Country is required"),
+      state: z.string().nonempty("State is required"),
+      city: z.string().nonempty("City is required"),
+    }),
 
-    city: z
-      .string()
-      .trim()
-      .nonempty("City is required")
-      .min(2, "City must be at least 2 characters"),
-
-    companyAddress: z
+    streetAddress: z
       .string()
       .trim()
       .nonempty("Company address is required")
       .min(10, "Please enter a full address"),
 
-    // Buyer specific fields
-    preferredProduct: z.string().optional(),
-    purchaseVolume: z.string().optional(),
-
-    // Supplier specific fields
+    // Supplier specific fields (validated in superRefine when role is supplier)
     factoryName: z.string().optional(),
     productionCapacity: z.string().optional(),
     yearEstablished: z.string().optional(),
@@ -84,54 +91,77 @@ const baseRegistrationSchema = z
     factoryLocation: z.string().optional(),
   })
   .superRefine((data, ctx) => {
-    if (data.role === "supplier") {
-      if (!data.factoryName || data.factoryName.trim().length < 2) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Factory name is required",
-          path: ["factoryName"],
-        });
-      }
+    if (data.role !== "supplier") return;
 
-      if (!data.productionCapacity) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Please select production capacity",
-          path: ["productionCapacity"],
-        });
-      }
+    if (!data.factoryName || data.factoryName.trim().length < 2) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Factory name is required",
+        path: ["factoryName"],
+        fatal: true,
+      });
+    }
 
-      if (!data.yearEstablished) {
+    if (!data.productionCapacity) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Please select production capacity",
+        path: ["productionCapacity"],
+        fatal: true,
+      });
+    }
+
+    if (!data.yearEstablished?.trim()) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Please select a valid date",
+        path: ["yearEstablished"],
+        fatal: true,
+      });
+    } else {
+      const dateResult = z.string().datetime().safeParse(data.yearEstablished);
+      if (!dateResult.success) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Please select a valid date",
+          code: "custom",
+          message: "Invalid date format. Please select from the calendar.",
           path: ["yearEstablished"],
+          fatal: true,
         });
-      }
-
-      if (!data.numberOfEmployees) {
+      } else if (new Date(data.yearEstablished).getFullYear() < 1950) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Please select number of employees",
-          path: ["numberOfEmployees"],
+          code: "custom",
+          message: "Year must be 1950 or later",
+          path: ["yearEstablished"],
+          fatal: true,
         });
       }
+    }
 
-      if (!data.productCategories || data.productCategories.length === 0) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Please select at least one product category",
-          path: ["productCategories"],
-        });
-      }
+    if (!data.numberOfEmployees) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Please select number of employees",
+        path: ["numberOfEmployees"],
+        fatal: true,
+      });
+    }
 
-      if (!data.factoryLocation || data.factoryLocation.trim().length < 10) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Please enter a full factory address",
-          path: ["factoryLocation"],
-        });
-      }
+    if (!data.productCategories || data.productCategories.length === 0) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Please select at least one product category",
+        path: ["productCategories"],
+        fatal: true,
+      });
+    }
+
+    if (!data.factoryLocation || data.factoryLocation.trim().length < 10) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Please enter a full factory address",
+        path: ["factoryLocation"],
+        fatal: true,
+      });
     }
   });
 
@@ -146,8 +176,11 @@ export const registrationSchema = baseRegistrationSchema
   });
 
 /* ─────────────── Types ─────────────── */
-export type RegisterUserData = z.infer<typeof baseRegistrationSchema>;
-export type RegistrationFormData = z.infer<typeof registrationSchema>;
+export type RegisterUserData = z.output<typeof baseRegistrationSchema>;
+export type RegistrationFormInput = z.input<typeof registrationSchema>;
+export type RegistrationFormOutput = z.output<typeof registrationSchema>;
+/** Validated registration payload after Zod transforms (e.g. phone E.164). */
+export type RegistrationFormData = RegistrationFormOutput;
 
 export const loginSchema = z.object({
   email: z

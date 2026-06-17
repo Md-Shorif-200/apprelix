@@ -2,31 +2,27 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
-import { User, Mail, Phone, MapPin, Camera } from "lucide-react";
+import { User, Mail, Phone, Camera } from "lucide-react";
 import CustomInput from "@/components/inputs/CustomInput";
 import { uploadImageClient } from "@/utils/uploadImageClient";
 import { useUpdateUserProfileData } from "@/modules/users/hooks/useUpdateUserProfile";
 import { handleError } from "@/lib/error/errorHandler";
-import { UpdateUserProfilePayload } from "@/modules/users/types/users.types";
-import { toast } from "sonner";
 
-type ProfileFormValues = {
-  id : string;
-  fullName: string;
-  email: string;
-  phone?: string;
-  country?: string;
-  city?: string;
-  profilePhoto?: FileList;
-};
+import { toast } from "sonner";
+import { Update_UserProfile_Payload_Type } from "@/modules/users/types/users.types";
+import { ProfileFormValues } from "../types/profile.types";
 
 interface Props {
   user: ProfileFormValues;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-
+  setUpdatingData: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ProfileUpdateForm = ({ user,setIsModalOpen }: Props) => {
+const ProfileUpdateForm = ({
+  user,
+  setIsModalOpen,
+  setUpdatingData,
+}: Props) => {
   const {
     register,
     handleSubmit,
@@ -38,37 +34,33 @@ const ProfileUpdateForm = ({ user,setIsModalOpen }: Props) => {
       fullName: user.fullName,
       email: user.email,
       phone: user.phone,
-      country: user.country,
-      city: user.city,
     },
   });
 
-    const { mutateAsync } = useUpdateUserProfileData();
-
+  const { mutateAsync } = useUpdateUserProfileData();
 
   // FILE WATCH
   const profileFile = watch("profilePhoto");
 
   const onSubmit = async (data: ProfileFormValues) => {
     try {
-      let profilePhotoUrl = "";
+      setUpdatingData(true);
 
+      let profilePhotoUrl = "";
       const file = data.profilePhoto?.[0];
 
       // Image Upload (Optional)
       if (file) {
         const uploadResult = await uploadImageClient(file, "profile");
-         
-        console.log( "52",uploadResult)
-        
-         if (!uploadResult) {
-        setError("profilePhoto", {
-          type: "manual",
-          message: uploadResult?.error || "Upload failed",
-        });
 
-        return; // stop form submit
-      }
+        if (!uploadResult) {
+          setError("profilePhoto", {
+            type: "manual",
+            message: uploadResult?.error || "Upload failed",
+          });
+
+          return; // stop form submit
+        }
         profilePhotoUrl = uploadResult.url;
       }
 
@@ -76,33 +68,29 @@ const ProfileUpdateForm = ({ user,setIsModalOpen }: Props) => {
         fullName: data.fullName,
         email: data.email,
         phone: data.phone,
-        country: data.country,
         city: data.city,
         profilePhoto: profilePhotoUrl,
       };
 
-      const vars: { userId: string; payload: UpdateUserProfilePayload } = {
-        userId: user.id,
-        payload: updatedProfile,
-      };
+      const vars: { userId: string; payload: Update_UserProfile_Payload_Type } =
+        {
+          userId: user.id,
+          payload: updatedProfile,
+        };
 
       const result = await mutateAsync(vars);
 
-         if(result?.success) {
-          toast.success(result.message)
-          setIsModalOpen(false)
-         }else {
-          toast.error('faild to Update profile')
-         }
-
-
-
-
-     
-
-      
+      if (result?.success) {
+        toast.success(result.message);
+        setIsModalOpen(false);
+        setUpdatingData(false);
+      } else {
+        toast.error("faild to Update profile");
+      }
     } catch (err) {
       handleError(err);
+    } finally {
+      setUpdatingData(false);
     }
   };
 
@@ -148,24 +136,6 @@ const ProfileUpdateForm = ({ user,setIsModalOpen }: Props) => {
           fileName={profileFile?.[0]?.name}
           error={errors.profilePhoto?.message}
           {...register("profilePhoto")}
-        />
-
-        {/* Country */}
-        <CustomInput
-          label="Country"
-          placeholder="Bangladesh"
-          leftIcon={<MapPin size={15} />}
-          error={errors.country?.message}
-          {...register("country")}
-        />
-
-        {/* city */}
-        <CustomInput
-          label="City"
-          placeholder="Bangladesh"
-          leftIcon={<MapPin size={15} />}
-          error={errors.city?.message}
-          {...register("city")}
         />
       </div>
 

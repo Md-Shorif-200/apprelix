@@ -14,9 +14,9 @@ const nextConfig = {
         hostname: "i.pravatar.cc",
       },
       {
-  protocol: "https",
-  hostname: "**.cloudinary.com",
-},
+        protocol: "https",
+        hostname: "**.cloudinary.com",
+      },
     ],
   },
 };

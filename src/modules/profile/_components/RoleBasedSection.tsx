@@ -1,19 +1,13 @@
 "use client";
 
-import BuyerSection, { type BuyerFields } from "./BuyerSection";
-import SupplierSection, { type SupplierFields } from "./SupplierSection";
+import { UserType } from "@/modules/users/types/users.types";
 
-// ─────────────────────────────────────────────
-// Types
-// ─────────────────────────────────────────────
-interface RoleBasedSectionProps {
-  user: { role?: string } & BuyerFields & SupplierFields;
-}
+import SupplierSection from "./SupplierSection";
+import BuyerSection from "./BuyerSection";
 
-
-const RoleBasedSection = ({ user }: RoleBasedSectionProps) => {
+const RoleBasedSection = ({ user }: { user: UserType }) => {
   if (user.role === "buyer") {
-    return <BuyerSection user={user} />;
+    return <BuyerSection />;
   }
 
   if (user.role === "supplier") {

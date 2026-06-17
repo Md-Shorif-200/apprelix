@@ -24,7 +24,7 @@ const dropdownMenus = [
 // ─── Main Component ───────────────────────────────────────────────────────────
 const AuthButton = () => {
   const { data: session, status } = useSession();
-  console.log("user" , session)
+  console.log("user", session);
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
