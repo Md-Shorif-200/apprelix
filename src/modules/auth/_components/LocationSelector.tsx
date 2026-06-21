@@ -10,20 +10,24 @@ import { Country, State, City } from "country-state-city";
 
 type LocationSelectorProps = {
   value: { country: string; state: string; city: string }; // e.g., { country: 'BD', state: '13', city: 'Dhaka' }
-  onChange: (
-    newValue: { country: string; state:string; city: string }
-  ) => void;
+  onChange: (newValue: {
+    country: string;
+    state: string;
+    city: string;
+  }) => void;
   errors: {
     country?: { message?: string };
     state?: { message?: string };
     city?: { message?: string };
   };
+  cityFullWidth? : boolean
 };
 
 const LocationSelector = ({
   value,
   onChange,
   errors,
+  cityFullWidth,
 }: LocationSelectorProps) => {
   const countryOptions: Option[] = useMemo(() => {
     return Country.getAllCountries().map((country) => ({
@@ -31,7 +35,6 @@ const LocationSelector = ({
       value: country.isoCode,
     }));
   }, []);
-
 
   const stateOptions: Option[] = useMemo(() => {
     if (!value.country) return [];
@@ -57,7 +60,6 @@ const LocationSelector = ({
     onChange({ ...value, state: stateCode, city: "" });
   };
 
-
   const handleCityChange = (cityName: string) => {
     onChange({ ...value, city: cityName });
   };
@@ -78,7 +80,9 @@ const LocationSelector = ({
       {/* State Selector */}
       <CustomSearchSelectInput
         label="State / Region"
-        placeholder={!value.country ? "Select a country first" : "Select your state"}
+        placeholder={
+          !value.country ? "Select a country first" : "Select your state"
+        }
         searchPlaceholder="Search state..."
         options={stateOptions}
         value={value.state}
@@ -88,17 +92,21 @@ const LocationSelector = ({
       />
 
       {/* City Selector */}
+     {/* City */}
+    <div className={`${cityFullWidth ? "sm:col-span-2" : ""} `}>
       <CustomSearchSelectInput
         label="City"
-        placeholder={!value.state ? "Select a state first" : "Select your city"}
+        placeholder={
+          !value.state ? "Select a state first" : "Select your city"
+        }
         searchPlaceholder="Search city..."
         options={cityOptions}
         value={value.city}
         onChange={handleCityChange}
         error={errors.city?.message}
- 
         disabled={!value.state}
       />
+    </div>
     </>
   );
 };

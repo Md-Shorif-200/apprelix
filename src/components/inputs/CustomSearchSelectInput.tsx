@@ -36,7 +36,7 @@ type CustomSearchSelectInputProps = {
   label?: string;
   error?: string;
   className?: string;
-disabled?: boolean;
+  disabled?: boolean;
 };
 
 export default function CustomSearchSelectInput({
@@ -49,7 +49,7 @@ export default function CustomSearchSelectInput({
   label,
   error,
   className,
-disabled = false, 
+  disabled = false,
 }: CustomSearchSelectInputProps) {
   const [open, setOpen] = React.useState(false);
 
@@ -61,7 +61,7 @@ disabled = false,
         <label className="text-sm font-medium text-gray-700">{label}</label>
       )}
 
-        <Popover open={open} onOpenChange={!disabled ? setOpen : undefined}>
+      <Popover open={open} onOpenChange={!disabled ? setOpen : undefined}>
         <PopoverTrigger asChild>
           <div
             role="combobox"
@@ -69,7 +69,7 @@ disabled = false,
             className={cn(
               "flex w-full min-h-11 cursor-pointer items-center justify-between gap-2 rounded-xl border border-gray-200 bg-gray-50/80 px-4 py-2 text-sm text-gray-700 transition-all duration-200 hover:border-gray-300",
               "focus-within:border-teal-600 focus-within:bg-white focus-within:ring-2 focus-within:ring-teal-100 focus-within:outline-none focus-within:ring-offset-0",
-              open && "border-teal-600 bg-white ring-2 ring-teal-100"
+              open && "border-teal-600 bg-white ring-2 ring-teal-100",
             )}
           >
             <span className="truncate">
@@ -83,7 +83,7 @@ disabled = false,
             <ChevronDown
               className={cn(
                 "h-4 w-4 shrink-0 text-gray-400 transition-transform duration-200",
-                open && "rotate-180 text-teal-600"
+                open && "rotate-180 text-teal-600",
               )}
             />
           </div>
@@ -109,15 +109,16 @@ disabled = false,
                           onChange?.(option.value);
                           setOpen(false);
                         }}
-                      className={cn(
-                        "cursor-pointer rounded-lg px-3 py-2 text-sm text-gray-700 transition-colors hover:!bg-teal-500",
-                        isSelected && "bg-teal-100/60 font-medium text-teal-800"
-                      )}
-                    >
-                      {option.label}
-                    </CommandItem>
-                  );
-                })}
+                        className={cn(
+                          "cursor-pointer rounded-lg px-3 py-2 text-sm text-gray-700 transition-colors hover:!bg-teal-500",
+                          isSelected &&
+                            "bg-teal-100/60 font-medium text-teal-800",
+                        )}
+                      >
+                        {option.label}
+                      </CommandItem>
+                    );
+                  })}
               </CommandGroup>
             </CommandList>
           </Command>

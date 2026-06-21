@@ -1,9 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Pencil, Phone, MapPin, Calendar, RefreshCw } from "lucide-react";
+import { Pencil, Phone, Calendar, RefreshCw, Save } from "lucide-react";
 import { getInitials, InfoPill, StatusBadge } from "./ProfileComponents";
-import { useState } from "react";
 import CustomModal from "@/components/common/CustomModal";
 import ProfileUpdateForm from "./ProfileUpdateForm";
 import {
@@ -11,13 +10,15 @@ import {
   UserType,
 } from "@/modules/users/types/users.types";
 
+import { useIsModalOpen, useModalActions, useModalState } from "@/stores/modal/modal.hooks";
+
 interface ProfileHeroProps {
   user: UserType;
 }
 
 const ProfileHero = ({ user }: ProfileHeroProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [updatingData, setUpdatingData] = useState(false);
+ const isOpenModal = useIsModalOpen('profile:edit')
+const { openModal, closeModal } = useModalActions();
 
   const displayName = getUserDisplayName(user);
   return (
@@ -27,7 +28,7 @@ const ProfileHero = ({ user }: ProfileHeroProps) => {
 
       {/* ── Edit Button (top-right of banner) ── */}
       <button
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => openModal('profile:edit')}
         className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/30 cursor-pointer"
       >
         <Pencil size={15} />
@@ -106,35 +107,12 @@ const ProfileHero = ({ user }: ProfileHeroProps) => {
       </div>
 
       <CustomModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isOpenModal}
+        onClose={closeModal}
         size="lg"
         title="Edit Profile"
         subtitle="Update your profile information"
-        footer={
-          <div className="flex justify-end gap-3 w-full">
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-
-            <button
-              disabled={updatingData}
-              onClick={() => {
-                document.getElementById("profile-submit")?.click();
-              }}
-              className={`px-4 py-2 rounded-xl text-white ${
-                updatingData
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-ds-primary hover:bg-teal-700"
-              }`}
-            >
-              {updatingData ? "Saving..." : "Save Changes"}
-            </button>
-          </div>
-        }
+        
       >
         <ProfileUpdateForm
           user={{
@@ -142,10 +120,10 @@ const ProfileHero = ({ user }: ProfileHeroProps) => {
             fullName: displayName,
             email: user.email,
             phone: user.phone,
-            city: user.city,
+            city: user?.companyInfo?.location?.city,
           }}
-          setIsModalOpen={setIsModalOpen}
-          setUpdatingData={setUpdatingData}
+
+          onSuccess={closeModal}
         />
       </CustomModal>
     </div>

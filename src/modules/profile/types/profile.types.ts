@@ -13,8 +13,12 @@ export type Company_Information_FormValues_Type = {
   id: string;
   companyName: string;
   companyWebsite: string;
-  country: string;
-  city: string;
+
+  location: {
+    country: string; 
+    state: string;   
+    city: string;
+  };
   companyLogo?: FileList;
-  companyAddress: string;
+  streetAddress: string;
 };

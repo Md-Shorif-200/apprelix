@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { User, Mail, Phone, Camera } from "lucide-react";
 import CustomInput from "@/components/inputs/CustomInput";
 import { uploadImageClient } from "@/utils/uploadImageClient";
@@ -11,22 +11,21 @@ import { handleError } from "@/lib/error/errorHandler";
 import { toast } from "sonner";
 import { Update_UserProfile_Payload_Type } from "@/modules/users/types/users.types";
 import { ProfileFormValues } from "../types/profile.types";
+import CustomTelInput from "@/components/inputs/CustomTelInput";
 
 interface Props {
   user: ProfileFormValues;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setUpdatingData: React.Dispatch<React.SetStateAction<boolean>>;
+  onSuccess: () => void;
 }
 
-const ProfileUpdateForm = ({
-  user,
-  setIsModalOpen,
-  setUpdatingData,
-}: Props) => {
+const ProfileUpdateForm = ({ user, onSuccess }: Props) => {
+  const { mutateAsync, isPending } = useUpdateUserProfileData();
+
   const {
     register,
     handleSubmit,
     watch,
+    control,
     setError,
     formState: { errors },
   } = useForm<ProfileFormValues>({
@@ -37,14 +36,11 @@ const ProfileUpdateForm = ({
     },
   });
 
-  const { mutateAsync } = useUpdateUserProfileData();
-
   // FILE WATCH
   const profileFile = watch("profilePhoto");
 
   const onSubmit = async (data: ProfileFormValues) => {
     try {
-      setUpdatingData(true);
 
       let profilePhotoUrl = "";
       const file = data.profilePhoto?.[0];
@@ -53,7 +49,7 @@ const ProfileUpdateForm = ({
       if (file) {
         const uploadResult = await uploadImageClient(file, "profile");
 
-        if (!uploadResult) {
+        if (!uploadResult || !uploadResult.url) {
           setError("profilePhoto", {
             type: "manual",
             message: uploadResult?.error || "Upload failed",
@@ -82,15 +78,13 @@ const ProfileUpdateForm = ({
 
       if (result?.success) {
         toast.success(result.message);
-        setIsModalOpen(false);
-        setUpdatingData(false);
+        onSuccess();
       } else {
         toast.error("faild to Update profile");
       }
     } catch (err) {
       handleError(err);
     } finally {
-      setUpdatingData(false);
     }
   };
 
@@ -119,28 +113,56 @@ const ProfileUpdateForm = ({
         />
 
         {/* Phone */}
-        <CustomInput
-          label="Phone Number"
-          type="tel"
-          placeholder="+1 234 567 890"
-          leftIcon={<Phone size={15} />}
-          error={errors.phone?.message}
-          {...register("phone")}
-        />
+        <div className="sm:col-span-2">
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <CustomTelInput
+                label="Phone Number"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                error={error?.message ?? errors.phone?.message}
+              />
+            )}
+          />
+        </div>
 
-        <CustomInput
-          label="Profile Photo (Optional)"
-          type="file"
-          // accept="image/*"
-          leftIcon={<Camera size={15} />}
-          fileName={profileFile?.[0]?.name}
-          error={errors.profilePhoto?.message}
-          {...register("profilePhoto")}
-        />
+        <div className="sm:col-span-2">
+          <CustomInput
+            label="Profile Photo (Optional)"
+            type="file"
+            // accept="image/*"
+            leftIcon={<Camera size={15} />}
+            fileName={profileFile?.[0]?.name}
+            error={errors.profilePhoto?.message}
+            {...register("profilePhoto")}
+          />
+        </div>
       </div>
 
-      {/* Hidden submit trigger for modal footer */}
-      <button type="submit" id="profile-submit" className="hidden" />
+      <div className="flex justify-end gap-3 w-full">
+        <button
+          type="button"  
+          onClick={onSuccess}
+          className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"   
+          disabled={isPending}
+          className={`px-4 py-2 rounded-xl text-white ${
+            isPending
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-ds-primary hover:bg-teal-700"
+          }`}
+        >
+          {isPending ? "Saving..." : "Save Changes"}
+        </button>
+      </div>
     </form>
   );
 };

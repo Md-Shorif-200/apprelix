@@ -49,5 +49,5 @@ export interface RegisterPayloadType {
     streetAddress: string;
   };
   role: string;
-  roleDetails?: RoleDetailsType
+  roleDetails?: RoleDetailsType;
 }

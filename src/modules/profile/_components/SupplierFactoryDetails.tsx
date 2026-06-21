@@ -1,20 +1,20 @@
 import { Factory, MapPin, Pencil } from "lucide-react";
 import { Tag, renderValue } from "./ProfileComponents";
 import { UserType } from "@/modules/users/types/users.types";
+import { useProfileModalActions } from "@/stores/profile-modal/profile-modal.hooks";
 
 export interface Props {
   user: UserType;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const SupplierFactoryDetails = ({ user, setIsModalOpen }: Props) => {
-  console.log("supplier details ", user);
+export const SupplierFactoryDetails = ({ user }: Props) => {
+const {openModal} = useProfileModalActions();
 
   return (
     <div className="relative rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
       {/* Edit Button */}
       <button
-        onClick={() => setIsModalOpen(true)}
+        onClick={openModal}
         className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-gray-50 text-gray-400 transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-600 cursor-pointer"
       >
         <Pencil size={13} />

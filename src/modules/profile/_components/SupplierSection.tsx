@@ -1,9 +1,9 @@
 "use client";
 import CustomModal from "@/components/common/CustomModal";
-import { useState } from "react";
 import SupplierDetailsUpdateForm from "./SupplierDetailsUpdateForm";
 import { SupplierFactoryDetails } from "./SupplierFactoryDetails";
 import { UserType } from "@/modules/users/types/users.types";
+import { useProfileModalActions, useProfileModalState } from "@/stores/profile-modal/profile-modal.hooks";
 
 export interface SupplierSectionProps {
   user: UserType;
@@ -54,35 +54,42 @@ export interface SupplierSectionProps {
 // };
 
 const SupplierSection = ({ user }: SupplierSectionProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const {isModalOpen,updatingData} = useProfileModalState();
+const {closeModal} = useProfileModalActions();
   return (
     <>
-      <SupplierFactoryDetails user={user} setIsModalOpen={setIsModalOpen} />
+      <SupplierFactoryDetails user={user}  />
       {/* <SupplierDocuments user={user} /> */}
 
       <CustomModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={closeModal}
         size="lg"
         title="Edit Profile"
         subtitle="Update your profile information"
         footer={
           <div className="flex justify-end gap-3 w-full">
             <button
-              onClick={() => setIsModalOpen(false)}
+              onClick={closeModal}
               className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50"
             >
               Cancel
             </button>
 
             <button
+              disabled={updatingData}
               onClick={() => {
                 document.getElementById("profile-submit")?.click();
               }}
-              className="px-4 py-2 rounded-xl bg-teal-600 text-white hover:bg-teal-700"
+              className={`px-4 py-2 rounded-xl text-white ${
+                updatingData
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-ds-primary hover:bg-teal-700"
+              }`}
             >
-              Save Changes
+              {updatingData ? "Saving..." : "Save Changes"}
             </button>
+
           </div>
         }
       >
@@ -90,7 +97,7 @@ const SupplierSection = ({ user }: SupplierSectionProps) => {
           <SupplierDetailsUpdateForm
             id={user._id}
             roleDetails={user.roleDetails}
-            setIsModalOpen={setIsModalOpen}
+     
           />
         )}
       </CustomModal>

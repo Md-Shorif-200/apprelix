@@ -3,23 +3,27 @@
 import Image from "next/image";
 import { Building2, Globe, MapPin, Pencil } from "lucide-react";
 import { getInitials, renderValue } from "./ProfileComponents";
-import { useState } from "react";
 import CustomModal from "@/components/common/CustomModal";
 import CompanyInfoUpdateForm from "./CompanyInfoUpdateForm";
 import { UserType } from "@/modules/users/types/users.types";
+import {
+  useProfileModalActions,
+  useProfileModalState,
+} from "@/stores/profile-modal/profile-modal.hooks";
 
 interface CompanyInformationProps {
   user: UserType;
 }
 
 const CompanyInformation = ({ user }: CompanyInformationProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isModalOpen, updatingData } = useProfileModalState();
+  const { openModal, closeModal } = useProfileModalActions();
 
   return (
     <div className="relative rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
       {/* Edit Button */}
       <button
-        onClick={() => setIsModalOpen(true)}
+        onClick={openModal}
         className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full border border-gray-100 bg-gray-50 text-gray-400 transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-600 cursor-pointer"
       >
         <Pencil size={13} />
@@ -37,16 +41,16 @@ const CompanyInformation = ({ user }: CompanyInformationProps) => {
       <div className="mb-5 flex items-center gap-4">
         {/* Logo */}
         <div className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-gray-100 bg-gray-50 overflow-hidden shadow-sm">
-          {user.companyLogo ? (
+          {user.companyInfo.companyLogo ? (
             <Image
-              src={user.companyLogo}
+              src={user.companyInfo.companyLogo}
               alt="Company Logo"
               fill
               className="object-contain p-1"
             />
           ) : (
             <span className="text-lg font-bold text-teal-600">
-              {getInitials(user.companyName ?? "")}
+              {getInitials(user.companyInfo.companyName ?? "")}
             </span>
           )}
         </div>
@@ -54,10 +58,11 @@ const CompanyInformation = ({ user }: CompanyInformationProps) => {
         {/* Company Name + Country & City */}
         <div>
           <p className="text-base font-bold text-gray-800">
-            {user.companyName || "N/A"}
+            {user.companyInfo?.companyName || "N/A"}
           </p>
           <p className="mt-0.5 text-sm text-gray-500">
-            {user.city || "N/A"}, {user.country || "N/A"}
+            {user.companyInfo?.location?.city || "N/A"},{" "}
+            {user.companyInfo?.location?.countryName || "N/A"}
           </p>
         </div>
       </div>
@@ -70,15 +75,15 @@ const CompanyInformation = ({ user }: CompanyInformationProps) => {
             Website
           </dt>
           <dd className="mt-1 text-sm font-medium text-gray-700">
-            {user.companyWebsite ? (
+            {user.companyInfo.companyWebsite ? (
               <a
-                href={user.companyWebsite}
+                href={user.companyInfo.companyWebsite}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-1 text-teal-600 hover:underline break-all"
               >
                 <Globe size={13} />
-                {user.companyWebsite.replace("https://", "")}
+                {user.companyInfo.companyWebsite.replace("https://", "")}
               </a>
             ) : (
               "N/A"
@@ -92,7 +97,7 @@ const CompanyInformation = ({ user }: CompanyInformationProps) => {
             Country
           </dt>
           <dd className="mt-1 text-sm font-medium text-gray-700">
-            {renderValue(user.country)}
+            {renderValue(user?.companyInfo?.location?.countryName)}
           </dd>
         </div>
 
@@ -102,7 +107,7 @@ const CompanyInformation = ({ user }: CompanyInformationProps) => {
             City
           </dt>
           <dd className="mt-1 text-sm font-medium text-gray-700">
-            {renderValue(user.city)}
+            {renderValue(user?.companyInfo?.location?.city)}
           </dd>
         </div>
 
@@ -114,7 +119,7 @@ const CompanyInformation = ({ user }: CompanyInformationProps) => {
           <dd className="mt-1">
             <div className="flex items-start gap-2 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm text-gray-600">
               <MapPin size={14} className="mt-0.5 shrink-0 text-teal-600" />
-              <span>{user.companyAddress || "N/A"}</span>
+              <span>{user?.companyInfo?.streetAddress || "N/A"}</span>
             </div>
           </dd>
         </div>
@@ -123,39 +128,43 @@ const CompanyInformation = ({ user }: CompanyInformationProps) => {
       {/* Edit Modal */}
       <CustomModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={closeModal}
         size="lg"
         title="Edit Company Information"
         subtitle="Update your company information"
         footer={
           <div className="flex justify-end gap-3 w-full">
             <button
-              onClick={() => setIsModalOpen(false)}
+              onClick={closeModal}
               className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50"
             >
               Cancel
             </button>
+
             <button
+              disabled={updatingData}
               onClick={() => {
                 document.getElementById("profile-submit")?.click();
               }}
-              className="px-4 py-2 rounded-xl bg-teal-600 text-white hover:bg-teal-700"
+              className={`px-4 py-2 rounded-xl text-white ${
+                updatingData
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-ds-primary hover:bg-teal-700"
+              }`}
             >
-              Save Changes
+              {updatingData ? "Saving..." : "Save Changes"}
             </button>
           </div>
         }
       >
         <CompanyInfoUpdateForm
-          user={{
+          companyInfo={{
             id: user?._id,
-            companyName: user?.companyName,
-            companyWebsite: user?.companyWebsite,
-            country: user?.country,
-            city: user?.city,
-            companyAddress: user?.companyAddress,
+            companyName: user?.companyInfo?.companyName,
+            companyWebsite: user?.companyInfo?.companyWebsite,
+            location: user?.companyInfo?.location,
+            streetAddress: user?.companyInfo?.streetAddress,
           }}
-          setIsModalOpen={setIsModalOpen}
         />
       </CustomModal>
     </div>

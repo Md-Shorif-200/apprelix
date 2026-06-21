@@ -9,25 +9,34 @@ export interface RoleDetailsType {
   factoryLocation: string;
 }
 
+export interface CompanyInfoType {
+ companyName: string;
+    companyWebsite: string;
+    companyLogo: string;
+    streetAddress: string;
+    location: {
+      countryCode: string;
+      countryName: string;
+      stateCode: string;
+      stateName: string;
+      city: string;
+    };
+}
+
+
 export interface UserType {
   _id: string;
   fullName: string;
   email: string;
   phone: string;
   role: UserRoleType;
-  companyName: string;
-  companyWebsite: string;
-  country: string;
-  city: string;
-  companyAddress: string;
-  createdAt: string;
-  updatedAt: string;
+  companyInfo: CompanyInfoType;
   profilePhoto: string;
-  companyLogo: string;
-  adminApproved?: boolean;
-  company_logo?: string;
   roleDetails?: RoleDetailsType;
   status: "pending" | "accepted" | "rejected" | "blocked";
+ createdAt: string;
+  updatedAt: string;
+
 }
 
 export type Update_UserProfile_Payload_Type = {

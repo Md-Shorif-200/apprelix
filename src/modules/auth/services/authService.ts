@@ -1,5 +1,9 @@
 import axiosRequest from "@/lib/api/axiosRequest";
-import { LOGINPAYLOAD, LoginResponse, RegisterPayloadType } from "../types/auth.types";
+import {
+  LOGINPAYLOAD,
+  LoginResponse,
+  RegisterPayloadType,
+} from "../types/auth.types";
 
 export const registerUser = async (payload: RegisterPayloadType) => {
   return axiosRequest({

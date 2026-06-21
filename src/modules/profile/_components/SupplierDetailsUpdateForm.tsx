@@ -19,17 +19,16 @@ import {
 import { useUpdateUserProfileData } from "@/modules/users/hooks/useUpdateUserProfile";
 import { toast } from "sonner";
 import { handleError } from "@/lib/error/errorHandler";
+import { useProfileModalActions } from "@/stores/profile-modal/profile-modal.hooks";
 
 interface Props {
   id: string;
   roleDetails: RoleDetailsType;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SupplierDetailsUpdateForm = ({
   id,
   roleDetails,
-  setIsModalOpen,
 }: Props) => {
   const {
     register,
@@ -48,9 +47,11 @@ const SupplierDetailsUpdateForm = ({
   });
 
   const { mutateAsync } = useUpdateUserProfileData();
+   const { closeModal, setUpdating } = useProfileModalActions();
 
   const onSubmit = async (data: RoleDetailsType) => {
     try {
+      setUpdating(true)
       const updatedProfile = {
         roleDetails: {
           factoryName: data.factoryName,
@@ -72,12 +73,13 @@ const SupplierDetailsUpdateForm = ({
 
       if (result?.success) {
         toast.success(result.message);
-        setIsModalOpen(false);
+       closeModal()
       } else {
         toast.error("faild to Update Company Information");
       }
     } catch (err) {
       handleError(err);
+      setUpdating(false)
     }
   };
 

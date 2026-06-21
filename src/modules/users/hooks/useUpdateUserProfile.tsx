@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUserProfileData } from "../services/users-services";
-import { Update_UserProfile_Payload_Type, Update_UserProfile_Response_Type } from "../types/users.types";
-
+import {
+  Update_UserProfile_Payload_Type,
+  Update_UserProfile_Response_Type,
+} from "../types/users.types";
 
 type UpdateUserProfileType = {
   userId: string;
@@ -11,7 +13,11 @@ type UpdateUserProfileType = {
 export const useUpdateUserProfileData = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<Update_UserProfile_Response_Type, Error, UpdateUserProfileType>({
+  return useMutation<
+    Update_UserProfile_Response_Type,
+    Error,
+    UpdateUserProfileType
+  >({
     mutationFn: async (vars) => {
       return updateUserProfileData(vars.userId, vars.payload);
     },
