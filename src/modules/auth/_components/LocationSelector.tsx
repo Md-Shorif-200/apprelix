@@ -20,7 +20,7 @@ type LocationSelectorProps = {
     state?: { message?: string };
     city?: { message?: string };
   };
-  cityFullWidth? : boolean
+  cityFullWidth?: boolean;
 };
 
 const LocationSelector = ({
@@ -92,21 +92,21 @@ const LocationSelector = ({
       />
 
       {/* City Selector */}
-     {/* City */}
-    <div className={`${cityFullWidth ? "sm:col-span-2" : ""} `}>
-      <CustomSearchSelectInput
-        label="City"
-        placeholder={
-          !value.state ? "Select a state first" : "Select your city"
-        }
-        searchPlaceholder="Search city..."
-        options={cityOptions}
-        value={value.city}
-        onChange={handleCityChange}
-        error={errors.city?.message}
-        disabled={!value.state}
-      />
-    </div>
+      {/* City */}
+      <div className={`${cityFullWidth ? "sm:col-span-2" : ""} `}>
+        <CustomSearchSelectInput
+          label="City"
+          placeholder={
+            !value.state ? "Select a state first" : "Select your city"
+          }
+          searchPlaceholder="Search city..."
+          options={cityOptions}
+          value={value.city}
+          onChange={handleCityChange}
+          error={errors.city?.message}
+          disabled={!value.state}
+        />
+      </div>
     </>
   );
 };

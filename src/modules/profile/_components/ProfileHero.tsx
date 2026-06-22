@@ -10,15 +10,18 @@ import {
   UserType,
 } from "@/modules/users/types/users.types";
 
-import { useIsModalOpen, useModalActions, useModalState } from "@/stores/modal/modal.hooks";
+import {
+  useIsModalOpen,
+  useModalActions,
+} from "@/stores/modal/modal.hooks";
 
 interface ProfileHeroProps {
   user: UserType;
 }
 
 const ProfileHero = ({ user }: ProfileHeroProps) => {
- const isOpenModal = useIsModalOpen('profile:edit')
-const { openModal, closeModal } = useModalActions();
+  const isOpenModal = useIsModalOpen("profile:edit");
+  const { openModal, closeModal } = useModalActions();
 
   const displayName = getUserDisplayName(user);
   return (
@@ -28,7 +31,7 @@ const { openModal, closeModal } = useModalActions();
 
       {/* ── Edit Button (top-right of banner) ── */}
       <button
-        onClick={() => openModal('profile:edit')}
+        onClick={() => openModal("profile:edit")}
         className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/30 cursor-pointer"
       >
         <Pencil size={15} />
@@ -41,9 +44,9 @@ const { openModal, closeModal } = useModalActions();
           {/* Avatar — overlaps banner */}
           <div className="relative -mt-14 shrink-0">
             <div className="relative flex h-24 w-24 items-center justify-center rounded-2xl border-4 border-white bg-teal-50 shadow-md overflow-hidden">
-              {user.profilePhoto ? (
+              {user.profilePhoto?.url ? (
                 <Image
-                  src={user.profilePhoto}
+                  src={user.profilePhoto?.url}
                   alt={displayName}
                   fill
                   className="object-cover rounded-2xl"
@@ -112,7 +115,6 @@ const { openModal, closeModal } = useModalActions();
         size="lg"
         title="Edit Profile"
         subtitle="Update your profile information"
-        
       >
         <ProfileUpdateForm
           user={{
@@ -122,8 +124,7 @@ const { openModal, closeModal } = useModalActions();
             phone: user.phone,
             city: user?.companyInfo?.location?.city,
           }}
-
-          onSuccess={closeModal}
+          closeModal={closeModal}
         />
       </CustomModal>
     </div>

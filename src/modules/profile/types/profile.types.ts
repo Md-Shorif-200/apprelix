@@ -5,7 +5,12 @@ export type ProfileFormValues = {
   email: string;
   phone: string;
   city: string;
-  profilePhoto?: FileList;
+  profilePhoto?: {       
+    url: string;
+    publicId: string;
+  };
+  newProfilePhoto?: FileList; 
+
 };
 
 // company information form
@@ -15,10 +20,14 @@ export type Company_Information_FormValues_Type = {
   companyWebsite: string;
 
   location: {
-    country: string; 
-    state: string;   
+    country: string;
+    state: string;
     city: string;
   };
-  companyLogo?: FileList;
+  companyLogo?: {
+    url : string;
+    publicId : string;
+  };
+  companyNewLogo?: FileList;
   streetAddress: string;
 };

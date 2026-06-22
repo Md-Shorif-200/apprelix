@@ -3,7 +3,7 @@ import CustomModal from "@/components/common/CustomModal";
 import SupplierDetailsUpdateForm from "./SupplierDetailsUpdateForm";
 import { SupplierFactoryDetails } from "./SupplierFactoryDetails";
 import { UserType } from "@/modules/users/types/users.types";
-import { useProfileModalActions, useProfileModalState } from "@/stores/profile-modal/profile-modal.hooks";
+import { useIsModalOpen, useModalActions } from "@/stores/modal/modal.hooks";
 
 export interface SupplierSectionProps {
   user: UserType;
@@ -54,50 +54,26 @@ export interface SupplierSectionProps {
 // };
 
 const SupplierSection = ({ user }: SupplierSectionProps) => {
-const {isModalOpen,updatingData} = useProfileModalState();
-const {closeModal} = useProfileModalActions();
+    const isOpenModal = useIsModalOpen("profile:role:edit");
+    const { openModal, closeModal } = useModalActions();
   return (
     <>
-      <SupplierFactoryDetails user={user}  />
+      <SupplierFactoryDetails user={user} openModal={openModal} />
       {/* <SupplierDocuments user={user} /> */}
 
       <CustomModal
-        isOpen={isModalOpen}
+        isOpen={isOpenModal}
         onClose={closeModal}
         size="lg"
         title="Edit Profile"
         subtitle="Update your profile information"
-        footer={
-          <div className="flex justify-end gap-3 w-full">
-            <button
-              onClick={closeModal}
-              className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-
-            <button
-              disabled={updatingData}
-              onClick={() => {
-                document.getElementById("profile-submit")?.click();
-              }}
-              className={`px-4 py-2 rounded-xl text-white ${
-                updatingData
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-ds-primary hover:bg-teal-700"
-              }`}
-            >
-              {updatingData ? "Saving..." : "Save Changes"}
-            </button>
-
-          </div>
-        }
+      
       >
         {user.roleDetails && (
           <SupplierDetailsUpdateForm
             id={user._id}
             roleDetails={user.roleDetails}
-     
+            closeModal ={closeModal}
           />
         )}
       </CustomModal>

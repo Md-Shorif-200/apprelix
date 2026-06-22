@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { User, Mail, Phone, Camera } from "lucide-react";
+import { User, Mail, Camera } from "lucide-react";
 import CustomInput from "@/components/inputs/CustomInput";
 import { uploadImageClient } from "@/utils/uploadImageClient";
 import { useUpdateUserProfileData } from "@/modules/users/hooks/useUpdateUserProfile";
@@ -12,14 +11,16 @@ import { toast } from "sonner";
 import { Update_UserProfile_Payload_Type } from "@/modules/users/types/users.types";
 import { ProfileFormValues } from "../types/profile.types";
 import CustomTelInput from "@/components/inputs/CustomTelInput";
+import { useState } from "react";
 
 interface Props {
   user: ProfileFormValues;
-  onSuccess: () => void;
+  closeModal: () => void;
 }
 
-const ProfileUpdateForm = ({ user, onSuccess }: Props) => {
-  const { mutateAsync, isPending } = useUpdateUserProfileData();
+const ProfileUpdateForm = ({ user, closeModal }: Props) => {
+  const { mutateAsync } = useUpdateUserProfileData();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const {
     register,
@@ -37,27 +38,40 @@ const ProfileUpdateForm = ({ user, onSuccess }: Props) => {
   });
 
   // FILE WATCH
-  const profileFile = watch("profilePhoto");
+  const newProfileFile = watch("newProfilePhoto");
 
   const onSubmit = async (data: ProfileFormValues) => {
     try {
+      setIsSubmitting(true);
+      const oldPublicId = user.profilePhoto?.publicId ?? "";
+      let profilePhoto = user.profilePhoto ?? { url: "", publicId: "" };
 
-      let profilePhotoUrl = "";
-      const file = data.profilePhoto?.[0];
+      const file = data.newProfilePhoto?.[0];
 
       // Image Upload (Optional)
       if (file) {
-        const uploadResult = await uploadImageClient(file, "profile");
+        const uploadResult = await uploadImageClient(
+          file,
+          "profile",
+          oldPublicId || undefined,
+        );
+
+        // console.log(uploadResult)
 
         if (!uploadResult || !uploadResult.url) {
-          setError("profilePhoto", {
+          setError("newProfilePhoto", {
             type: "manual",
             message: uploadResult?.error || "Upload failed",
           });
+          setIsSubmitting(false);
 
           return; // stop form submit
         }
-        profilePhotoUrl = uploadResult.url;
+
+        profilePhoto = {
+          url: uploadResult.url,
+          publicId: uploadResult.public_id,
+        };
       }
 
       const updatedProfile = {
@@ -65,7 +79,7 @@ const ProfileUpdateForm = ({ user, onSuccess }: Props) => {
         email: data.email,
         phone: data.phone,
         city: data.city,
-        profilePhoto: profilePhotoUrl,
+        profilePhoto,
       };
 
       const vars: { userId: string; payload: Update_UserProfile_Payload_Type } =
@@ -78,13 +92,15 @@ const ProfileUpdateForm = ({ user, onSuccess }: Props) => {
 
       if (result?.success) {
         toast.success(result.message);
-        onSuccess();
+        setIsSubmitting(false);
+        closeModal();
       } else {
         toast.error("faild to Update profile");
       }
     } catch (err) {
       handleError(err);
     } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -135,32 +151,32 @@ const ProfileUpdateForm = ({ user, onSuccess }: Props) => {
             type="file"
             // accept="image/*"
             leftIcon={<Camera size={15} />}
-            fileName={profileFile?.[0]?.name}
-            error={errors.profilePhoto?.message}
-            {...register("profilePhoto")}
+            fileName={newProfileFile?.[0]?.name}
+            error={errors.newProfilePhoto?.message}
+            {...register("newProfilePhoto")}
           />
         </div>
       </div>
 
       <div className="flex justify-end gap-3 w-full">
         <button
-          type="button"  
-          onClick={onSuccess}
+          type="button"
+          onClick={closeModal}
           className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50"
         >
           Cancel
         </button>
 
         <button
-          type="submit"   
-          disabled={isPending}
+          type="submit"
+          disabled={isSubmitting}
           className={`px-4 py-2 rounded-xl text-white ${
-            isPending
+            isSubmitting
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-ds-primary hover:bg-teal-700"
           }`}
         >
-          {isPending ? "Saving..." : "Save Changes"}
+          {isSubmitting ? "Saving..." : "Save Changes"}
         </button>
       </div>
     </form>

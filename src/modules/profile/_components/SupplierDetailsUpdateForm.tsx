@@ -19,17 +19,15 @@ import {
 import { useUpdateUserProfileData } from "@/modules/users/hooks/useUpdateUserProfile";
 import { toast } from "sonner";
 import { handleError } from "@/lib/error/errorHandler";
-import { useProfileModalActions } from "@/stores/profile-modal/profile-modal.hooks";
+import { useState } from "react";
 
 interface Props {
   id: string;
   roleDetails: RoleDetailsType;
+  closeModal : () => void
 }
 
-const SupplierDetailsUpdateForm = ({
-  id,
-  roleDetails,
-}: Props) => {
+const SupplierDetailsUpdateForm = ({ id, roleDetails,closeModal }: Props) => {
   const {
     register,
     control,
@@ -47,11 +45,11 @@ const SupplierDetailsUpdateForm = ({
   });
 
   const { mutateAsync } = useUpdateUserProfileData();
-   const { closeModal, setUpdating } = useProfileModalActions();
+    const [isSubmitting,setIsSubmitting] = useState<boolean>(false)
 
   const onSubmit = async (data: RoleDetailsType) => {
     try {
-      setUpdating(true)
+      setIsSubmitting(true)
       const updatedProfile = {
         roleDetails: {
           factoryName: data.factoryName,
@@ -73,13 +71,15 @@ const SupplierDetailsUpdateForm = ({
 
       if (result?.success) {
         toast.success(result.message);
-       closeModal()
+        setIsSubmitting(false)
+        closeModal();
       } else {
         toast.error("faild to Update Company Information");
       }
     } catch (err) {
       handleError(err);
-      setUpdating(false)
+    }finally{
+      setIsSubmitting(false)
     }
   };
 
@@ -199,8 +199,27 @@ const SupplierDetailsUpdateForm = ({
         </div>
       </div>
 
-      {/* Hidden submit trigger for modal footer */}
-      <button type="submit" id="profile-submit" className="hidden" />
+          <div className="flex justify-end gap-3 w-full">
+        <button
+          type="button"
+          onClick={closeModal}
+          className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={`px-4 py-2 rounded-xl text-white ${
+            isSubmitting
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-ds-primary hover:bg-teal-700"
+          }`}
+        >
+          {isSubmitting ? "Saving..." : "Save Changes"}
+        </button>
+      </div>
     </form>
   );
 };
