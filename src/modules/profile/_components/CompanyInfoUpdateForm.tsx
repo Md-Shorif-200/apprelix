@@ -26,7 +26,8 @@ interface Props {
       stateCode: string;
       city: string;
     };
-    companyLogo?: {       // ← object
+    companyLogo?: {
+      // ← object
       url: string;
       publicId: string;
     };
@@ -48,13 +49,13 @@ const CompanyInfoUpdateForm = ({ companyInfo, closeModal }: Props) => {
     formState: { errors },
   } = useForm<Company_Information_FormValues_Type>({
     defaultValues: {
-      companyName:    companyInfo?.companyName,
+      companyName: companyInfo?.companyName,
       companyWebsite: companyInfo?.companyWebsite,
-      streetAddress:  companyInfo?.streetAddress,
+      streetAddress: companyInfo?.streetAddress,
       location: {
         country: companyInfo?.location?.countryCode,
-        state:   companyInfo?.location?.stateCode,
-        city:    companyInfo?.location?.city,
+        state: companyInfo?.location?.stateCode,
+        city: companyInfo?.location?.city,
       },
     },
   });
@@ -62,23 +63,19 @@ const CompanyInfoUpdateForm = ({ companyInfo, closeModal }: Props) => {
   const companyNewLogoFile = watch("companyNewLogo");
 
   const onSubmit = async (data: Company_Information_FormValues_Type) => {
-
-
     try {
       setIsSubmitting(true);
 
       const oldPublicId = companyInfo.companyLogo?.publicId ?? "";
-      let companyLogo   = companyInfo.companyLogo;
+      let companyLogo = companyInfo.companyLogo;
 
       const file = data.companyNewLogo?.[0];
 
       if (file) {
-       
-
         const uploadResult = await uploadImageClient(
           file,
           "logo",
-          oldPublicId || undefined, 
+          oldPublicId || undefined,
         );
 
         if (!uploadResult?.url) {
@@ -91,7 +88,7 @@ const CompanyInfoUpdateForm = ({ companyInfo, closeModal }: Props) => {
         }
 
         companyLogo = {
-          url:      uploadResult.url,
+          url: uploadResult.url,
           publicId: uploadResult.public_id,
         };
       }
@@ -106,22 +103,22 @@ const CompanyInfoUpdateForm = ({ companyInfo, closeModal }: Props) => {
 
       const updatedProfile: Update_UserProfile_Payload_Type = {
         companyInfo: {
-          companyName:    data.companyName,
+          companyName: data.companyName,
           companyWebsite: data.companyWebsite,
-          streetAddress:  data.streetAddress,
+          streetAddress: data.streetAddress,
           ...(companyLogo?.url && { companyLogo }),
           location: {
             countryCode: data.location.country,
             countryName,
-            stateCode:   data.location.state,
+            stateCode: data.location.state,
             stateName,
-            city:        data.location.city,
+            city: data.location.city,
           },
         },
       };
 
       const result = await mutateAsync({
-        userId:  companyInfo.id,
+        userId: companyInfo.id,
         payload: updatedProfile,
       });
 
@@ -141,7 +138,6 @@ const CompanyInfoUpdateForm = ({ companyInfo, closeModal }: Props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-
         <CustomInput
           label="Company Name"
           placeholder="Pvh"
@@ -168,8 +164,8 @@ const CompanyInfoUpdateForm = ({ companyInfo, closeModal }: Props) => {
                 onChange={field.onChange}
                 errors={{
                   country: errors.location?.country,
-                  state:   errors.location?.state,
-                  city:    errors.location?.city,
+                  state: errors.location?.state,
+                  city: errors.location?.city,
                 }}
                 cityFullWidth={true}
               />

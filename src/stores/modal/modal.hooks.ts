@@ -1,4 +1,4 @@
-import {useModalStore } from "./modal.store";
+import { useModalStore } from "./modal.store";
 import { ModalType } from "./modal.types";
 
 // return zustand modal state

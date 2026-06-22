@@ -13,8 +13,8 @@ export interface CompanyInfoType {
   companyName: string;
   companyWebsite: string;
   companyLogo: {
-    url : string;
-    publicId :string;
+    url: string;
+    publicId: string;
   };
   streetAddress: string;
   location: {
@@ -33,7 +33,7 @@ export interface UserType {
   phone: string;
   role: UserRoleType;
   companyInfo: CompanyInfoType;
-   profilePhoto?: {       
+  profilePhoto?: {
     url: string;
     publicId: string;
   };
@@ -54,10 +54,10 @@ export type Update_UserProfile_Payload_Type = {
     url: string;
     publicId: string;
   };
-  companyInfo?: {         
+  companyInfo?: {
     companyName?: string;
     companyWebsite?: string;
-    companyLogo?: {        
+    companyLogo?: {
       url: string;
       publicId: string;
     };

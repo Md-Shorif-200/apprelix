@@ -24,10 +24,10 @@ import { useState } from "react";
 interface Props {
   id: string;
   roleDetails: RoleDetailsType;
-  closeModal : () => void
+  closeModal: () => void;
 }
 
-const SupplierDetailsUpdateForm = ({ id, roleDetails,closeModal }: Props) => {
+const SupplierDetailsUpdateForm = ({ id, roleDetails, closeModal }: Props) => {
   const {
     register,
     control,
@@ -45,11 +45,11 @@ const SupplierDetailsUpdateForm = ({ id, roleDetails,closeModal }: Props) => {
   });
 
   const { mutateAsync } = useUpdateUserProfileData();
-    const [isSubmitting,setIsSubmitting] = useState<boolean>(false)
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const onSubmit = async (data: RoleDetailsType) => {
     try {
-      setIsSubmitting(true)
+      setIsSubmitting(true);
       const updatedProfile = {
         roleDetails: {
           factoryName: data.factoryName,
@@ -71,15 +71,15 @@ const SupplierDetailsUpdateForm = ({ id, roleDetails,closeModal }: Props) => {
 
       if (result?.success) {
         toast.success(result.message);
-        setIsSubmitting(false)
+        setIsSubmitting(false);
         closeModal();
       } else {
         toast.error("faild to Update Company Information");
       }
     } catch (err) {
       handleError(err);
-    }finally{
-      setIsSubmitting(false)
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -199,7 +199,7 @@ const SupplierDetailsUpdateForm = ({ id, roleDetails,closeModal }: Props) => {
         </div>
       </div>
 
-          <div className="flex justify-end gap-3 w-full">
+      <div className="flex justify-end gap-3 w-full">
         <button
           type="button"
           onClick={closeModal}

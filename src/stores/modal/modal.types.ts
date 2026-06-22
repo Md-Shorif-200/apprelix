@@ -13,7 +13,7 @@ export type ModalType =
 
 export interface ModalStoreType {
   activeModal: ModalType;
-//   isSubmitting: boolean;
+  //   isSubmitting: boolean;
 
   actions: {
     openModal: (type: ModalType) => void;

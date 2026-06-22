@@ -4,11 +4,16 @@ import { ImageType } from "@/types/image";
 
 const getFolder = (type: ImageType) => {
   switch (type) {
-    case "profile": return "apprelix/profile";
-    case "logo": return "apprelix/logo";
-    case "product": return "apprelix/product";
-    case "banner":  return "apprelix/banner";
-    default:        return "apprelix/others";
+    case "profile":
+      return "apprelix/profile";
+    case "logo":
+      return "apprelix/logo";
+    case "product":
+      return "apprelix/product";
+    case "banner":
+      return "apprelix/banner";
+    default:
+      return "apprelix/others";
   }
 };
 
@@ -20,9 +25,8 @@ export const deleteImage = async (publicId: string): Promise<void> => {
 export const uploadImage = async (
   file: File,
   type: ImageType,
-  oldPublicId?: string, 
+  oldPublicId?: string,
 ): Promise<UploadApiResponse> => {
-
   // delete old image
   if (oldPublicId) {
     await deleteImage(oldPublicId);

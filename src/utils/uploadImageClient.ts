@@ -3,7 +3,7 @@ import { ImageType } from "@/types/image";
 export const uploadImageClient = async (
   file: File,
   type: ImageType,
-  oldPublicId?: string, 
+  oldPublicId?: string,
 ) => {
   const formData = new FormData();
 
@@ -14,7 +14,10 @@ export const uploadImageClient = async (
     formData.append("oldPublicId", oldPublicId);
   }
 
-  const res  = await fetch("/api/image/upload", { method: "POST", body: formData });
+  const res = await fetch("/api/image/upload", {
+    method: "POST",
+    body: formData,
+  });
   const data = await res.json();
 
   return data;

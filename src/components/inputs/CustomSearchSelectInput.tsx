@@ -66,6 +66,8 @@ export default function CustomSearchSelectInput({
           <div
             role="combobox"
             aria-expanded={open}
+            aria-controls="search-select-listbox"
+
             className={cn(
               "flex w-full min-h-11 cursor-pointer items-center justify-between gap-2 rounded-xl border border-gray-200 bg-gray-50/80 px-4 py-2 text-sm text-gray-700 transition-all duration-200 hover:border-gray-300",
               "focus-within:border-teal-600 focus-within:bg-white focus-within:ring-2 focus-within:ring-teal-100 focus-within:outline-none focus-within:ring-offset-0",

@@ -5,11 +5,10 @@ import { ModalType } from "@/stores/modal/modal.types";
 
 export interface Props {
   user: UserType;
-  openModal: (type: ModalType) => void
+  openModal: (type: ModalType) => void;
 }
 
-export const SupplierFactoryDetails = ({ user,openModal }: Props) => {
-
+export const SupplierFactoryDetails = ({ user, openModal }: Props) => {
   return (
     <div className="relative rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
       {/* Edit Button */}

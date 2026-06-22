@@ -23,7 +23,7 @@ type CustomSelectProps = {
 export default function CustomSelect({
   placeholder = "Select option",
   options,
-  value,
+  // value,
   onChange,
 }: CustomSelectProps) {
   return (

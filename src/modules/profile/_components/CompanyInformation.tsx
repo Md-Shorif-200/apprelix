@@ -8,13 +8,12 @@ import CompanyInfoUpdateForm from "./CompanyInfoUpdateForm";
 import { UserType } from "@/modules/users/types/users.types";
 import { useIsModalOpen, useModalActions } from "@/stores/modal/modal.hooks";
 
-
 interface CompanyInformationProps {
   user: UserType;
 }
 
 const CompanyInformation = ({ user }: CompanyInformationProps) => {
- const isOpenModal = useIsModalOpen("profile:company:edit");
+  const isOpenModal = useIsModalOpen("profile:company:edit");
   const { openModal, closeModal } = useModalActions();
 
   return (
@@ -139,7 +138,6 @@ const CompanyInformation = ({ user }: CompanyInformationProps) => {
         size="lg"
         title="Edit Company Information"
         subtitle="Update your company information"
-      
       >
         <CompanyInfoUpdateForm
           companyInfo={{
@@ -149,9 +147,7 @@ const CompanyInformation = ({ user }: CompanyInformationProps) => {
             location: user?.companyInfo?.location,
             streetAddress: user?.companyInfo?.streetAddress,
             companyLogo: user?.companyInfo?.companyLogo,
-
           }}
-
           closeModal={closeModal}
         />
       </CustomModal>

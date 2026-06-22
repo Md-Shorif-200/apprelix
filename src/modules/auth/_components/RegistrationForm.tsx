@@ -12,8 +12,6 @@ import {
   Loader2,
   Lock,
   Mail,
-  MapPin,
-  Phone,
   ShoppingBag,
   User,
 } from "lucide-react";

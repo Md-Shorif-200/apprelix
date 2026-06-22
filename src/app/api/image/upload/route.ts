@@ -4,11 +4,16 @@ import { uploadImage } from "@/lib/cloudinary/uploadImage";
 
 const getMaxSize = (type: ImageType): number => {
   switch (type) {
-    case "profile": return 5 * 1024 * 1024;  // 5MB
-    case "logo": return 5 * 1024 * 1024;  // 5MB
-    case "product": return 8 * 1024 * 1024;  // 8MB
-    case "banner":  return 10 * 1024 * 1024; // 10MB
-    default:        return 5 * 1024 * 1024;  // 5MB
+    case "profile":
+      return 5 * 1024 * 1024; // 5MB
+    case "logo":
+      return 5 * 1024 * 1024; // 5MB
+    case "product":
+      return 8 * 1024 * 1024; // 8MB
+    case "banner":
+      return 10 * 1024 * 1024; // 10MB
+    default:
+      return 5 * 1024 * 1024; // 5MB
   }
 };
 
@@ -16,8 +21,8 @@ export async function POST(req: Request) {
   try {
     const formData = await req.formData();
 
-    const file        = formData.get("file") as File;
-    const type        = formData.get("type") as ImageType;
+    const file = formData.get("file") as File;
+    const type = formData.get("type") as ImageType;
     const oldPublicId = formData.get("oldPublicId") as string | null;
 
     if (!file) {
@@ -36,7 +41,7 @@ export async function POST(req: Request) {
     const result = await uploadImage(file, type, oldPublicId ?? undefined);
 
     return NextResponse.json({
-      url:       result.secure_url,
+      url: result.secure_url,
       public_id: result.public_id,
       type,
     });

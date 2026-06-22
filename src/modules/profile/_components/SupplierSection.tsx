@@ -54,8 +54,8 @@ export interface SupplierSectionProps {
 // };
 
 const SupplierSection = ({ user }: SupplierSectionProps) => {
-    const isOpenModal = useIsModalOpen("profile:role:edit");
-    const { openModal, closeModal } = useModalActions();
+  const isOpenModal = useIsModalOpen("profile:role:edit");
+  const { openModal, closeModal } = useModalActions();
   return (
     <>
       <SupplierFactoryDetails user={user} openModal={openModal} />
@@ -67,13 +67,12 @@ const SupplierSection = ({ user }: SupplierSectionProps) => {
         size="lg"
         title="Edit Profile"
         subtitle="Update your profile information"
-      
       >
         {user.roleDetails && (
           <SupplierDetailsUpdateForm
             id={user._id}
             roleDetails={user.roleDetails}
-            closeModal ={closeModal}
+            closeModal={closeModal}
           />
         )}
       </CustomModal>

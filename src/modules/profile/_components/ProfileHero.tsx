@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Pencil, Phone, Calendar, RefreshCw, Save } from "lucide-react";
+import { Pencil, Phone, Calendar, RefreshCw } from "lucide-react";
 import { getInitials, InfoPill, StatusBadge } from "./ProfileComponents";
 import CustomModal from "@/components/common/CustomModal";
 import ProfileUpdateForm from "./ProfileUpdateForm";
@@ -10,10 +10,7 @@ import {
   UserType,
 } from "@/modules/users/types/users.types";
 
-import {
-  useIsModalOpen,
-  useModalActions,
-} from "@/stores/modal/modal.hooks";
+import { useIsModalOpen, useModalActions } from "@/stores/modal/modal.hooks";
 
 interface ProfileHeroProps {
   user: UserType;
