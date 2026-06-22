@@ -20,7 +20,11 @@ interface CustomCalanderInputProps {
   error?: string;
 }
 
-const CustomCalanderInput = ({ value, onChange, error }: CustomCalanderInputProps) => {
+const CustomCalanderInput = ({
+  value,
+  onChange,
+  error,
+}: CustomCalanderInputProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -33,13 +37,16 @@ const CustomCalanderInput = ({ value, onChange, error }: CustomCalanderInputProp
               "group h-11 w-full justify-start text-left font-normal px-4 rounded-xl border border-gray-200 bg-gray-50/80 text-sm text-gray-700 transition-all outline-none hover:bg-gray-50/80 hover:border-teal-500 focus-visible:bg-white focus-visible:border-teal-600 focus-visible:ring-2 focus-visible:ring-teal-100",
               "data-[state=open]:bg-white",
               !value && "text-gray-400",
-              error && "border-red-500 hover:border-red-500 focus-visible:border-red-500 focus-visible:ring-red-100 text-red-500"
+              error &&
+                "border-red-500 hover:border-red-500 focus-visible:border-red-500 focus-visible:ring-red-100 text-red-500",
             )}
           >
             <CalendarIcon
               className={cn(
                 "mr-2 h-4 w-4 transition-colors",
-                value ? "text-teal-600" : "text-gray-400 group-hover:text-teal-600"
+                value
+                  ? "text-teal-600"
+                  : "text-gray-400 group-hover:text-teal-600",
               )}
             />
             {/* এই অংশটি আগের মতোই ঠিক আছে */}
@@ -74,7 +81,9 @@ const CustomCalanderInput = ({ value, onChange, error }: CustomCalanderInputProp
         </PopoverContent>
       </Popover>
 
-      {error && <span className="text-xs font-medium text-red-500">{error}</span>}
+      {error && (
+        <span className="text-xs font-medium text-red-500">{error}</span>
+      )}
     </div>
   );
 };

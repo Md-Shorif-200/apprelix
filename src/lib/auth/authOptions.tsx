@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
           return {
             ...user,
             id: user._id,
-            name: `${user.firstName} ${user.lastName}`,
+            name: user.fullName,
           };
         } catch {
           return null;

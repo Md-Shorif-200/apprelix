@@ -1,32 +1,95 @@
-export type UserRole = "buyer" | "supplier" | "admin";
+export type UserRoleType = "buyer" | "supplier" | "admin";
 
-export interface User {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  role: UserRole;
+export interface RoleDetailsType {
+  factoryName: string;
+  productionCapacity: string;
+  yearEstablished: string;
+  numberOfEmployees: string;
+  productCategories: string[];
+  factoryLocation: string;
+}
+
+export interface CompanyInfoType {
   companyName: string;
   companyWebsite: string;
-  country: string;
-  city: string;
-  companyAddress: string;
+  companyLogo: {
+    url: string;
+    publicId: string;
+  };
+  streetAddress: string;
+  location: {
+    countryCode: string;
+    countryName: string;
+    stateCode: string;
+    stateName: string;
+    city: string;
+  };
+}
+
+export interface UserType {
+  _id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  role: UserRoleType;
+  companyInfo: CompanyInfoType;
+  profilePhoto?: {
+    url: string;
+    publicId: string;
+  };
+  roleDetails?: RoleDetailsType;
+  status: "pending" | "accepted" | "rejected" | "blocked";
   createdAt: string;
   updatedAt: string;
-  profile_img?: string;
-  profileCompleted?: boolean;
-  adminApproved?: boolean;
-  company_logo?: string;
 }
 
-export function getUserDisplayName(
-  user: Pick<User, "firstName" | "lastName">
-): string {
-  return `${user.firstName} ${user.lastName}`.trim();
+// users.types.ts
+export type Update_UserProfile_Payload_Type = {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  country?: string;
+  city?: string;
+  profilePhoto?: {
+    url: string;
+    publicId: string;
+  };
+  companyInfo?: {
+    companyName?: string;
+    companyWebsite?: string;
+    companyLogo?: {
+      url: string;
+      publicId: string;
+    };
+    streetAddress?: string;
+    location?: {
+      countryCode: string;
+      countryName: string;
+      stateCode: string;
+      stateName: string;
+      city: string;
+    };
+  };
+  roleDetails?: RoleDetailsType;
+  [key: string]: unknown;
+};
+
+export function getUserDisplayName(user: Pick<UserType, "fullName">): string {
+  return `${user.fullName}`.trim();
 }
 
-export interface UsersResponse {
+export interface Users_Response_Type {
   success: boolean;
-  data: User[];
+  data: UserType[];
 }
+
+export type Single_User_Response_Type = {
+  success: boolean;
+  data: UserType;
+};
+
+export type Update_UserProfile_Response_Type = {
+  success: boolean;
+  message: string;
+  data?: Update_UserProfile_Payload_Type;
+};

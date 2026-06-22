@@ -1,45 +1,112 @@
 "use client";
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import { User, Mail, Phone, MapPin } from "lucide-react";
+import { Controller, useForm } from "react-hook-form";
+import { User, Mail, Camera } from "lucide-react";
 import CustomInput from "@/components/inputs/CustomInput";
+import { uploadImageClient } from "@/utils/uploadImageClient";
+import { useUpdateUserProfileData } from "@/modules/users/hooks/useUpdateUserProfile";
+import { handleError } from "@/lib/error/errorHandler";
 
-type ProfileFormValues = {
-  fullName: string;
-  email: string;
-  phone?: string;
-  country?: string;
-  city?:string;
-};
+import { toast } from "sonner";
+import { Update_UserProfile_Payload_Type } from "@/modules/users/types/users.types";
+import { ProfileFormValues } from "../types/profile.types";
+import CustomTelInput from "@/components/inputs/CustomTelInput";
+import { useState } from "react";
 
 interface Props {
   user: ProfileFormValues;
+  closeModal: () => void;
 }
 
-const ProfileUpdateForm = ({ user }: Props) => {
+const ProfileUpdateForm = ({ user, closeModal }: Props) => {
+  const { mutateAsync } = useUpdateUserProfileData();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
+    watch,
+    control,
+    setError,
     formState: { errors },
   } = useForm<ProfileFormValues>({
     defaultValues: {
       fullName: user.fullName,
       email: user.email,
       phone: user.phone,
-      country: user.country,
-      city:user.city
     },
   });
 
-  const onSubmit = (data: ProfileFormValues) => {
-    console.log("Profile Updated Data:", data);
+  // FILE WATCH
+  const newProfileFile = watch("newProfilePhoto");
+
+  const onSubmit = async (data: ProfileFormValues) => {
+    try {
+      setIsSubmitting(true);
+      const oldPublicId = user.profilePhoto?.publicId ?? "";
+      let profilePhoto = user.profilePhoto ?? { url: "", publicId: "" };
+
+      const file = data.newProfilePhoto?.[0];
+
+      // Image Upload (Optional)
+      if (file) {
+        const uploadResult = await uploadImageClient(
+          file,
+          "profile",
+          oldPublicId || undefined,
+        );
+
+        // console.log(uploadResult)
+
+        if (!uploadResult || !uploadResult.url) {
+          setError("newProfilePhoto", {
+            type: "manual",
+            message: uploadResult?.error || "Upload failed",
+          });
+          setIsSubmitting(false);
+
+          return; // stop form submit
+        }
+
+        profilePhoto = {
+          url: uploadResult.url,
+          publicId: uploadResult.public_id,
+        };
+      }
+
+      const updatedProfile = {
+        fullName: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        city: data.city,
+        profilePhoto,
+      };
+
+      const vars: { userId: string; payload: Update_UserProfile_Payload_Type } =
+        {
+          userId: user.id,
+          payload: updatedProfile,
+        };
+
+      const result = await mutateAsync(vars);
+
+      if (result?.success) {
+        toast.success(result.message);
+        setIsSubmitting(false);
+        closeModal();
+      } else {
+        toast.error("faild to Update profile");
+      }
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-
         {/* First Name */}
         <CustomInput
           label="Full Name"
@@ -62,37 +129,56 @@ const ProfileUpdateForm = ({ user }: Props) => {
         />
 
         {/* Phone */}
-        <CustomInput
-          label="Phone Number"
-          type="tel"
-          placeholder="+1 234 567 890"
-          leftIcon={<Phone size={15} />}
-          error={errors.phone?.message}
-          {...register("phone")}
-        />
+        <div className="sm:col-span-2">
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field, fieldState: { error } }) => (
+              <CustomTelInput
+                label="Phone Number"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                error={error?.message ?? errors.phone?.message}
+              />
+            )}
+          />
+        </div>
 
-        {/* Country */}
-       <CustomInput
-          label="Country"
-          placeholder="Bangladesh"
-          leftIcon={<MapPin size={15} />}
-          error={errors.country?.message}
-          {...register("country")}
-        />
-
-        {/* city */}
-       <CustomInput
-          label="City"
-          placeholder="Bangladesh"
-          leftIcon={<MapPin size={15} />}
-          error={errors.city?.message}
-          {...register("city")}
-        />
-   
+        <div className="sm:col-span-2">
+          <CustomInput
+            label="Profile Photo (Optional)"
+            type="file"
+            // accept="image/*"
+            leftIcon={<Camera size={15} />}
+            fileName={newProfileFile?.[0]?.name}
+            error={errors.newProfilePhoto?.message}
+            {...register("newProfilePhoto")}
+          />
+        </div>
       </div>
 
-      {/* Hidden submit trigger for modal footer */}
-      <button type="submit" id="profile-submit" className="hidden" />
+      <div className="flex justify-end gap-3 w-full">
+        <button
+          type="button"
+          onClick={closeModal}
+          className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={`px-4 py-2 rounded-xl text-white ${
+            isSubmitting
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-ds-primary hover:bg-teal-700"
+          }`}
+        >
+          {isSubmitting ? "Saving..." : "Save Changes"}
+        </button>
+      </div>
     </form>
   );
 };

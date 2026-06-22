@@ -1,72 +1,221 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { Building2, Globe } from "lucide-react";
+import { Controller, useForm } from "react-hook-form";
+import { Building2, Camera, Globe } from "lucide-react";
 import CustomInput from "@/components/inputs/CustomInput";
 import CustomTextArea from "@/components/inputs/CustomTextArea";
-
-type FormValuesType = {
-  companyName?: string;
-  companyWebsite?: string;
-  companyAddress?: string;
-};
+import { uploadImageClient } from "@/utils/uploadImageClient";
+import { useUpdateUserProfileData } from "@/modules/users/hooks/useUpdateUserProfile";
+import { toast } from "sonner";
+import { handleError } from "@/lib/error/errorHandler";
+import { Update_UserProfile_Payload_Type } from "@/modules/users/types/users.types";
+import { Company_Information_FormValues_Type } from "../types/profile.types";
+import LocationSelector from "@/modules/auth/_components/LocationSelector";
+import { Country, State } from "country-state-city";
+import { useState } from "react";
 
 interface Props {
-  user: FormValuesType;
+  companyInfo: {
+    id: string;
+    companyName: string;
+    companyWebsite: string;
+    location: {
+      countryName: string;
+      countryCode: string;
+      stateName: string;
+      stateCode: string;
+      city: string;
+    };
+    companyLogo?: {
+      // ← object
+      url: string;
+      publicId: string;
+    };
+    streetAddress: string;
+  };
+  closeModal: () => void;
 }
 
-const CompanyInfoUpdateForm = ({ user }: Props) => {
+const CompanyInfoUpdateForm = ({ companyInfo, closeModal }: Props) => {
+  const { mutateAsync } = useUpdateUserProfileData();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
+    watch,
+    control,
+    setError,
     formState: { errors },
-  } = useForm<FormValuesType>({
+  } = useForm<Company_Information_FormValues_Type>({
     defaultValues: {
-      companyName: user.companyName,
-      companyWebsite: user.companyWebsite,
-      companyAddress: user.companyAddress,
+      companyName: companyInfo?.companyName,
+      companyWebsite: companyInfo?.companyWebsite,
+      streetAddress: companyInfo?.streetAddress,
+      location: {
+        country: companyInfo?.location?.countryCode,
+        state: companyInfo?.location?.stateCode,
+        city: companyInfo?.location?.city,
+      },
     },
   });
 
-  const onSubmit = (data: FormValuesType) => {
-    console.log("Profile Updated Data:", data);
+  const companyNewLogoFile = watch("companyNewLogo");
+
+  const onSubmit = async (data: Company_Information_FormValues_Type) => {
+    try {
+      setIsSubmitting(true);
+
+      const oldPublicId = companyInfo.companyLogo?.publicId ?? "";
+      let companyLogo = companyInfo.companyLogo;
+
+      const file = data.companyNewLogo?.[0];
+
+      if (file) {
+        const uploadResult = await uploadImageClient(
+          file,
+          "logo",
+          oldPublicId || undefined,
+        );
+
+        if (!uploadResult?.url) {
+          setError("companyNewLogo", {
+            type: "manual",
+            message: uploadResult?.error || "Upload failed",
+          });
+          setIsSubmitting(false);
+          return;
+        }
+
+        companyLogo = {
+          url: uploadResult.url,
+          publicId: uploadResult.public_id,
+        };
+      }
+
+      const countryName =
+        Country.getCountryByCode(data.location.country)?.name ?? "";
+      const stateName =
+        State.getStateByCodeAndCountry(
+          data.location.state,
+          data.location.country,
+        )?.name ?? "";
+
+      const updatedProfile: Update_UserProfile_Payload_Type = {
+        companyInfo: {
+          companyName: data.companyName,
+          companyWebsite: data.companyWebsite,
+          streetAddress: data.streetAddress,
+          ...(companyLogo?.url && { companyLogo }),
+          location: {
+            countryCode: data.location.country,
+            countryName,
+            stateCode: data.location.state,
+            stateName,
+            city: data.location.city,
+          },
+        },
+      };
+
+      const result = await mutateAsync({
+        userId: companyInfo.id,
+        payload: updatedProfile,
+      });
+
+      if (result?.success) {
+        toast.success(result.message);
+        closeModal();
+      } else {
+        toast.error("Failed to update company information");
+      }
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {/* company Name */}
         <CustomInput
           label="Company Name"
           placeholder="Pvh"
           leftIcon={<Building2 size={15} />}
           error={errors.companyName?.message}
-          {...register("companyName", { required: "First name is required" })}
+          {...register("companyName", { required: "Company name is required" })}
         />
 
-        {/* company website  */}
         <CustomInput
           label="Company Website"
-          placeholder="Doe"
+          placeholder="https://example.com"
           leftIcon={<Globe size={15} />}
           error={errors.companyWebsite?.message}
           {...register("companyWebsite")}
         />
-        {/* address  */}
-        <div className="sm:col-span-2">
-                <CustomTextArea
-                  label="Company Address"
-                  placeholder="Enter your full company address..."
-                  error={errors.companyAddress?.message}
-                  {...register("companyAddress")}
-                />
-              </div>
 
-       
+        <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <Controller
+            name="location"
+            control={control}
+            render={({ field }) => (
+              <LocationSelector
+                value={field.value}
+                onChange={field.onChange}
+                errors={{
+                  country: errors.location?.country,
+                  state: errors.location?.state,
+                  city: errors.location?.city,
+                }}
+                cityFullWidth={true}
+              />
+            )}
+          />
+        </div>
+
+        {/* Company Logo — companyNewLogo field */}
+        <div className="sm:col-span-2">
+          <CustomInput
+            label="Company Logo (Optional)"
+            type="file"
+            leftIcon={<Camera size={15} />}
+            fileName={companyNewLogoFile?.[0]?.name}
+            error={errors.companyNewLogo?.message}
+            {...register("companyNewLogo")} // ← ঠিক field name
+          />
+        </div>
+
+        <div className="sm:col-span-2">
+          <CustomTextArea
+            label="Street Address"
+            placeholder="House #12, Road #5, Bahadderhat"
+            error={errors.streetAddress?.message}
+            {...register("streetAddress")}
+          />
+        </div>
       </div>
 
-      {/* Hidden submit trigger for modal footer */}
-      <button type="submit" id="profile-submit" className="hidden" />
+      <div className="flex justify-end gap-3 w-full">
+        <button
+          type="button"
+          onClick={closeModal}
+          className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={`px-4 py-2 rounded-xl text-white ${
+            isSubmitting
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-ds-primary hover:bg-teal-700"
+          }`}
+        >
+          {isSubmitting ? "Saving..." : "Save Changes"}
+        </button>
+      </div>
     </form>
   );
 };

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import SectionTitle from "@/components/common/SectionTitle";
 import {
   Building2,
@@ -50,8 +50,6 @@ const protectedData = [
 ];
 
 const Privacy = () => {
-   
-
   return (
     <LegalPageShell>
       <div className="mb-10">

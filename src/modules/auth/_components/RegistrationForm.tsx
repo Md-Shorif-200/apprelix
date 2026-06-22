@@ -12,17 +12,22 @@ import {
   Loader2,
   Lock,
   Mail,
-  MapPin,
-  Phone,
   ShoppingBag,
   User,
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { useForm, Controller, useWatch } from "react-hook-form";
+import {
+  useForm,
+  Controller,
+  useWatch,
+  SubmitHandler,
+  FieldErrors,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  RegistrationFormData,
+  RegistrationFormInput,
+  RegistrationFormOutput,
   registrationSchema,
 } from "../schema/auth.schema";
 import { toast } from "sonner";
@@ -33,9 +38,17 @@ import { signIn } from "next-auth/react";
 import CustomSelect from "@/components/inputs/CustomSelect"; // Assuming this is the correct path
 import CustomCalanderInput from "@/components/inputs/CustomCalanderInput";
 import CustomMultiSelectInput from "@/components/inputs/CustomMultiSelectInput";
-import { numberOfEmployeesOptions, productCategoriesOptions, productionCapacityOptions } from "../utils/register-select-options";
+import {
+  numberOfEmployeesOptions,
+  productCategoriesOptions,
+  productionCapacityOptions,
+} from "../utils/register-select-options";
+import CustomTelInput from "@/components/inputs/CustomTelInput";
+import LocationSelector from "./LocationSelector";
+import { Country, State } from "country-state-city";
+import { RoleDetailsType } from "@/modules/users/types/users.types";
 
-const defaultValues: RegistrationFormData = {
+const defaultValues: RegistrationFormInput = {
   fullName: "",
   email: "",
   phone: "",
@@ -44,10 +57,9 @@ const defaultValues: RegistrationFormData = {
   role: "",
   companyName: "",
   companyWebsite: "",
-  country: "",
-  city: "",
-  companyAddress: "",
- 
+  location: { country: "", state: "", city: "" },
+  streetAddress: "",
+
   // Supplier
   factoryName: "",
   productionCapacity: "",
@@ -72,7 +84,20 @@ const roles = [
   },
 ];
 
+function getFirstErrorMessage(errors: FieldErrors): string | undefined {
+  for (const value of Object.values(errors)) {
+    if (!value) continue;
 
+    if (typeof value === "object" && "message" in value && value.message) {
+      return String(value.message);
+    }
+
+    if (typeof value === "object") {
+      const nested = getFirstErrorMessage(value as FieldErrors);
+      if (nested) return nested;
+    }
+  }
+}
 
 function Divider() {
   return <div className="my-6 border-t border-gray-100" />;
@@ -89,93 +114,114 @@ export default function RegistrationForm() {
     reset,
     control,
     formState: { errors },
-  } = useForm<RegistrationFormData>({
+  } = useForm<RegistrationFormInput, unknown, RegistrationFormOutput>({
     defaultValues,
-    mode: "onBlur",
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+    shouldFocusError: true,
     resolver: zodResolver(registrationSchema),
   });
 
   const selectedRole = useWatch({ control, name: "role" });
 
-async function onSubmit(data: RegistrationFormData) {
-  try {
-    const {
-      role,
-      factoryName,
-      productionCapacity,
-      yearEstablished,
-      numberOfEmployees,
-      productCategories,
-      factoryLocation,
-      fullName,
-      email,
-      phone,
-      password,
-      companyName,
-      companyWebsite,
-      country,
-      city,
-      companyAddress,
-      preferredProduct,
-      purchaseVolume,
-    } = data;
-
-    const roleDetails =
-      role === "supplier"
-        ? {
-            factoryName,
-            productionCapacity,
-            yearEstablished,
-            numberOfEmployees,
-            productCategories,
-            factoryLocation,
-          }
-        : {};
-
-    const payload = {
-      fullName,
-      email,
-      phone,
-      password,
-      companyName,
-      companyWebsite,
-      country,
-      city,
-      companyAddress,
-      preferredProduct,
-      purchaseVolume,
-      role,
-      roleDetails,
-    };
-
-    console.log(payload);
-
-    await mutateAsync(payload);
-
-    const res = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-    });
-
-    if (res?.ok) {
-      toast.success("Registration & Login successful");
-      router.push("/");
-      router.refresh();
-    } else {
-      toast.error("Login failed after registration");
+  const onInvalid = (formErrors: FieldErrors<RegistrationFormInput>) => {
+    const message = getFirstErrorMessage(formErrors);
+    if (message) {
+      toast.error(message);
     }
+  };
 
-    reset();
-    setFormKey((k) => k + 1);
-  } catch (error) {
-    handleError(error);
-  }
-}
+  const onSubmit: SubmitHandler<RegistrationFormOutput> = async (data) => {
+    console.log(data);
+    try {
+      const {
+        role,
+        factoryName,
+        productionCapacity,
+        yearEstablished,
+        numberOfEmployees,
+        productCategories,
+        factoryLocation,
+        fullName,
+        email,
+        phone,
+        password,
+        companyName,
+        companyWebsite,
+        location,
+        streetAddress,
+      } = data;
+
+      // country name
+      const countryName =
+        Country.getCountryByCode(location.country)?.name ?? "";
+      const stateName =
+        State.getStateByCodeAndCountry(location.state, location.country)
+          ?.name ?? "";
+
+      // role details
+
+      const roleDetails: RoleDetailsType | undefined =
+        role === "supplier"
+          ? {
+              factoryName: factoryName!,
+              productionCapacity: productionCapacity!,
+              yearEstablished: yearEstablished!,
+              numberOfEmployees: numberOfEmployees!,
+              productCategories: productCategories!,
+              factoryLocation: factoryLocation!,
+            }
+          : undefined;
+
+      // submited payload
+
+      const payload = {
+        fullName,
+        email,
+        phone,
+        password,
+
+        companyInfo: {
+          companyName,
+          companyWebsite: companyWebsite ?? "",
+          location: {
+            countryCode: location.country,
+            countryName: countryName,
+            stateCode: location.state,
+            stateName: stateName,
+            city: location.city,
+          },
+          streetAddress,
+        },
+        role,
+        roleDetails,
+      };
+
+      await mutateAsync(payload);
+
+      const res = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+
+      if (res?.ok) {
+        toast.success("Registration & Login successful");
+        router.push("/");
+        router.refresh();
+      } else {
+        toast.error("Login failed after registration");
+      }
+
+      reset();
+      setFormKey((k) => k + 1);
+    } catch (error) {
+      handleError(error);
+    }
+  };
 
   return (
     <div className="flex min-h-full flex-col bg-gradient-to-br from-teal-50/60 via-white to-gray-50 p py-8  px-4">
-      {/* ৩. m-auto দেওয়া হয়েছে যাতে ফর্মটি পারফেক্টলি মাঝখানে থাকে এবং স্ক্রল করলে ভাঙে না */}
       <div className="m-auto w-full">
         {/* Header */}
         <div className="mb-7">
@@ -198,7 +244,11 @@ async function onSubmit(data: RegistrationFormData) {
         </div>
 
         <div className="rounded-2xl border border-gray-100 bg-white p-7 shadow-sm">
-          <form key={formKey} onSubmit={handleSubmit(onSubmit)}>
+          <form
+            key={formKey}
+            onSubmit={handleSubmit(onSubmit, onInvalid)}
+            noValidate
+          >
             {/* Step 1 */}
             <FormInputSectionTitle
               step={1}
@@ -213,24 +263,28 @@ async function onSubmit(data: RegistrationFormData) {
                 error={errors.fullName?.message}
                 {...register("fullName")}
               />
-
               <CustomInput
-                label="Phone Number"
-                type="tel"
-                placeholder="+1 234 567 890"
-                leftIcon={<Phone size={15} />}
-                error={errors.phone?.message}
-                {...register("phone")}
+                label="Email Address"
+                type="email"
+                placeholder="john@example.com"
+                leftIcon={<Mail size={15} />}
+                error={errors.email?.message}
+                {...register("email")}
               />
 
               <div className="sm:col-span-2">
-                <CustomInput
-                  label="Email Address"
-                  type="email"
-                  placeholder="john@example.com"
-                  leftIcon={<Mail size={15} />}
-                  error={errors.email?.message}
-                  {...register("email")}
+                <Controller
+                  name="phone"
+                  control={control}
+                  render={({ field, fieldState: { error } }) => (
+                    <CustomTelInput
+                      label="Phone Number"
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      error={error?.message ?? errors.phone?.message}
+                    />
+                  )}
                 />
               </div>
 
@@ -339,26 +393,29 @@ async function onSubmit(data: RegistrationFormData) {
                 error={errors.companyWebsite?.message}
                 {...register("companyWebsite")}
               />
-              <CustomInput
-                label="Country"
-                placeholder="United States"
-                leftIcon={<MapPin size={15} />}
-                error={errors.country?.message}
-                {...register("country")}
-              />
-              <CustomInput
-                label="City"
-                placeholder="New York"
-                leftIcon={<MapPin size={15} />}
-                error={errors.city?.message}
-                {...register("city")}
-              />
+              <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <Controller
+                  name="location"
+                  control={control}
+                  render={({ field }) => (
+                    <LocationSelector
+                      value={field.value}
+                      onChange={field.onChange}
+                      errors={{
+                        country: errors.location?.country,
+                        state: errors.location?.state,
+                        city: errors.location?.city,
+                      }}
+                    />
+                  )}
+                />
+              </div>
               <div className="sm:col-span-2">
                 <CustomTextArea
-                  label="Company Address"
-                  placeholder="Enter your full company address..."
-                  error={errors.companyAddress?.message}
-                  {...register("companyAddress")}
+                  label="Street  Address"
+                  placeholder="House #12, Road #5, Bahadderhat"
+                  error={errors.streetAddress?.message}
+                  {...register("streetAddress")}
                 />
               </div>
             </div>
@@ -373,126 +430,124 @@ async function onSubmit(data: RegistrationFormData) {
                   subtitle="Provide additional details based on your role"
                 />
 
-            
                 {/* Supplier Fields */}
 
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <CustomInput
-                      label="Factory Name"
-                      placeholder="ABC Garments Ltd."
-                      leftIcon={<Factory size={15} />}
-                      error={errors.factoryName?.message}
-                      {...register("factoryName")}
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <CustomInput
+                    label="Factory Name"
+                    placeholder="ABC Garments Ltd."
+                    leftIcon={<Factory size={15} />}
+                    error={errors.factoryName?.message}
+                    {...register("factoryName")}
+                  />
+
+                  {/* Production Capacity - UPDATED to CustomSelect */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      Production Capacity
+                    </label>
+                    <Controller
+                      name="productionCapacity"
+                      control={control}
+                      render={({ field }) => (
+                        <CustomSelect
+                          placeholder="Select capacity"
+                          options={productionCapacityOptions}
+                          onChange={field.onChange}
+                        />
+                      )}
                     />
-
-                    {/* Production Capacity - UPDATED to CustomSelect */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Production Capacity
-                      </label>
-                      <Controller
-                        name="productionCapacity"
-                        control={control}
-                        render={({ field }) => (
-                          <CustomSelect
-                            placeholder="Select capacity"
-                            options={productionCapacityOptions}
-                            onChange={field.onChange}
-                          />
-                        )}
-                      />
-                      {errors.productionCapacity && (
-                        <p className="mt-1 text-xs text-red-500">
-                          {errors.productionCapacity.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Date Established
-                      </label>
-                      <Controller
-                        control={control}
-                        name="yearEstablished"
-                        render={({
-                          field: { value, onChange },
-                          fieldState: { error },
-                        }) => {
-                          const parsedDate = value
-                            ? new Date(value)
-                            : undefined;
-
-                          return (
-                            <CustomCalanderInput
-                              value={parsedDate}
-                              onChange={(date) =>
-                                onChange(date ? date.toISOString() : undefined)
-                              }
-                              error={error?.message}
-                            />
-                          );
-                        }}
-                      />
-                    </div>
-
-                    {/* Number of Employees - UPDATED to CustomSelect */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Number of Employees
-                      </label>
-                      <Controller
-                        name="numberOfEmployees"
-                        control={control}
-                        render={({ field }) => (
-                          <CustomSelect
-                            placeholder="Select employee range"
-                            options={numberOfEmployeesOptions}
-                            onChange={field.onChange}
-                          />
-                        )}
-                      />
-                      {errors.numberOfEmployees && (
-                        <p className="mt-1 text-xs text-red-500">
-                          {errors.numberOfEmployees.message}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Product Categories - UPDATED to CustomSelect */}
-                    <div className="sm:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Product Categories
-                      </label>
-                      <Controller
-                        name="productCategories"
-                        control={control}
-                        render={({ field }) => (
-                          <CustomMultiSelectInput
-                            placeholder="Select categories"
-                            options={productCategoriesOptions}
-                            value={(field.value ?? []) as string[]} // ensure non-undefined array
-                            onChange={field.onChange}
-                          />
-                        )}
-                      />
-                      {errors.productCategories && (
-                        <p className="mt-1 text-xs text-red-500">
-                          {errors.productCategories.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="sm:col-span-2">
-                      <CustomTextArea
-                        label="Factory Location"
-                        placeholder="Enter your full factory address..."
-                        error={errors.factoryLocation?.message}
-                        {...register("factoryLocation")}
-                      />
-                    </div>
+                    {errors.productionCapacity && (
+                      <p className="mt-1 text-xs text-red-500">
+                        {errors.productionCapacity.message}
+                      </p>
+                    )}
                   </div>
-        
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      Date Established
+                    </label>
+                    <Controller
+                      control={control}
+                      name="yearEstablished"
+                      render={({
+                        field: { value, onChange },
+                        fieldState: { error },
+                      }) => {
+                        const parsedDate = value?.trim()
+                          ? new Date(value)
+                          : undefined;
+
+                        return (
+                          <CustomCalanderInput
+                            value={parsedDate}
+                            onChange={(date) =>
+                              onChange(date ? date.toISOString() : undefined)
+                            }
+                            error={error?.message}
+                          />
+                        );
+                      }}
+                    />
+                  </div>
+
+                  {/* Number of Employees - UPDATED to CustomSelect */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      Number of Employees
+                    </label>
+                    <Controller
+                      name="numberOfEmployees"
+                      control={control}
+                      render={({ field }) => (
+                        <CustomSelect
+                          placeholder="Select employee range"
+                          options={numberOfEmployeesOptions}
+                          onChange={field.onChange}
+                        />
+                      )}
+                    />
+                    {errors.numberOfEmployees && (
+                      <p className="mt-1 text-xs text-red-500">
+                        {errors.numberOfEmployees.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Product Categories - UPDATED to CustomSelect */}
+                  <div className="sm:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      Product Categories
+                    </label>
+                    <Controller
+                      name="productCategories"
+                      control={control}
+                      render={({ field }) => (
+                        <CustomMultiSelectInput
+                          placeholder="Select categories"
+                          options={productCategoriesOptions}
+                          value={(field.value ?? []) as string[]} // ensure non-undefined array
+                          onChange={field.onChange}
+                        />
+                      )}
+                    />
+                    {errors.productCategories && (
+                      <p className="mt-1 text-xs text-red-500">
+                        {errors.productCategories.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <CustomTextArea
+                      label="Factory Location"
+                      placeholder="Enter your full factory address..."
+                      error={errors.factoryLocation?.message}
+                      {...register("factoryLocation")}
+                    />
+                  </div>
+                </div>
               </>
             )}
 

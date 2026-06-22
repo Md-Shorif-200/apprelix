@@ -95,13 +95,13 @@ const ThemeToggle = () => {
       type="button"
       onClick={handleToggleTheme}
       className="
-        relative flex h-8 w-16 cursor-pointer items-center rounded-full border border-ds-border
+        relative flex h-7 w-14 cursor-pointer items-center rounded-full border border-ds-border
         bg-ds-background p-1 hover:bg-ds-border/60
       "
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
       <Moon
-        size={16}
+        size={14}
         className={`
           absolute left-2 transition-opacity duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)]
           ${isDark ? "text-white/20" : "text-ds-text/70"}
@@ -109,9 +109,9 @@ const ThemeToggle = () => {
       />
 
       <Sun
-        size={16}
+        size={14}
         className={`
-          absolute right-2 transition-opacity duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)]
+          absolute right-1 transition-opacity duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)]
           ${isDark ? "text-yellow-400" : "text-ds-muted-foreground"}
         `}
       />
@@ -120,7 +120,7 @@ const ThemeToggle = () => {
         className={`
           relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-ds-primary shadow-md
           transition-transform duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)]
-          ${isDark ? "translate-x-0" : "translate-x-8"}
+          ${isDark ? "translate-x-0" : "translate-x-6"}
         `}
       >
         {isDark ? (

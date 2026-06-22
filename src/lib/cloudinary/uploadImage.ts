@@ -6,6 +6,8 @@ const getFolder = (type: ImageType) => {
   switch (type) {
     case "profile":
       return "apprelix/profile";
+    case "logo":
+      return "apprelix/logo";
     case "product":
       return "apprelix/product";
     case "banner":
@@ -15,26 +17,28 @@ const getFolder = (type: ImageType) => {
   }
 };
 
+// old image delete functiopn function
+export const deleteImage = async (publicId: string): Promise<void> => {
+  await cloudinary.uploader.destroy(publicId);
+};
+
 export const uploadImage = async (
   file: File,
   type: ImageType,
+  oldPublicId?: string,
 ): Promise<UploadApiResponse> => {
+  // delete old image
+  if (oldPublicId) {
+    await deleteImage(oldPublicId);
+  }
+
   const buffer = Buffer.from(await file.arrayBuffer());
 
   return new Promise<UploadApiResponse>((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
       {
         folder: getFolder(type),
-
-        // 🔥 Auto compression + quality control
-        transformation: [
-          {
-            quality: "auto:good",
-            fetch_format: "auto",
-          },
-        ],
-
-        // optional max size control (Cloudinary handles compression automatically)
+        transformation: [{ quality: "auto:good", fetch_format: "auto" }],
         resource_type: "image",
       },
       (error, result) => {

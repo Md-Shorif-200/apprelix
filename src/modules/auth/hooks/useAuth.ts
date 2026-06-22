@@ -6,5 +6,3 @@ export const useRegister = () => {
     mutationFn: registerUser,
   });
 };
-
-
