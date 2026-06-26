@@ -6,7 +6,7 @@ import SupplierSection from "./SupplierSection";
 import BuyerSection from "./BuyerSection";
 
 const RoleBasedSection = ({ user }: { user: UserType }) => {
-  if (user.role === "buyer") {
+  if (user.role === "buyer" && user.roleDetails) {
     return <BuyerSection />;
   }
 

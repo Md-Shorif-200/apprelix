@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   CircleUserRound,
   User,
@@ -12,28 +12,44 @@ import {
   CreditCard,
   LogOut,
   ChevronDown,
+  LayoutDashboard,
 } from "lucide-react";
-
-// ─── Dropdown Menu Items ──────────────────────────────────────────────────────
-const dropdownMenus = [
-  { label: "Profile", href: "/profile", icon: User },
-  { label: "Billing", href: "/billing", icon: CreditCard },
-  { label: "Settings", href: "/settings", icon: Settings },
-];
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 const AuthButton = () => {
-  const { data: session, status } = useSession();
-  console.log("user", session);
   const router = useRouter();
+  const pathName = usePathname();
+
+  const isDashboard = pathName.startsWith("/dashboard/");
 
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { data: session, status } = useSession();
 
   const user = session?.user;
   const userName = user?.name || "User";
   const userEmail = user?.email || "";
   const userImage = user?.image || "";
+
+  // Role-based dashboard route
+  const dashboardHref =
+    user?.role === "admin"
+      ? "/dashboard/admin"
+      : user?.role === "buyer"
+        ? "/dashboard/buyer"
+        : user?.role === "supplier"
+          ? "/dashboard/supplier"
+          : "/dashboard";
+
+  // Dynamic menu items
+  const dropdownMenus = [
+    ...(!isDashboard
+      ? [{ label: "Dashboard", href: dashboardHref, icon: LayoutDashboard }]
+      : []),
+    { label: "Profile", href: "/profile", icon: User },
+    { label: "Billing", href: "/billing", icon: CreditCard },
+    { label: "Settings", href: "/settings", icon: Settings },
+  ];
 
   // Two-letter initials for avatar fallback
   const initials = userName.slice(0, 2).toUpperCase();
@@ -153,19 +169,13 @@ const AuthButton = () => {
               </span>
             </div>
 
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium text-slate-700 mb-1 truncate">
+                {userName}
+              </p>
+            </div>
             {/* Email Row */}
             <div className="flex items-center gap-2">
-              {/* Small email icon box */}
-              <div
-                className="
-      flex h-6 w-6 shrink-0 items-center justify-center
-      rounded-md bg-slate-100 text-slate-400
-    "
-              >
-                {/* Simple @ symbol as icon */}
-                <span className="text-[11px] font-bold">@</span>
-              </div>
-
               {/* Email text */}
               <p className="text-xs font-medium text-slate-500 truncate">
                 {userEmail}
