@@ -16,8 +16,9 @@ export default function DashboardClientLayout({
   const [sheetOpen, setSheet] = useState(false);
 
   return (
-    <div className="flex h-screen bg-white overflow-hidden">
-      {/* -- Desktop Sidebar -- */}
+  
+    <div className="fixed inset-0 flex bg-white overflow-hidden">
+      
       <aside className="hidden lg:flex w-60 flex-shrink-0 flex-col border-r border-slate-100 bg-white">
         <SidebarContent pathname={pathname} />
       </aside>
@@ -43,8 +44,8 @@ export default function DashboardClientLayout({
         <SidebarContent pathname={pathname} onClose={() => setSheet(false)} />
       </div>
 
-      {/* -- Right side: Topnav + Content -- */}
-      <div className="flex-1 flex flex-col min-w-0">
+
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <TopNavbar pathname={pathname} onMenuClick={() => setSheet(true)} />
 
         <main className="flex-1 overflow-y-auto bg-slate-50 p-4 md:p-6">

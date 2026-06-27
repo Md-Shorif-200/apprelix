@@ -48,7 +48,7 @@ export const rfqFormSchema = z.object({
   // ── Section 3: Description & Attachments ───────────────────────────────────
   description: z
     .string()
-    .min(50, "Description must be at least 50 characters long."),
+    .min(20, "Description must be at least 20 characters long."),
   referenceImages: z.any().optional(),
   techSheet: z.any().optional(),
   otherAttachments: z.any().optional(),

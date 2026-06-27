@@ -1,5 +1,3 @@
-// FILE: app/(dashboard)/_components/SidebarContent.tsx
-
 "use client";
 
 import { X, LogOut } from "lucide-react";
@@ -14,13 +12,12 @@ export function SidebarContent({
   onClose,
 }: {
   pathname: string;
-  onClose?: () => void; // only passed from mobile sheet
+  onClose?: () => void;
 }) {
   const role = getRoleFromPath(pathname);
   const config = roleConfig[role];
   const router = useRouter();
 
-  // ── Logout ────────────────────────────────────────────────────────────────
   const handleLogout = async () => {
     await signOut({ redirect: false });
     router.push("/login");
@@ -28,68 +25,133 @@ export function SidebarContent({
   };
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Brand */}
-      <div className="flex items-center justify-between px-4 py-5 border-b border-slate-100">
-        <Logo section="navbar" />
+    /*
+      Main sidebar container
+      - Full height, white background
+      - Subtle right border
+      - Rounded right corners for floating look
+    */
+    <div
+      className="
+        flex flex-col h-full w-full
+        bg-white
+        border-r border-slate-200
+        lg:rounded-r-none
+        shadow-xl lg:shadow-none
+      "
+    >
 
-        {/* Close button — only for mobile sheet */}
+      {/* ── LOGO AREA ── */}
+      <div
+        className="
+          flex items-center justify-between
+          px-5 py-5
+          border-b border-slate-100
+        "
+      >
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+         
+          <Logo section="navbar" />
+        </div>
+
+        {/* Close button (mobile only) */}
         {onClose && (
           <button
             onClick={onClose}
-            className="p-1.5 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            className="
+              p-1.5 rounded-lg
+              text-slate-400
+              hover:text-slate-700
+              hover:bg-slate-100
+              transition-colors
+            "
           >
             <X size={18} />
           </button>
         )}
       </div>
 
-      {/* Nav */}
+      {/* ── NAVIGATION LINKS ── */}
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+
+        {/* Optional: Section Label */}
+        <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400">
+          Main Menu
+        </p>
+
         {config.navItems.map((item) => (
           <NavLink
             key={item.href}
             item={item}
             isActive={pathname === item.href}
-            onClick={onClose} // close sheet on mobile after click
+            onClick={onClose}
           />
         ))}
       </nav>
 
-      {/* Logout */}
-      <div className="px-3 py-4 border-t border-slate-100">
-        <button
-          onClick={handleLogout}
-          className="
-      group w-full flex items-center gap-3
-       py-1.5 rounded-xl
-      text-sm font-medium
-      text-red-600
-      hover:text-red-700
-     bg-red-50
-      hover:bg-red-100
-      transition-all duration-200
-      cursor-pointer
-    "
-        >
-          <div
-            className="
-       
-        h-8 w-8 
-        flex items-center 
-        px-2
-        text-red-600
-        group-hover:text-red-700
-   
-        transition-all duration-200
-      "
-          >
-            <LogOut size={16} />
-          </div>
+      {/* ── USER / LOGOUT AREA ── */}
+      <div className="px-3 py-4 border-t border-slate-100 space-y-2">
 
-          <span className="flex-1 text-left">Log out</span>
-        </button>
+        {/* Upgrade Banner (Optional, looks professional) */}
+        {/* <div
+          className="
+            mx-1 p-3 rounded-xl
+            bg-gradient-to-br from-teal-500 to-emerald-600
+            text-white
+            mb-3
+          "
+        >
+          <p className="text-xs font-semibold">Upgrade to Pro</p>
+          <p className="text-[11px] opacity-80 mt-0.5">
+            Unlock all premium features
+          </p>
+          <button
+            className="
+              mt-2 w-full py-1 rounded-lg
+              bg-white/20 hover:bg-white/30
+              text-xs font-medium text-white
+              transition-colors
+            "
+          >
+            Upgrade Now
+          </button>
+        </div> */}
+
+        {/* Logout Button */}
+              <button
+                   onClick={handleLogout}
+                   className="
+           group w-full flex items-center gap-3
+            py-1.5 rounded-xl
+           text-sm font-medium
+           text-red-600
+           hover:text-red-700
+          bg-red-50
+           hover:bg-red-100
+           transition-all duration-200
+           cursor-pointer
+         "
+                 >
+                   <div
+                     className="
+            
+             h-8 w-8 
+             flex items-center 
+             px-2
+             text-red-600
+             group-hover:text-red-700
+        
+             transition-all duration-200
+           "
+                   >
+                     <LogOut size={16} />
+                   </div>
+     
+                   <span className="flex-1 text-left">Log out</span>
+                 </button>
       </div>
+
     </div>
   );
 }

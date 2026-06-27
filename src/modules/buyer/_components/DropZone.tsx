@@ -3,7 +3,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { File, Upload, X } from "lucide-react";
+import { File, X } from "lucide-react";
 
 // Helper to format file size
 const formatBytes = (bytes: number, decimals = 2) => {
@@ -66,17 +66,10 @@ export default function DropZone({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500">
+        <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">
           {label}
         </label>
-        <button
-          type="button"
-          onClick={() => inputRef.current?.click()}
-          className="flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1 text-xs font-medium text-gray-600 transition hover:border-teal-400 hover:text-teal-600"
-        >
-          <Upload size={11} />
-          Browse
-        </button>
+
       </div>
       <div
         onDragOver={(e) => {
