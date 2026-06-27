@@ -20,7 +20,7 @@ type DropZoneProps = {
   icon: React.ElementType;
   onChange?: (files: File[]) => void;
   value?: File[];
-  error?: string; 
+  error?: string;
 };
 
 export default function DropZone({
@@ -82,8 +82,8 @@ export default function DropZone({
           error
             ? "border-red-300 bg-red-50/40"
             : dragging
-            ? "border-teal-400 bg-teal-50"
-            : "border-gray-200 bg-gray-50/60 hover:border-teal-300 hover:bg-teal-50/40"
+              ? "border-teal-400 bg-teal-50"
+              : "border-gray-200 bg-gray-50/60 hover:border-teal-300 hover:bg-teal-50/40"
         }`}
       >
         <Icon
@@ -105,9 +105,7 @@ export default function DropZone({
       </div>
 
       {/* Error message */}
-      {error && (
-        <p className="text-xs text-red-500">{error}</p>
-      )}
+      {error && <p className="text-xs text-red-500">{error}</p>}
 
       {/* File list */}
       {files.length > 0 && (

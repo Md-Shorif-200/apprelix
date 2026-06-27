@@ -9,7 +9,12 @@ import {
   Image as ImageIcon,
   File,
   Plus,
-  User,
+  FileText,
+  Gauge,
+  Hash,
+  DollarSign,
+  Wallet,
+  MapPin,
 } from "lucide-react";
 
 import CustomInput from "@/components/inputs/CustomInput";
@@ -35,7 +40,7 @@ import {
 } from "../utils/rfq-form.select-options";
 import CustomColorSelectInput from "@/components/inputs/CustomColorSelectInput";
 import { CustomButton } from "@/components/common/CustomButton";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { uploadImageClient } from "@/utils/uploadImageClient";
 import { RfqFileType } from "@/types/image";
 import { toast } from "sonner";
@@ -78,6 +83,21 @@ export default function CreateRfqForm() {
   });
 
   const description = watch("description", "");
+
+  const totalQuantity = watch("total_quantity");
+  const budgetPerPiece = watch("budget_per_piece");
+
+  const totalBudget = useMemo(() => {
+    if (
+      typeof totalQuantity === "number" &&
+      typeof budgetPerPiece === "number" &&
+      totalQuantity > 0 &&
+      budgetPerPiece > 0
+    ) {
+      return totalQuantity * budgetPerPiece;
+    }
+    return null;
+  }, [totalQuantity, budgetPerPiece]);
 
   // Helper function to upload multiple files in parallel
   const uploadFiles = async (
@@ -131,7 +151,7 @@ export default function CreateRfqForm() {
         printing_embroidery: data.printing_embroidery,
         packaging_requirement: data.packaging_requirement,
         budget_per_piece: data.budget_per_piece,
-        total_budget: data.total_budget,
+        total_budget: totalBudget,
         required_delivery_date: data.required_delivery_date,
         deliveryCountry: data.deliveryCountry,
         delivery_place: data.delivery_place,
@@ -152,7 +172,7 @@ export default function CreateRfqForm() {
       if (res?.success) {
         toast.success(res.message);
         setIsSubmitting(false);
-          reset();
+        reset();
       } else {
         toast.error("faild to Create Rfq");
       }
@@ -186,7 +206,7 @@ export default function CreateRfqForm() {
             <CustomInput
               label="RFQ Title"
               placeholder="e.g. Men's Polo Shirts — Summer Collection 2025"
-              leftIcon={<User size={15} />}
+              leftIcon={<FileText size={15} />}
               error={errors.rfq_title?.message}
               {...register("rfq_title")}
             />
@@ -253,7 +273,7 @@ export default function CreateRfqForm() {
                 label="Fabric GSM"
                 type="number"
                 placeholder="e.g. 160"
-                leftIcon={<User size={15} />}
+                leftIcon={<Gauge size={15} />}
                 error={errors.febric_gsm?.message}
                 {...register("febric_gsm", { valueAsNumber: true })}
               />
@@ -293,17 +313,7 @@ export default function CreateRfqForm() {
             </div>
           </div>
 
-          <div className="mb-4 grid gap-4 md:grid-cols-2">
-            <div>
-              <CustomInput
-                label="Total Quantity (Pcs)"
-                type="number"
-                placeholder="e.g. 5000"
-                leftIcon={<User size={15} />}
-                error={errors.total_quantity?.message}
-                {...register("total_quantity", { valueAsNumber: true })}
-              />
-            </div>
+          <div className="grid gap-4 md:grid-cols-2">
             <div>
               <FieldLabel>Sample Requirement</FieldLabel>
               <Controller
@@ -324,9 +334,7 @@ export default function CreateRfqForm() {
                 </p>
               )}
             </div>
-          </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
             <div>
               <FieldLabel>Printing &amp; Embroidery</FieldLabel>
               <Controller
@@ -347,7 +355,7 @@ export default function CreateRfqForm() {
                 </p>
               )}
             </div>
-            <div>
+            <div className="md:col-span-2">
               <FieldLabel>Packaging Requirement</FieldLabel>
               <Controller
                 name="packaging_requirement"
@@ -379,21 +387,32 @@ export default function CreateRfqForm() {
           />
 
           <div className="mb-4 grid gap-4 md:grid-cols-2">
+            <div className="md:col-span-2">
+              <CustomInput
+                label="Total Quantity (Pcs)"
+                type="number"
+                placeholder="e.g. 5000"
+                leftIcon={<Hash size={15} />}
+                error={errors.total_quantity?.message}
+                {...register("total_quantity", { valueAsNumber: true })}
+              />
+            </div>
+
             <CustomInput
               label="Budget per Piece (USD)"
               type="number"
               placeholder="e.g. 3.50"
-              leftIcon={<User size={15} />}
+              leftIcon={<DollarSign size={15} />}
               error={errors.budget_per_piece?.message}
               {...register("budget_per_piece", { valueAsNumber: true })}
             />
             <CustomInput
               label="Total Budget (USD)"
-              type="number"
-              placeholder="e.g. 17500"
-              leftIcon={<User size={15} />}
-              error={errors.total_budget?.message}
-              {...register("total_budget", { valueAsNumber: true })}
+              value={totalBudget ?? ""}
+              placeholder="Auto-calculated"
+              leftIcon={<Wallet size={15} />}
+              readOnly
+              className="bg-gray-50 cursor-not-allowed"
             />
           </div>
 
@@ -417,6 +436,9 @@ export default function CreateRfqForm() {
                         onChange(date ? date.toISOString() : undefined)
                       }
                       error={error?.message}
+                      startMonth={new Date()}
+                      endMonth={new Date(new Date().getFullYear() + 10, 11)}
+                      disablePastDates={true} 
                     />
                   );
                 }}
@@ -444,7 +466,7 @@ export default function CreateRfqForm() {
             <CustomInput
               label="Delivery Port / City / Airport"
               placeholder="e.g. Hamburg, Los Angeles"
-              leftIcon={<User size={15} />}
+              leftIcon={<MapPin size={15} />}
               error={errors.delivery_place?.message}
               {...register("delivery_place")}
             />

@@ -1,6 +1,5 @@
 import { RfqFormValues } from "../schema/rfq-form.schema";
 
-
 export type RfqStatus =
   | "pending"
   | "active"
@@ -9,7 +8,6 @@ export type RfqStatus =
   | "completed"
   | "cancelled"
   | "expired";
-
 
 // ─── Type Definitions for Final Payload ────────
 export type UploadedFile = {
@@ -21,13 +19,12 @@ export type CreateRfqPayload = Omit<
   RfqFormValues,
   "referenceImages" | "techSheet" | "otherAttachments"
 > & {
-  createdBy : string | undefined;
+  createdBy: string | undefined;
+  total_budget : number | null;
   referenceImages: UploadedFile[];
   techSheet: UploadedFile | null;
   otherAttachments: UploadedFile[];
 };
-
-
 
 export type RfqApiResponse = {
   success: boolean;

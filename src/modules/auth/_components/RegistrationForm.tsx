@@ -132,7 +132,6 @@ export default function RegistrationForm() {
   };
 
   const onSubmit: SubmitHandler<RegistrationFormOutput> = async (data) => {
-
     try {
       const {
         role,
@@ -486,6 +485,8 @@ export default function RegistrationForm() {
                               onChange(date ? date.toISOString() : undefined)
                             }
                             error={error?.message}
+                            startMonth={new Date(1950, 0)}
+                            endMonth={new Date()}
                           />
                         );
                       }}

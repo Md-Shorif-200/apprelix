@@ -1,47 +1,78 @@
-// src/lib/validations/rfqForm.schema.ts
-
 import { z } from "zod";
 
 export const rfqFormSchema = z.object({
   // ── Section 1: Product Details ──────────────────────────────────────────────
   rfq_title: z.string().min(1, "RFQ title is required."),
-  product_category: z.string().min(1, "Product category is required."),
-  gender: z.string().min(1, "Target gender is required."),
-  material_febric: z.string().min(1, "Material/Fabric is required."),
+
+  product_category: z
+    .string({ error: "Product category is required." })
+    .min(1, "Product category is required."),
+
+  gender: z
+    .string({ error: "Target gender is required." })
+    .min(1, "Target gender is required."),
+
+  material_febric: z
+    .string({ error: "Material/Fabric is required." })
+    .min(1, "Material/Fabric is required."),
+
   febric_gsm: z
-    .union([
-      z.number().positive("GSM must be a positive number."),
-      z.literal(""),
-    ])
+    .number({ error: "GSM must be a number." })
+    .positive("GSM must be a positive number.")
+    .optional()
+    .or(z.nan().transform(() => undefined))
     .optional(),
+
   total_quantity: z
-    .number({ message: "Quantity must be a number." })
+    .number({ error: "Quantity must be a number." })
     .positive("Quantity must be a positive number."),
+
   required_colors: z.array(z.string()).optional(),
   product_sizes: z.array(z.string()).optional(),
+
   printing_embroidery: z.string().optional(),
   packaging_requirement: z.string().optional(),
+
   sample_requirement: z.boolean({
-    message: "Please specify if a sample is required.",
+    error: "Please specify if a sample is required.",
   }),
+
   // ── Section 2: Business & Logistics ────────────────────────────────────────
   budget_per_piece: z
-    .union([
-      z.number().positive("Budget must be a positive number."),
-      z.literal(""),
-    ])
+    .number({ error: "Budget must be a number." })
+    .positive("Budget must be a positive number.")
+    .optional()
+    .or(z.nan().transform(() => undefined))
     .optional(),
-  total_budget: z
-    .union([
-      z.number().positive("Budget must be a positive number."),
-      z.literal(""),
-    ])
-    .optional(),
-  required_delivery_date: z.string().min(1, "Delivery date is required."),
-  deliveryCountry: z.string().min(1, "Delivery country is required."),
+
+  required_delivery_date: z
+    .string({ error: "Delivery date is required." })
+    .min(1, "Delivery date is required.")
+    .refine(
+      (val) => {
+        if (!val) return false;
+        const selected = new Date(val);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return selected > today;
+      },
+      { message: "Delivery date must be in the future." }
+    ),
+
+  deliveryCountry: z
+    .string({ error: "Delivery country is required." })
+    .min(1, "Delivery country is required."),
+
   delivery_place: z.string().optional(),
-  Incoterms: z.string().optional(),
-  payment_terms: z.string().optional(),
+
+  Incoterms: z
+    .string({ error: "Incoterms is required." })
+    .min(1, "Incoterms is required."),
+
+  payment_terms: z
+    .string({ error: "Payment terms is required." })
+    .min(1, "Payment terms is required."),
+
   certifications: z.array(z.string()).optional(),
 
   // ── Section 3: Description & Attachments ───────────────────────────────────
