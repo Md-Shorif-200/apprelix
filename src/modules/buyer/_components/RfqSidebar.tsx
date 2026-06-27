@@ -1,9 +1,4 @@
-import {
-  Lightbulb,
-  Eye,
-  Files,
-  ShieldCheck,
-} from "lucide-react";
+import { Lightbulb, Eye, Files, ShieldCheck } from "lucide-react";
 
 // ─── Sidebar Info Card ────────────────────────────────────────────────────────
 function SidebarCard({

@@ -3,8 +3,6 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  FileText,
-  Send,
   Package,
   Truck,
   Paperclip,
@@ -37,35 +35,18 @@ import {
 } from "../utils/rfq-form.select-options";
 import CustomColorSelectInput from "@/components/inputs/CustomColorSelectInput";
 import { CustomButton } from "@/components/common/CustomButton";
+import { useState } from "react";
+import { uploadImageClient } from "@/utils/uploadImageClient";
+import { RfqFileType } from "@/types/image";
+import { toast } from "sonner";
+import RfqFormHeader from "./RfqFormHeader";
+import { CreateRfqPayload, UploadedFile } from "../types/rfq-form.types";
+import { RfqFormSectionHeader } from "./RfqFormSectionHeader";
+import { handleError } from "@/lib/error/errorHandler";
+import { useCreateRfq } from "../hooks/rfq.hooks";
+import { useSession } from "next-auth/react";
 
-// ─── Section Header ────────────────────────────────────────────────────────────
-function SectionHeader({
-  icon: Icon,
-  title,
-  subtitle,
-}: {
-  icon: React.ElementType;
-  title: string;
-  subtitle?: string;
-}) {
-  return (
-    <div className="mb-6 flex items-center gap-3 border-b border-gray-100 pb-4">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-teal-50 ring-1 ring-teal-100">
-        <Icon size={17} className="text-teal-600" />
-      </div>
-      <div>
-        <h3 className="text-xs font-semibold uppercase tracking-widest text-gray-700">
-          {title}
-        </h3>
-        {subtitle && (
-          <p className="mt-0.5 text-xs text-gray-400">{subtitle}</p>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ─── Field Label ──────────────────────────────────────────────────────────────
+// ─── Field Label ────────────
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
     <label className="mb-1.5 block text-sm font-medium text-gray-700">
@@ -74,65 +55,128 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-// ─── Main Component ────────────────────────────────────────────────────────────
+// ─── Main Component ───────────
 export default function CreateRfqForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mutateAsync } = useCreateRfq();
+  const { data: session } = useSession();
+
   const {
     control,
     handleSubmit,
     watch,
+    reset,
     register,
     formState: { errors },
   } = useForm<RfqFormValues>({
     resolver: zodResolver(rfqFormSchema),
     defaultValues: {
-      required_colors: [],
-      product_sizes: [],
-      certifications: [],
+      // ... your default values
+      referenceImages: [],
+      otherAttachments: [],
     },
   });
 
   const description = watch("description", "");
 
-  const onSubmit = (data: RfqFormValues) => {
-    console.log("✅ RFQ Payload:", data);
-    alert("RFQ published successfully!");
+  // Helper function to upload multiple files in parallel
+  const uploadFiles = async (
+    files: File[],
+    type: RfqFileType,
+  ): Promise<UploadedFile[]> => {
+    if (!files || files.length === 0) return [];
+
+    const uploadPromises = files.map((file) => uploadImageClient(file, type));
+    const results = await Promise.all(uploadPromises);
+
+    // Check for any upload errors
+    const failedUpload = results.find((result) => result.error);
+    if (failedUpload) {
+      throw new Error(`Failed to upload ${type}: ${failedUpload.error}`);
+    }
+
+    // Map to the final structure
+    return results.map((result) => ({
+      url: result.url,
+      publicId: result.public_id,
+    }));
+  };
+
+  const onSubmit = async (data: RfqFormValues) => {
+    setIsSubmitting(true);
+
+    try {
+      // 1. Upload all files concurrently
+      const [referenceImageResults, techSheetResult, otherAttachmentResults] =
+        await Promise.all([
+          uploadFiles(data.referenceImages || [], "referenceImage"),
+          data.techSheet
+            ? uploadFiles([data.techSheet], "techSheet")
+            : Promise.resolve([]),
+          uploadFiles(data.otherAttachments || [], "otherAttachment"),
+        ]);
+
+      // 2. Construct the final payload for the backend
+      const payload: CreateRfqPayload = {
+        createdBy: session?.user?.id,
+        rfq_title: data.rfq_title,
+        product_category: data.product_category,
+        gender: data.gender,
+        material_febric: data.material_febric,
+        febric_gsm: data.febric_gsm,
+        required_colors: data.required_colors,
+        product_sizes: data.product_sizes,
+        total_quantity: data.total_quantity,
+        sample_requirement: data.sample_requirement,
+        printing_embroidery: data.printing_embroidery,
+        packaging_requirement: data.packaging_requirement,
+        budget_per_piece: data.budget_per_piece,
+        total_budget: data.total_budget,
+        required_delivery_date: data.required_delivery_date,
+        deliveryCountry: data.deliveryCountry,
+        delivery_place: data.delivery_place,
+        Incoterms: data.Incoterms,
+        payment_terms: data.payment_terms,
+        description: data.description,
+        certifications: data.certifications, // Assuming this field exists in your schema
+        // Replace file objects with uploaded file data
+        referenceImages: referenceImageResults,
+        techSheet: techSheetResult.length > 0 ? techSheetResult[0] : null,
+        otherAttachments: otherAttachmentResults,
+      };
+
+      const res = await mutateAsync(payload);
+
+      console.log("Rfq submited reuslt", res);
+
+      if (res?.success) {
+        toast.success(res.message);
+        setIsSubmitting(false);
+          reset();
+      } else {
+        toast.error("faild to Create Rfq");
+      }
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl">
-
       {/* ── Header ── */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-teal-600 to-teal-500 px-8 py-7">
-        <div className="absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/5" />
-        <div className="absolute -bottom-10 right-12 h-24 w-24 rounded-full bg-white/5" />
-        <div className="relative flex items-center gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15 ring-1 ring-white/25">
-            <FileText size={22} className="text-white" />
-          </div>
-          <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-xl font-bold text-white">Create New RFQ</h1>
-              <span className="rounded-full border border-white/25 bg-white/15 px-3 py-0.5 text-[10px] font-bold uppercase tracking-widest text-white">
-                Request For Quotation
-              </span>
-            </div>
-            <p className="mt-1 text-sm text-teal-100">
-              Fill in the details below to receive competitive quotations from
-              verified suppliers.
-            </p>
-          </div>
-        </div>
-      </div>
+      <RfqFormHeader />
 
       {/* ── Form ── */}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="divide-y divide-gray-100"
       >
-            {/* SECTION 1: Product Details */}
+        {/* SECTION 1: Product Details */}
 
         <section className="p-8">
-          <SectionHeader
+          <RfqFormSectionHeader
             icon={Package}
             title="Product Details"
             subtitle="Basic specifications of your product"
@@ -143,8 +187,8 @@ export default function CreateRfqForm() {
               label="RFQ Title"
               placeholder="e.g. Men's Polo Shirts — Summer Collection 2025"
               leftIcon={<User size={15} />}
-              error={errors.refq_title?.message}
-              {...register("refq_title")}
+              error={errors.rfq_title?.message}
+              {...register("rfq_title")}
             />
           </div>
 
@@ -326,11 +370,9 @@ export default function CreateRfqForm() {
           </div>
         </section>
 
-        {/* ═══════════════════════════════════
-            SECTION 2: Business & Logistics
-        ═══════════════════════════════════ */}
+        {/* SECTION 2: Business & Logistics */}
         <section className="p-8">
-          <SectionHeader
+          <RfqFormSectionHeader
             icon={Truck}
             title="Business & Logistics"
             subtitle="Budget, delivery, and trade terms"
@@ -447,11 +489,10 @@ export default function CreateRfqForm() {
           </div>
         </section>
 
-        {/* ═══════════════════════════════════
-            SECTION 3: Description & Attachments
-        ═══════════════════════════════════ */}
+        {/* SECTION 3: Description & Attachments */}
+
         <section className="p-8">
-          <SectionHeader
+          <RfqFormSectionHeader
             icon={Paperclip}
             title="Description & Attachments"
             subtitle="Describe your product and upload references"
@@ -466,8 +507,8 @@ export default function CreateRfqForm() {
               error={errors.description?.message}
               {...register("description")}
             />
-            <div className="mt-1.5 flex items-center justify-between">
-              <p className="text-xs text-gray-400">Minimum 20 characters</p>
+            <div className="mt-1.5 flex items-center justify-end">
+              {/* <p className="text-xs text-gray-400">Minimum 20 characters</p> */}
               <p
                 className={`text-xs font-medium ${
                   (description?.length ?? 0) >= 20
@@ -484,7 +525,7 @@ export default function CreateRfqForm() {
             <Controller
               name="referenceImages"
               control={control}
-              render={({ field }) => (
+              render={({ field, fieldState: { error } }) => (
                 <DropZone
                   label="Reference Images"
                   hint="JPG, PNG — max 5 files, 5 MB each"
@@ -492,6 +533,7 @@ export default function CreateRfqForm() {
                   multiple
                   icon={ImageIcon}
                   onChange={field.onChange}
+                  error={error?.message}
                 />
               )}
             />
@@ -501,20 +543,21 @@ export default function CreateRfqForm() {
             <Controller
               name="techSheet"
               control={control}
-              render={({ field }) => (
+              render={({ field, fieldState: { error } }) => (
                 <DropZone
                   label="Technical Spec Sheet"
                   hint="PDF only — max 10 MB"
                   accept="application/pdf"
                   icon={File}
                   onChange={(files) => field.onChange(files[0])}
+                  error={error?.message}
                 />
               )}
             />
             <Controller
               name="otherAttachments"
               control={control}
-              render={({ field }) => (
+              render={({ field, fieldState: { error } }) => (
                 <DropZone
                   label="Other Attachments"
                   hint="CAD, size charts, lab dips — PDF, XLS, DXF"
@@ -522,6 +565,7 @@ export default function CreateRfqForm() {
                   icon={Plus}
                   multiple
                   onChange={field.onChange}
+                  error={error?.message}
                 />
               )}
             />
@@ -531,11 +575,12 @@ export default function CreateRfqForm() {
         {/* ── Submit ── */}
         <div className="flex justify-end bg-gray-50/70 px-8 py-6">
           <CustomButton
-            text="Create RFQ"
-            type ="submit"
+            text={`${isSubmitting ? "Submitting..." : "Create RFQ"}`}
+            type="submit"
             variant="primary"
+            isLoading={isSubmitting}
             icon={<Plus size={15} strokeWidth={2.75} />}
-            className="w-36 px-4 py-3 font-semibold "
+            className="w-38 px-4 py-3 font-semibold "
           />
         </div>
       </form>

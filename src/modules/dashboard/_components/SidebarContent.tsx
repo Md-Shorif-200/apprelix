@@ -40,7 +40,6 @@ export function SidebarContent({
         shadow-xl lg:shadow-none
       "
     >
-
       {/* ── LOGO AREA ── */}
       <div
         className="
@@ -51,7 +50,6 @@ export function SidebarContent({
       >
         {/* Logo */}
         <div className="flex items-center gap-2">
-         
           <Logo section="navbar" />
         </div>
 
@@ -74,7 +72,6 @@ export function SidebarContent({
 
       {/* ── NAVIGATION LINKS ── */}
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-
         {/* Optional: Section Label */}
         <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400">
           Main Menu
@@ -92,7 +89,6 @@ export function SidebarContent({
 
       {/* ── USER / LOGOUT AREA ── */}
       <div className="px-3 py-4 border-t border-slate-100 space-y-2">
-
         {/* Upgrade Banner (Optional, looks professional) */}
         {/* <div
           className="
@@ -119,9 +115,9 @@ export function SidebarContent({
         </div> */}
 
         {/* Logout Button */}
-              <button
-                   onClick={handleLogout}
-                   className="
+        <button
+          onClick={handleLogout}
+          className="
            group w-full flex items-center gap-3
             py-1.5 rounded-xl
            text-sm font-medium
@@ -132,9 +128,9 @@ export function SidebarContent({
            transition-all duration-200
            cursor-pointer
          "
-                 >
-                   <div
-                     className="
+        >
+          <div
+            className="
             
              h-8 w-8 
              flex items-center 
@@ -144,14 +140,13 @@ export function SidebarContent({
         
              transition-all duration-200
            "
-                   >
-                     <LogOut size={16} />
-                   </div>
-     
-                   <span className="flex-1 text-left">Log out</span>
-                 </button>
-      </div>
+          >
+            <LogOut size={16} />
+          </div>
 
+          <span className="flex-1 text-left">Log out</span>
+        </button>
+      </div>
     </div>
   );
 }

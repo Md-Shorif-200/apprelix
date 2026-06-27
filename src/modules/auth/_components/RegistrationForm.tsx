@@ -132,7 +132,7 @@ export default function RegistrationForm() {
   };
 
   const onSubmit: SubmitHandler<RegistrationFormOutput> = async (data) => {
-    console.log(data);
+
     try {
       const {
         role,

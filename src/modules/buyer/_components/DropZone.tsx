@@ -1,11 +1,8 @@
-// src/components/shared/DropZone.tsx
-
 "use client";
 
 import { useRef, useState } from "react";
 import { File, X } from "lucide-react";
 
-// Helper to format file size
 const formatBytes = (bytes: number, decimals = 2) => {
   if (bytes === 0) return "0 Bytes";
   const k = 1024;
@@ -23,6 +20,7 @@ type DropZoneProps = {
   icon: React.ElementType;
   onChange?: (files: File[]) => void;
   value?: File[];
+  error?: string; 
 };
 
 export default function DropZone({
@@ -32,6 +30,7 @@ export default function DropZone({
   multiple = false,
   icon: Icon,
   onChange,
+  error, // ← added
 }: DropZoneProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [dragging, setDragging] = useState(false);
@@ -66,11 +65,11 @@ export default function DropZone({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">
+        <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500">
           {label}
         </label>
-
       </div>
+
       <div
         onDragOver={(e) => {
           e.preventDefault();
@@ -80,12 +79,17 @@ export default function DropZone({
         onDrop={handleDrop}
         onClick={() => inputRef.current?.click()}
         className={`cursor-pointer rounded-xl border-2 border-dashed px-6 py-8 text-center transition-all ${
-          dragging
+          error
+            ? "border-red-300 bg-red-50/40"
+            : dragging
             ? "border-teal-400 bg-teal-50"
             : "border-gray-200 bg-gray-50/60 hover:border-teal-300 hover:bg-teal-50/40"
         }`}
       >
-        <Icon size={24} className="mx-auto mb-2 text-gray-300" />
+        <Icon
+          size={24}
+          className={`mx-auto mb-2 ${error ? "text-red-300" : "text-gray-300"}`}
+        />
         <p className="text-sm font-medium text-gray-500">
           Click or drag files to upload
         </p>
@@ -99,6 +103,13 @@ export default function DropZone({
           onChange={handleChange}
         />
       </div>
+
+      {/* Error message */}
+      {error && (
+        <p className="text-xs text-red-500">{error}</p>
+      )}
+
+      {/* File list */}
       {files.length > 0 && (
         <div className="mt-1 space-y-1.5">
           {files.map((file, i) => (

@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export const rfqFormSchema = z.object({
   // ── Section 1: Product Details ──────────────────────────────────────────────
-  refq_title: z.string().min(1, "RFQ title is required."),
+  rfq_title: z.string().min(1, "RFQ title is required."),
   product_category: z.string().min(1, "Product category is required."),
   gender: z.string().min(1, "Target gender is required."),
   material_febric: z.string().min(1, "Material/Fabric is required."),
@@ -21,10 +21,9 @@ export const rfqFormSchema = z.object({
   product_sizes: z.array(z.string()).optional(),
   printing_embroidery: z.string().optional(),
   packaging_requirement: z.string().optional(),
-  sample_requirement: z
-    .string()
-    .min(1, "Please specify if a sample is required."),
-
+  sample_requirement: z.boolean({
+    message: "Please specify if a sample is required.",
+  }),
   // ── Section 2: Business & Logistics ────────────────────────────────────────
   budget_per_piece: z
     .union([
@@ -49,9 +48,18 @@ export const rfqFormSchema = z.object({
   description: z
     .string()
     .min(20, "Description must be at least 20 characters long."),
-  referenceImages: z.any().optional(),
-  techSheet: z.any().optional(),
-  otherAttachments: z.any().optional(),
+
+  referenceImages: z.any().refine((files) => files && files.length >= 2, {
+    message: "Please upload at least 2 reference images.",
+  }),
+
+  techSheet: z.any().refine((file) => file instanceof File, {
+    message: "Please upload a tech spec sheet.",
+  }),
+
+  otherAttachments: z.any().refine((files) => files && files.length > 0, {
+    message: "Please upload at least one attachment.",
+  }),
 });
 
 export type RfqFormValues = z.infer<typeof rfqFormSchema>;

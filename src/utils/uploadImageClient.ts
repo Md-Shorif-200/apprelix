@@ -1,8 +1,8 @@
-import { ImageType } from "@/types/image";
+import { UploadFileType } from "@/types/image";
 
 export const uploadImageClient = async (
   file: File,
-  type: ImageType,
+  type: UploadFileType,
   oldPublicId?: string,
 ) => {
   const formData = new FormData();

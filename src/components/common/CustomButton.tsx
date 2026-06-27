@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 import Link from "next/link";
 
 type CustomButtonProps = {
@@ -67,7 +67,7 @@ export const CustomButton = ({
   //  icon logic
   const content = (
     <>
-      {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : icon}
+      {isLoading ? <Loader className="h-4 w-4 animate-spin" /> : icon}
 
       {text}
     </>

@@ -30,10 +30,8 @@ export function TopNavbar({
         shadow-sm
       "
     >
-
       {/* ── LEFT SIDE ── */}
       <div className="flex items-center gap-3">
-
         {/* Hamburger — mobile only */}
         <button
           onClick={onMenuClick}
@@ -53,7 +51,6 @@ export function TopNavbar({
 
         {/* Page Title with breadcrumb style */}
         <div className="flex items-center gap-2">
-
           <span
             className="
               px-3 py-1 rounded-lg
@@ -69,7 +66,6 @@ export function TopNavbar({
 
       {/* ── RIGHT SIDE ── */}
       <div className="flex items-center gap-2">
-
         {/* Search button */}
         <button
           className="
@@ -113,7 +109,6 @@ export function TopNavbar({
 
         {/* User Avatar / Auth Button */}
         <AuthButton />
-
       </div>
     </header>
   );

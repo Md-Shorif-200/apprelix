@@ -336,8 +336,8 @@ export const PACKAGING_OPTIONS = [
 ];
 
 export const SAMPLE_OPTIONS = [
-  { label: "Yes, need sample", value: "true" },
-  { label: "No, not required", value: "false" },
+  { label: "Yes, need sample", value: true },
+  { label: "No, not required", value: false },
 ];
 
 export const COUNTRY_OPTIONS = Country.getAllCountries().map((c) => ({
