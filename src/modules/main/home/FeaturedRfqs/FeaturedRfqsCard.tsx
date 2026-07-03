@@ -176,7 +176,7 @@ const FeaturedRfqsCard = ({ rfq, index = 0 }: FeaturedRfqsCardProps) => {
           </div>
 
           <div className="absolute inset-0 flex items-center opacity-0 translate-y-4 transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0">
-            <button className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold text-xs py-2.5 px-4 rounded-xl shadow-[0_4px_12px_-2px_rgba(20,184,166,0.4)] hover:shadow-[0_6px_16px_-2px_rgba(20,184,166,0.5)] transition-all duration-300 tracking-wide">
+            <button className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#14b8a6] to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold text-xs py-2.5 px-4 rounded-xl shadow-[0_4px_12px_-2px_rgba(20,184,166,0.4)] hover:shadow-[0_6px_16px_-2px_rgba(20,184,166,0.5)] transition-all duration-300 tracking-wide">
               <Send className="w-3.5 h-3.5" />
               Submit Proposal
             </button>

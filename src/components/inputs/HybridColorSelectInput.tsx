@@ -96,7 +96,7 @@ export default function HybridColorSelectInput({
                 selectedOptions.map((option) => (
                   <div
                     key={option.value}
-                    className="flex items-center gap-1.5 rounded-md bg-teal-500/10 px-2 py-1 text-xs font-medium text-teal-700"
+                    className="flex items-center gap-1.5 rounded-md bg-[#14b8a6]/10 px-2 py-1 text-xs font-medium text-teal-700"
                   >
                     <span
                       className="h-3 w-3 rounded-full border border-gray-400/50"
@@ -137,7 +137,7 @@ export default function HybridColorSelectInput({
                 }}
                 className={cn(
                   "flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm outline-none transition-colors",
-                  "data-[selected=true]:bg-teal-500 data-[selected=true]:text-white",
+                  "data-[selected=true]:bg-[#14b8a6] data-[selected=true]:text-white",
                 )}
               >
                 <Palette className="h-4 w-4" />
@@ -153,8 +153,8 @@ export default function HybridColorSelectInput({
                       onSelect={() => handleSelect(option.value)}
                       className={cn(
                         "flex cursor-pointer items-center justify-between rounded-md px-2 py-1.5 text-sm outline-none transition-colors",
-                        "data-[selected=true]:bg-teal-500 data-[selected=true]:text-white",
-                        isSelected && "bg-teal-500/10 text-teal-700",
+                        "data-[selected=true]:bg-[#14b8a6] data-[selected=true]:text-white",
+                        isSelected && "bg-[#14b8a6]/10 text-teal-700",
                       )}
                     >
                       <div className="flex items-center gap-2">

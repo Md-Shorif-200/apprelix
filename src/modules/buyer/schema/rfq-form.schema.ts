@@ -56,7 +56,7 @@ export const rfqFormSchema = z.object({
         today.setHours(0, 0, 0, 0);
         return selected > today;
       },
-      { message: "Delivery date must be in the future." }
+      { message: "Delivery date must be in the future." },
     ),
 
   deliveryCountry: z

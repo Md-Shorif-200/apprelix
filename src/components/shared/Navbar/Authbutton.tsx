@@ -103,7 +103,7 @@ const AuthButton = () => {
           `}
         >
           {/* Avatar */}
-          <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full ring-2 ring-white">
+          <div className="relative h-9 w-9 bg-white shrink-0 overflow-hidden rounded-full ring ring-white">
             {userImage ? (
               <Image
                 src={userImage}
@@ -115,7 +115,7 @@ const AuthButton = () => {
               />
             ) : (
               // Gradient initials fallback
-              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-cyan-400 to-teal-500 text-[11px] font-bold text-white">
+              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-cyan-400 to-[#14b8a6] text-[11px] font-bold text-white">
                 {initials}
               </div>
             )}

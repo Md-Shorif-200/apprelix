@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { File, X } from "lucide-react";
+import { File as FileIcon, X } from "lucide-react";
 
 const formatBytes = (bytes: number, decimals = 2) => {
   if (bytes === 0) return "0 Bytes";
@@ -18,8 +18,8 @@ type DropZoneProps = {
   accept?: string;
   multiple?: boolean;
   icon: React.ElementType;
-  onChange?: (files: File[]) => void;
-  value?: File[];
+  onChange: (value: File | File[] | undefined) => void;
+  value?: File | File[];
   error?: string;
 };
 
@@ -30,16 +30,20 @@ export default function DropZone({
   multiple = false,
   icon: Icon,
   onChange,
-  error, // ← added
+  value,
+  error,
 }: DropZoneProps) {
-  const [files, setFiles] = useState<File[]>([]);
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const files = value ? (Array.isArray(value) ? value : [value]) : [];
+
   const handleFiles = (newFiles: File[]) => {
-    const updatedFiles = multiple ? [...files, ...newFiles] : newFiles;
-    setFiles(updatedFiles);
-    onChange?.(updatedFiles);
+    if (multiple) {
+      onChange([...files, ...newFiles]);
+    } else {
+      onChange(newFiles[0]);
+    }
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -57,9 +61,12 @@ export default function DropZone({
   };
 
   const removeFile = (indexToRemove: number) => {
-    const updatedFiles = files.filter((_, index) => index !== indexToRemove);
-    setFiles(updatedFiles);
-    onChange?.(updatedFiles);
+    if (!multiple) {
+      onChange(undefined);
+    } else {
+      const updatedFiles = files.filter((_, index) => index !== indexToRemove);
+      onChange(updatedFiles);
+    }
   };
 
   return (
@@ -101,13 +108,12 @@ export default function DropZone({
           multiple={multiple}
           className="hidden"
           onChange={handleChange}
+          onClick={(e) => ((e.target as HTMLInputElement).value = "")}
         />
       </div>
 
-      {/* Error message */}
       {error && <p className="text-xs text-red-500">{error}</p>}
 
-      {/* File list */}
       {files.length > 0 && (
         <div className="mt-1 space-y-1.5">
           {files.map((file, i) => (
@@ -115,7 +121,7 @@ export default function DropZone({
               key={i}
               className="flex items-center gap-2.5 rounded-xl border border-gray-100 bg-white px-3 py-2"
             >
-              <File size={13} className="shrink-0 text-teal-500" />
+              <FileIcon size={13} className="shrink-0 text-[#14b8a6]" />
               <span className="flex-1 truncate text-xs text-gray-600">
                 {file.name}
               </span>

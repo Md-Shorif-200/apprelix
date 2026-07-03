@@ -10,6 +10,7 @@ export type AuthUserType = {
   fullName: string;
   email: string;
   phone: string;
+  profilePhoto?: { url?: string };
   password: string;
   role: "buyer" | "supplier" | "admin";
   companyName: string;

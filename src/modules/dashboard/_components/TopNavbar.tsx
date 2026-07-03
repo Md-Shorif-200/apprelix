@@ -1,47 +1,47 @@
 "use client";
 
-import { Menu, Bell, Search } from "lucide-react";
-import { getRoleFromPath, roleConfig } from "../config/nav";
+import Link from "next/link";
+import { Bell, ChevronRight, Menu, Search } from "lucide-react";
 import AuthButton from "@/components/shared/Navbar/Authbutton";
+import { generateBreadcrumbs } from "@/utils/breadcrumb";
 
-export function TopNavbar({
-  pathname,
-  onMenuClick,
-}: {
+type TopNavbarProps = {
   pathname: string;
   onMenuClick: () => void;
-}) {
-  const role = getRoleFromPath(pathname);
-  const config = roleConfig[role];
+};
 
-  // Find current page label
-  const currentPage =
-    config.navItems.find((item) => item.href === pathname)?.label ??
-    "Dashboard";
+export function TopNavbar({ pathname, onMenuClick }: TopNavbarProps) {
+  const breadcrumbs = generateBreadcrumbs(pathname);
 
   return (
     <header
       className="
-        h-16 flex items-center justify-between
-        px-4 md:px-6
+        h-16
+        flex
+        items-center
+        justify-between
+        px-4
+        md:px-6
         bg-white
-        border-b border-slate-200
-        flex-shrink-0
+        border-b
+        border-slate-200
         shadow-sm
+        flex-shrink-0
       "
     >
-      {/* ── LEFT SIDE ── */}
-      <div className="flex items-center gap-3">
-        {/* Hamburger — mobile only */}
+      {/* LEFT */}
+      <div className="flex items-center gap-4">
+        {/* Mobile Menu */}
         <button
           onClick={onMenuClick}
           className="
-            p-2 rounded-xl
+            lg:hidden
+            p-2
+            rounded-xl
             text-slate-500
             hover:text-teal-600
             hover:bg-teal-50
             transition-colors
-            lg:hidden
             cursor-pointer
           "
           aria-label="Open menu"
@@ -49,42 +49,65 @@ export function TopNavbar({
           <Menu size={20} />
         </button>
 
-        {/* Page Title with breadcrumb style */}
-        <div className="flex items-center gap-2">
-          <span
-            className="
-              px-3 py-1 rounded-lg
-              bg-teal-50
-              text-sm font-semibold
-              text-teal-700
-            "
-          >
-            {currentPage}
-          </span>
-        </div>
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="flex items-center text-sm">
+          {breadcrumbs.map((item, index) => {
+            const isLast = index === breadcrumbs.length - 1;
+
+            return (
+              <div key={item.href} className="flex items-center">
+                {index > 0 && (
+                  <ChevronRight size={15} className="mx-1.5 text-slate-400" />
+                )}
+
+                {isLast ? (
+                  <span className="font-semibold text-teal-700 whitespace-nowrap">
+                    {item.label}
+                  </span>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className="
+                      whitespace-nowrap
+                      text-slate-500
+                      hover:text-teal-600
+                      transition-colors
+                    "
+                  >
+                    {item.label}
+                  </Link>
+                )}
+              </div>
+            );
+          })}
+        </nav>
       </div>
 
-      {/* ── RIGHT SIDE ── */}
+      {/* RIGHT */}
       <div className="flex items-center gap-2">
-        {/* Search button */}
+        {/* Search */}
         <button
           className="
-            p-2 rounded-xl
+            hidden
+            sm:flex
+            p-2
+            rounded-xl
             text-slate-400
             hover:text-teal-600
             hover:bg-teal-50
             transition-colors
-            hidden sm:flex
           "
           aria-label="Search"
         >
           <Search size={18} />
         </button>
 
-        {/* Notification Bell */}
+        {/* Notifications */}
         <button
           className="
-            relative p-2 rounded-xl
+            relative
+            p-2
+            rounded-xl
             text-slate-400
             hover:text-teal-600
             hover:bg-teal-50
@@ -93,21 +116,26 @@ export function TopNavbar({
           aria-label="Notifications"
         >
           <Bell size={18} />
-          {/* Notification dot */}
+
           <span
             className="
-              absolute top-1.5 right-1.5
-              w-2 h-2 rounded-full
-              bg-teal-500
-              ring-2 ring-white
+              absolute
+              top-1.5
+              right-1.5
+              w-2
+              h-2
+              rounded-full
+              bg-[#14b8a6]
+              ring-2
+              ring-white
             "
           />
         </button>
 
         {/* Divider */}
-        <div className="w-px h-6 bg-slate-200 mx-1" />
+        <div className="mx-1 h-6 w-px bg-slate-200" />
 
-        {/* User Avatar / Auth Button */}
+        {/* User */}
         <AuthButton />
       </div>
     </header>

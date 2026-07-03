@@ -12,6 +12,7 @@ import { Update_UserProfile_Payload_Type } from "@/modules/users/types/users.typ
 import { ProfileFormValues } from "../types/profile.types";
 import CustomTelInput from "@/components/inputs/CustomTelInput";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 interface Props {
   user: ProfileFormValues;
@@ -21,6 +22,7 @@ interface Props {
 const ProfileUpdateForm = ({ user, closeModal }: Props) => {
   const { mutateAsync } = useUpdateUserProfileData();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const { data: session, update } = useSession();
 
   const {
     register,
@@ -43,34 +45,20 @@ const ProfileUpdateForm = ({ user, closeModal }: Props) => {
   const onSubmit = async (data: ProfileFormValues) => {
     try {
       setIsSubmitting(true);
-      const oldPublicId = user.profilePhoto?.publicId ?? "";
-      let profilePhoto = user.profilePhoto ?? { url: "", publicId: "" };
-
+      const oldPublicId = user.profilePhoto?.publicId;
+      let profilePhoto = user.profilePhoto;
       const file = data.newProfilePhoto?.[0];
 
-      // Image Upload (Optional)
       if (file) {
-        const uploadResult = await uploadImageClient(
+        const { url, public_id } = await uploadImageClient(
           file,
           "profile",
-          oldPublicId || undefined,
+          oldPublicId,
         );
 
-        // console.log(uploadResult)
-
-        if (!uploadResult || !uploadResult.url) {
-          setError("newProfilePhoto", {
-            type: "manual",
-            message: uploadResult?.error || "Upload failed",
-          });
-          setIsSubmitting(false);
-
-          return; // stop form submit
-        }
-
         profilePhoto = {
-          url: uploadResult.url,
-          publicId: uploadResult.public_id,
+          url: url,
+          publicId: public_id,
         };
       }
 
@@ -92,6 +80,17 @@ const ProfileUpdateForm = ({ user, closeModal }: Props) => {
 
       if (result?.success) {
         toast.success(result.message);
+
+        await update({
+          ...session,
+          user: {
+            ...session?.user,
+            name: updatedProfile.fullName,
+            phone: updatedProfile.phone,
+            image: updatedProfile.profilePhoto?.url,
+          },
+        });
+
         setIsSubmitting(false);
         closeModal();
       } else {

@@ -37,7 +37,7 @@ function SidebarCard({
 // ─── Tip Row ──────────────────────────────────────────────────────────────────
 function TipRow({
   children,
-  dotColor = "bg-teal-500",
+  dotColor = "bg-[#14b8a6]",
 }: {
   children: React.ReactNode;
   dotColor?: string;

@@ -52,7 +52,7 @@ interface CustomModalProps {
 const EmptyState = () => (
   <div className="flex flex-col items-center justify-center gap-3 py-12 text-center">
     <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50">
-      <PackageOpen size={30} className="text-teal-500" />
+      <PackageOpen size={30} className="text-[#14b8a6]" />
     </div>
 
     <p className="text-sm font-semibold text-gray-700">No content available</p>
@@ -84,7 +84,7 @@ const CustomModal = ({
         `}
       >
         {/* Header */}
-        <DialogHeader className="relative overflow-hidden rounded-t-2xl border-b border-teal-500/20 bg-gradient-to-r from-teal-600 to-teal-400 p-4">
+        <DialogHeader className="relative overflow-hidden rounded-t-2xl border-b border-[#14b8a6]/20 bg-gradient-to-r from-teal-600 to-teal-400 p-4">
           <div className="relative flex items-center justify-between gap-4">
             <div>
               <DialogTitle className="text-sm sm:text-base font-bold tracking-tight text-white">

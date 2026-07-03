@@ -111,7 +111,7 @@ export default function CustomSearchSelectInput({
                           setOpen(false);
                         }}
                         className={cn(
-                          "cursor-pointer rounded-lg px-3 py-2 text-sm text-gray-700 transition-colors hover:!bg-teal-500",
+                          "cursor-pointer rounded-lg px-3 py-2 text-sm text-gray-700 transition-colors hover:!bg-[#14b8a6]",
                           isSelected &&
                             "bg-teal-100/60 font-medium text-teal-800",
                         )}

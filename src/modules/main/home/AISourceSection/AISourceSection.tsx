@@ -48,7 +48,7 @@ export default function AISourceSection() {
 
         <MotionStaggerItem>
           <div className="mt-8 flex justify-center gap-2">
-            <div className="w-16 h-1 rounded-full bg-teal-500/50" />
+            <div className="w-16 h-1 rounded-full bg-[#14b8a6]/50" />
             <div className="w-4 h-1 rounded-full bg-cyan-500/50" />
             <div className="w-4 h-1 rounded-full bg-emerald-500/50" />
           </div>

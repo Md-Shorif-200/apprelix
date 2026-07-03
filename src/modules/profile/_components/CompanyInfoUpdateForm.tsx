@@ -66,30 +66,21 @@ const CompanyInfoUpdateForm = ({ companyInfo, closeModal }: Props) => {
     try {
       setIsSubmitting(true);
 
-      const oldPublicId = companyInfo.companyLogo?.publicId ?? "";
+      const oldPublicId = companyInfo.companyLogo?.publicId;
       let companyLogo = companyInfo.companyLogo;
 
       const file = data.companyNewLogo?.[0];
 
       if (file) {
-        const uploadResult = await uploadImageClient(
+        const { url, public_id } = await uploadImageClient(
           file,
           "logo",
-          oldPublicId || undefined,
+          oldPublicId,
         );
 
-        if (!uploadResult?.url) {
-          setError("companyNewLogo", {
-            type: "manual",
-            message: uploadResult?.error || "Upload failed",
-          });
-          setIsSubmitting(false);
-          return;
-        }
-
         companyLogo = {
-          url: uploadResult.url,
-          publicId: uploadResult.public_id,
+          url: url,
+          publicId: public_id,
         };
       }
 

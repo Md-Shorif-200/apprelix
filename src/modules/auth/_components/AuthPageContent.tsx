@@ -12,7 +12,7 @@ const AuthPageContent = () => {
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute top-[-80px] left-[-80px] h-72 w-72 rounded-full bg-teal-500/20 blur-3xl"
+        className="pointer-events-none absolute top-[-80px] left-[-80px] h-72 w-72 rounded-full bg-[#14b8a6]/20 blur-3xl"
         aria-hidden
       />
       <div
@@ -26,7 +26,7 @@ const AuthPageContent = () => {
           <Logo section="footer" />
         </div>
 
-        <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-teal-400/30 bg-teal-500/20 px-3 py-1.5 text-xs font-semibold text-teal-300">
+        <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-teal-400/30 bg-[#14b8a6]/20 px-3 py-1.5 text-xs font-semibold text-teal-300">
           <Sparkles className="h-3.5 w-3.5" />
           AI-Powered Platform
         </div>

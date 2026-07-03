@@ -50,6 +50,7 @@ import { RfqFormSectionHeader } from "./RfqFormSectionHeader";
 import { handleError } from "@/lib/error/errorHandler";
 import { useCreateRfq } from "../hooks/rfq.hooks";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 // ─── Field Label ────────────
 function FieldLabel({ children }: { children: React.ReactNode }) {
@@ -63,6 +64,7 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
 // ─── Main Component ───────────
 export default function CreateRfqForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
   const { mutateAsync } = useCreateRfq();
   const { data: session } = useSession();
 
@@ -107,19 +109,32 @@ export default function CreateRfqForm() {
     if (!files || files.length === 0) return [];
 
     const uploadPromises = files.map((file) => uploadImageClient(file, type));
-    const results = await Promise.all(uploadPromises);
 
-    // Check for any upload errors
-    const failedUpload = results.find((result) => result.error);
-    if (failedUpload) {
-      throw new Error(`Failed to upload ${type}: ${failedUpload.error}`);
+    const results = await Promise.allSettled(uploadPromises);
+
+    const successfulUploads: UploadedFile[] = [];
+    const failedUploads: PromiseRejectedResult[] = [];
+
+    results.forEach((result, index) => {
+      if (result.status === "fulfilled") {
+        successfulUploads.push({
+          url: result.value.url,
+          publicId: result.value.public_id, // এখানে publicId ব্যবহার করুন
+        });
+      } else {
+        failedUploads.push(result);
+        console.error(`Failed to upload ${files[index].name}:`, result.reason);
+      }
+    });
+
+    if (failedUploads.length > 0) {
+      const errorMessage =
+        failedUploads[0].reason?.message ||
+        "Some files failed to upload. Please try again.";
+      throw new Error(errorMessage);
     }
 
-    // Map to the final structure
-    return results.map((result) => ({
-      url: result.url,
-      publicId: result.public_id,
-    }));
+    return successfulUploads;
   };
 
   const onSubmit = async (data: RfqFormValues) => {
@@ -170,9 +185,10 @@ export default function CreateRfqForm() {
       console.log("Rfq submited reuslt", res);
 
       if (res?.success) {
-        toast.success(res.message);
+        toast.success(res?.message);
         setIsSubmitting(false);
         reset();
+        router.push("/dashboard/buyer/rfq-lists");
       } else {
         toast.error("faild to Create Rfq");
       }
@@ -438,7 +454,7 @@ export default function CreateRfqForm() {
                       error={error?.message}
                       startMonth={new Date()}
                       endMonth={new Date(new Date().getFullYear() + 10, 11)}
-                      disablePastDates={true} 
+                      disablePastDates={true}
                     />
                   );
                 }}
@@ -571,7 +587,8 @@ export default function CreateRfqForm() {
                   hint="PDF only — max 10 MB"
                   accept="application/pdf"
                   icon={File}
-                  onChange={(files) => field.onChange(files[0])}
+                  onChange={field.onChange}
+                  value={field.value}
                   error={error?.message}
                 />
               )}
@@ -587,6 +604,7 @@ export default function CreateRfqForm() {
                   icon={Plus}
                   multiple
                   onChange={field.onChange}
+                  value={field.value}
                   error={error?.message}
                 />
               )}

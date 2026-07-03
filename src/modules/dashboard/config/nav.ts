@@ -6,6 +6,11 @@ import {
   Settings,
   TrendingUp,
   Plus,
+  FileText,
+  Clock,
+  CheckCircle,
+  XCircle,
+  List,
 } from "lucide-react";
 import { RoleConfigtype, RoleType } from "../types/dashboard.types";
 
@@ -27,11 +32,27 @@ export const roleConfig: Record<RoleType, RoleConfigtype> = {
     label: "Buyer Portal",
     navItems: [
       { label: "Dashboard", href: "/dashboard/buyer", icon: LayoutDashboard },
+
+      // ── Nested: RFQs ──────────────────────────────────────────────────────
       {
-        label: "Create RFQs",
-        href: "/dashboard/buyer/create-rfqs",
-        icon: Plus,
+        label: "RFQs",
+        href: "/dashboard/buyer/rfqs",
+        icon: FileText,
+        children: [
+          {
+            label: "My Rfqs",
+            href: "/dashboard/buyer/rfq-lists",
+            icon: List,
+          },
+          {
+            label: "Create RFQ",
+            href: "/dashboard/buyer/create-rfqs",
+            icon: Plus,
+          },
+        ],
       },
+      // ─────────────────────────────────────────────────────────────────────
+
       {
         label: "My Orders",
         href: "/dashboard/buyer/orders",

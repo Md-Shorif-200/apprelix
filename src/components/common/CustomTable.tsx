@@ -1,112 +1,162 @@
-// "use client";
+"use client";
 
-// import {
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableHead,
-//   TableHeader,
-//   TableRow,
-// } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 
-// import { cn } from "@/lib/utils";
+export type CustomTableColumn<T> = {
+  key: keyof T | string;
+  header: React.ReactNode;
+  headerClassName?: string;
+  cellClassName?: string;
+  cell?: (row: T, index: number) => React.ReactNode;
+  hidden?: boolean;
+  width?: string; // Added width property for custom column widths
+};
 
-// export type CustomTableColumn<T> = {
-//   key: keyof T | string;
-//   header: React.ReactNode;
-//   headerClassName?: string;
-//   cellClassName?: string;
-//   cell?: (row: T) => React.ReactNode;
-// };
+type CustomTableProps<T extends Record<string, unknown>> = {
+  columns: CustomTableColumn<T>[];
+  data: T[];
+  rowKey: (row: T) => React.Key;
+  tableClassName?: string;
+  containerClassName?: string;
+  headerClassName?: string;
+  headerRowClassName?: string;
+  rowClassName?: string | ((row: T, index: number) => string);
+  emptyMessage?: React.ReactNode;
+  isLoading?: boolean;
+  loadingRows?: number;
+  onRowClick?: (row: T) => void;
+  caption?: string;
+};
 
-// type CustomTableProps<T extends Record<string, any>> = {
-//   columns: CustomTableColumn<T>[];
-//   data: T[];
-//   rowKey?: (row: T, index: number) => React.Key;
-//   tableClassName?: string;
-//   containerClassName?: string;
-//   headerClassName?: string;
-//   headerRowClassName?: string;
-//   rowClassName?: string;
-//   emptyMessage?: React.ReactNode;
-//   emptyColSpan?: number;
-// };
+function getNestedValue(obj: Record<string, unknown>, path: string): unknown {
+  return path.split(".").reduce<unknown>((acc, key) => {
+    if (acc !== null && typeof acc === "object" && key in acc) {
+      return (acc as Record<string, unknown>)[key];
+    }
+    return undefined;
+  }, obj);
+}
 
-// const CustomTable = <T extends Record<string, any>>({
-//   columns,
-//   data,
-//   rowKey,
-//   tableClassName,
-//   containerClassName,
-//   headerClassName,
-//   headerRowClassName,
-//   rowClassName,
-//   emptyMessage = "No Data Available",
-//   emptyColSpan,
-// }: CustomTableProps<T>) => {
-//   if (data.length === 0) {
-//     return (
-//       <div
-//         className={cn("w-full overflow-x-auto rounded-xl", containerClassName)}
-//       >
-//         {typeof emptyMessage === "string" ? (
-//           <p className="py-8 text-center text-white/70">{emptyMessage}</p>
-//         ) : (
-//           emptyMessage
-//         )}
-//       </div>
-//     );
-//   }
+function toDisplayString(value: unknown): string {
+  if (value === null || value === undefined) return "-";
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+  return JSON.stringify(value);
+}
 
-//   return (
-//     <div
-//       className={cn("w-full overflow-x-auto rounded-xl ", containerClassName)}
-//     >
-//       <Table className={tableClassName}>
-//         <TableHeader className={headerClassName}>
-//           <TableRow className={headerRowClassName}>
-//             {columns.map((column) => (
-//               <TableHead
-//                 key={String(column.key)}
-//                 className={column.headerClassName}
-//               >
-//                 {column.header}
-//               </TableHead>
-//             ))}
-//           </TableRow>
-//         </TableHeader>
+// Professional Skeleton Loading Row
+const SkeletonRow = ({ colCount }: { colCount: number }) => (
+  <TableRow className="border-b border-gray-100 bg-white">
+    {Array.from({ length: colCount }).map((_, i) => (
+      <TableCell key={i} className="p-4">
+        <div className="h-5 w-full animate-pulse rounded-md bg-gray-200" />
+      </TableCell>
+    ))}
+  </TableRow>
+);
 
-//         <TableBody>
-//           {data.length > 0 ? (
-//             data.map((row, rowIndex) => (
-//               <TableRow
-//                 key={rowKey ? rowKey(row, rowIndex) : rowIndex}
-//                 className={rowClassName}
-//               >
-//                 {columns.map((column) => (
-//                   <TableCell
-//                     key={String(column.key)}
-//                     className={column.cellClassName}
-//                   >
-//                     {column.cell ? column.cell(row) : row[column.key]}
-//                   </TableCell>
-//                 ))}
-//               </TableRow>
-//             ))
-//           ) : (
-//             <TableRow>
-//               <TableCell
-//                 colSpan={emptyColSpan ?? columns.length}
-//                 className="py-8 text-center"
-//               >
-//                 {emptyMessage}
-//               </TableCell>
-//             </TableRow>
-//           )}
-//         </TableBody>
-//       </Table>
-//     </div>
-//   );
-// };
+const CustomTable = <T extends Record<string, unknown>>({
+  columns,
+  data,
+  rowKey,
+  tableClassName,
+  containerClassName,
+  headerClassName,
+  headerRowClassName,
+  rowClassName,
+  emptyMessage = "No Data Available",
+  isLoading = false,
+  loadingRows = 5,
+  onRowClick,
+  caption,
+}: CustomTableProps<T>) => {
+  const visibleColumns = columns.filter((col) => !col.hidden);
 
-// export default CustomTable;
+  return (
+    <div
+      className={cn(
+        "w-full overflow-x-auto rounded-xl table-horizontal-scrollbar",
+        containerClassName,
+      )}
+    >
+      {/* Added min-w-[1000px] or similar to force horizontal scroll if content exceeds container */}
+      <Table className={cn("w-full min-w-[1000px]", tableClassName)}>
+        {caption && (
+          <caption className="mb-2 text-sm text-gray-500">{caption}</caption>
+        )}
+
+        <TableHeader className={headerClassName}>
+          <TableRow className={headerRowClassName}>
+            {visibleColumns.map((column) => (
+              <TableHead
+                key={String(column.key)}
+                className={column.headerClassName}
+                style={{ width: column.width, minWidth: column.width }}
+              >
+                {column.header}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          {isLoading ? (
+            Array.from({ length: loadingRows }).map((_, i) => (
+              <SkeletonRow key={i} colCount={visibleColumns.length} />
+            ))
+          ) : data?.length === 0 ? (
+            <TableRow>
+              <TableCell
+                colSpan={visibleColumns.length}
+                className="py-12 text-center text-gray-500"
+              >
+                {emptyMessage}
+              </TableCell>
+            </TableRow>
+          ) : (
+            data.map((row, rowIndex) => (
+              <TableRow
+                key={rowKey(row)}
+                onClick={onRowClick ? () => onRowClick(row) : undefined}
+                className={cn(
+                  onRowClick && "cursor-pointer",
+                  typeof rowClassName === "function"
+                    ? rowClassName(row, rowIndex)
+                    : rowClassName,
+                )}
+              >
+                {visibleColumns.map((column) => (
+                  <TableCell
+                    key={String(column.key)}
+                    className={column.cellClassName}
+                  >
+                    {column.cell
+                      ? column.cell(row, rowIndex)
+                      : toDisplayString(
+                          getNestedValue(
+                            row as Record<string, unknown>,
+                            String(column.key),
+                          ),
+                        )}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
+    </div>
+  );
+};
+
+export default CustomTable;

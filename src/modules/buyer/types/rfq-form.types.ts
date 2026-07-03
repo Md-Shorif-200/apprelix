@@ -9,7 +9,6 @@ export type RfqStatus =
   | "cancelled"
   | "expired";
 
-// ─── Type Definitions for Final Payload ────────
 export type UploadedFile = {
   url: string;
   publicId: string;
@@ -20,18 +19,34 @@ export type CreateRfqPayload = Omit<
   "referenceImages" | "techSheet" | "otherAttachments"
 > & {
   createdBy: string | undefined;
-  total_budget : number | null;
+  total_budget: number | null;
   referenceImages: UploadedFile[];
   techSheet: UploadedFile | null;
   otherAttachments: UploadedFile[];
 };
 
-export type RfqApiResponse = {
+// Single RFQ
+export type CreateRfqResponse = CreateRfqPayload & {
+  _id: string;
+  status: RfqStatus;
+  createdAt: string;
+  updatedAt: string;
+};
+
+// API Response Wrapper
+export type GetRfqsResponse = {
+  data: {
+    success: boolean;
+    message: string;
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: CreateRfqResponse[];
+  };
+};
+
+export type CreateRfqApiResponse = {
   success: boolean;
   message: string;
-  data?: CreateRfqPayload & {
-    status: RfqStatus;
-    createdAt: string;
-    updatedAt: string;
-  };
+  data: CreateRfqResponse;
 };

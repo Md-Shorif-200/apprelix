@@ -374,3 +374,44 @@ body[data-scroll-locked] {
     display: none;
   }
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Table Horizontal Scrollbar Customization */
+
+/* WebKit Browsers (Chrome, Edge, Safari) */
+.table-horizontal-scrollbar::-webkit-scrollbar {
+  height: 4px; /* এখানে আপনার পছন্দমতো পিক্সেল দিন (যেমন: 4px বা 6px) */
+}
+
+.table-horizontal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.table-horizontal-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--ds-muted-foreground);
+  border-radius: 10px;
+  border: 2px solid transparent; /* ব্যাকগ্রাউন্ডের সাথে একটু স্পেস রাখার জন্য */
+  background-clip: padding-box;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.table-horizontal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--ds-primary);
+}
+
+/* Firefox Browser */
+.table-horizontal-scrollbar {
+  scrollbar-width: thin; /* Firefox-এ নির্দিষ্ট পিক্সেল দেওয়া যায় না, 'thin' ই সবচেয়ে চিকন */
+  scrollbar-color: var(--ds-muted-foreground) transparent;
+}

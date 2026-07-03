@@ -40,7 +40,7 @@ const CustomCalanderInput = ({
           <Button
             variant={"outline"}
             className={cn(
-              "group h-11 w-full justify-start text-left font-normal px-4 rounded-xl border border-gray-200 bg-gray-50/80 text-sm text-gray-700 transition-all outline-none hover:bg-gray-50/80 hover:border-teal-500 focus-visible:bg-white focus-visible:border-teal-600 focus-visible:ring-2 focus-visible:ring-teal-100",
+              "group h-11 w-full justify-start text-left font-normal px-4 rounded-xl border border-gray-200 bg-gray-50/80 text-sm text-gray-700 transition-all outline-none hover:bg-gray-50/80 hover:border-[#14b8a6] focus-visible:bg-white focus-visible:border-teal-600 focus-visible:ring-2 focus-visible:ring-teal-100",
               "data-[state=open]:bg-white",
               !value && "text-gray-400",
               error &&

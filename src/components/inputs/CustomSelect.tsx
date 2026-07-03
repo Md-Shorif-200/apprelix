@@ -33,7 +33,7 @@ export default function CustomSelect({
         const option = options.find((item) => String(item.value) === selected);
 
         if (option) {
-          onChange?.(option.value); // এখানে original boolean/number/string ফেরত যাচ্ছে
+          onChange?.(option.value);
         }
       }}
     >
@@ -46,7 +46,7 @@ export default function CustomSelect({
           <SelectItem
             key={String(option.value)}
             value={String(option.value)}
-            className="text-sm py-2 px-3 text-gray-700 cursor-pointer rounded-lg focus:bg-ds-primary focus:text-teal-800 data-[highlighted]:bg-teal-500 data-[highlighted]:text-teal-800"
+            className="text-sm py-2 px-3 text-gray-700 cursor-pointer rounded-lg focus:bg-ds-primary focus:text-teal-800 data-[highlighted]:bg-[#14b8a6] data-[highlighted]:text-teal-800"
           >
             {option.label}
           </SelectItem>

@@ -21,7 +21,7 @@ const NavSearch = () => {
         transition-[border-color,box-shadow,background-color] duration-200
         ${
           isFocused
-            ? "border-teal-500 shadow-md shadow-teal-500/10 bg-ds-background"
+            ? "border-[#14b8a6] shadow-md shadow-[#14b8a6]/10 bg-ds-background"
             : "border-ds-border hover:border-ds-ring"
         }
       `}
@@ -31,7 +31,7 @@ const NavSearch = () => {
         size={16}
         className={`
           flex-shrink-0 transition-colors duration-200
-          ${isFocused ? "text-teal-500" : "text-ds-muted-foreground"}
+          ${isFocused ? "text-[#14b8a6]" : "text-ds-muted-foreground"}
         `}
       />
 

@@ -3,7 +3,7 @@ import React from "react";
 
 const RfqFormHeader = () => {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-teal-600 to-teal-500 px-8 py-7">
+    <div className="relative overflow-hidden bg-gradient-to-br from-teal-600 to-[#14b8a6] px-8 py-7">
       <div className="absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/5" />
       <div className="absolute -bottom-10 right-12 h-24 w-24 rounded-full bg-white/5" />
       <div className="relative flex items-center gap-4">

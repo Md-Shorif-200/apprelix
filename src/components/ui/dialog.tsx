@@ -78,7 +78,7 @@ function DialogContent({
                 "transition-all duration-200 ease-out",
                 "hover:scale-105 hover:border-gray-300 hover:bg-white hover:text-gray-800 hover:shadow-md",
                 "active:scale-95",
-                "focus-visible:ring-2 focus-visible:ring-teal-500/30 focus-visible:ring-offset-1",
+                "focus-visible:ring-2 focus-visible:ring-[#14b8a6]/30 focus-visible:ring-offset-1",
               )}
             >
               <XIcon className="size-4" />

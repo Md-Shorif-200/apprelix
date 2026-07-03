@@ -1,14 +1,17 @@
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+import { LucideIcon } from "lucide-react";
+
 export type RoleType = "admin" | "buyer" | "supplier";
 
-export interface NavItemType {
+export interface NavItem {
   label: string;
   href: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
+  children?: NavItem[];
 }
 
 export interface RoleConfigtype {
   label: string;
-  navItems: NavItemType[];
+  navItems: NavItem[];
 }
