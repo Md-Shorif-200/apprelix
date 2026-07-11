@@ -1,7 +1,6 @@
 // components/rfq/RfqListsFilterSheet.tsx
 "use client";
 
-import { useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -17,6 +16,7 @@ import {
   Users,
   Layers,
   Palette,
+  Ruler,
   FlaskConical,
   Printer,
   Box,
@@ -28,10 +28,10 @@ import {
 } from "lucide-react";
 import CustomSelect from "@/components/inputs/CustomSelect";
 import CustomSearchSelectInput from "@/components/inputs/CustomSearchSelectInput";
-// import CustomMultiSelectInput from "@/components/inputs/CustomMultiSelectInput";
+import CustomMultiSelectInput from "@/components/inputs/CustomMultiSelectInput";
 import CustomColorSelectInput from "@/components/inputs/CustomColorSelectInput";
 import {
-  // allClothingSizesOptions,
+  allClothingSizesOptions,
   popularColorOptions,
   INCOTERMS_OPTIONS,
   materialFabricOptions,
@@ -44,12 +44,13 @@ import {
 } from "../utils/rfq-form.select-options";
 import { productCategoriesOptions } from "@/modules/auth/utils/register-select-options";
 import { RfqFilterStateType, STATUS_OPTIONS } from "../types/rfq-list.type";
-import { useRfqStore } from "../stores/rfq.store";
 
 interface RfqListsFilterSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onApply?: (filters: RfqFilterStateType) => void;
+  filter: RfqFilterStateType;
+  setFilter: (key: keyof RfqFilterStateType, value: string | string[]) => void;
+  resetFilters: () => void;
 }
 
 function FilterSection({
@@ -82,9 +83,10 @@ function FilterSection({
 const RfqListsFilterSheet = ({
   open,
   onOpenChange,
-  // onApply,
+  filter,
+  setFilter,
+  resetFilters,
 }: RfqListsFilterSheetProps) => {
-  const { filter, setFilter, resetFilters } = useRfqStore();
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -175,17 +177,34 @@ const RfqListsFilterSheet = ({
             />
           </FilterSection>
 
-          {/* 5. Colors — CustomColorSelectInput */}
+          {/* 5. Colors — filter by color code (hex) */}
           <FilterSection title="Colors" icon={<Palette size={14} />}>
             <CustomColorSelectInput
               placeholder="Select colors"
               options={popularColorOptions}
               value={filter.required_colors}
-              onChange={(val) => setFilter("required_colors", val as string[])}
+              onChange={(val) =>
+                setFilter(
+                  "required_colors",
+                  val.map((item) =>
+                    typeof item === "string" ? item : item.code,
+                  ),
+                )
+              }
             />
           </FilterSection>
 
-          {/* 6. Sample Requirement — CustomSelect */}
+          {/* 6. Product Sizes — CustomMultiSelectInput */}
+          <FilterSection title="Product Sizes" icon={<Ruler size={14} />}>
+            <CustomMultiSelectInput
+              placeholder="Select sizes"
+              options={allClothingSizesOptions}
+              value={filter.product_sizes}
+              onChange={(val) => setFilter("product_sizes", val)}
+            />
+          </FilterSection>
+
+          {/* 7. Sample Requirement — CustomSelect */}
           <FilterSection
             title="Sample Requirement"
             icon={<FlaskConical size={14} />}
@@ -198,7 +217,7 @@ const RfqListsFilterSheet = ({
             />
           </FilterSection>
 
-          {/* 7. Printing & Embroidery — CustomSelect */}
+          {/* 8. Printing & Embroidery — CustomSelect */}
           <FilterSection
             title="Printing & Embroidery"
             icon={<Printer size={14} />}
@@ -213,7 +232,7 @@ const RfqListsFilterSheet = ({
             />
           </FilterSection>
 
-          {/* 8. Packaging — CustomSelect */}
+          {/* 9. Packaging — CustomSelect */}
           <FilterSection title="Packaging" icon={<Box size={14} />}>
             <CustomSelect
               placeholder="Select packaging"
@@ -225,7 +244,7 @@ const RfqListsFilterSheet = ({
             />
           </FilterSection>
 
-          {/* 9. Delivery Country — CustomSearchSelectInput */}
+          {/* 10. Delivery Country — CustomSearchSelectInput */}
           <FilterSection title="Delivery Country" icon={<Globe size={14} />}>
             <CustomSearchSelectInput
               placeholder="Select country"
@@ -235,7 +254,7 @@ const RfqListsFilterSheet = ({
             />
           </FilterSection>
 
-          {/* 10. Incoterms — CustomSelect */}
+          {/* 11. Incoterms — CustomSelect */}
           <FilterSection title="Incoterms" icon={<Anchor size={14} />}>
             <CustomSelect
               placeholder="Select Incoterms"
@@ -245,7 +264,7 @@ const RfqListsFilterSheet = ({
             />
           </FilterSection>
 
-          {/* 11. Payment Terms — CustomSelect */}
+          {/* 12. Payment Terms — CustomSelect */}
           <FilterSection title="Payment Terms" icon={<CreditCard size={14} />}>
             <CustomSelect
               placeholder="Select payment terms"

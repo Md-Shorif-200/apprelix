@@ -12,6 +12,11 @@ type TopNavbarProps = {
 
 export function TopNavbar({ pathname, onMenuClick }: TopNavbarProps) {
   const breadcrumbs = generateBreadcrumbs(pathname);
+  const dashboardCrumb = breadcrumbs[0] ?? {
+    href: "/dashboard",
+    label: "Dashboard",
+  };
+  const isOnDashboard = breadcrumbs.length === 1;
 
   return (
     <header
@@ -49,8 +54,30 @@ export function TopNavbar({ pathname, onMenuClick }: TopNavbarProps) {
           <Menu size={20} />
         </button>
 
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="flex items-center text-sm">
+        {/* Breadcrumb — mobile: Dashboard only */}
+        <nav
+          aria-label="Breadcrumb"
+          className="flex items-center text-sm sm:hidden"
+        >
+          {isOnDashboard ? (
+            <span className="font-semibold text-teal-700 whitespace-nowrap">
+              {dashboardCrumb.label}
+            </span>
+          ) : (
+            <Link
+              href={dashboardCrumb.href}
+              className="font-semibold text-teal-700 whitespace-nowrap transition-colors hover:text-teal-600"
+            >
+              {dashboardCrumb.label}
+            </Link>
+          )}
+        </nav>
+
+        {/* Breadcrumb — sm+: full trail */}
+        <nav
+          aria-label="Breadcrumb"
+          className="hidden items-center text-sm sm:flex"
+        >
           {breadcrumbs.map((item, index) => {
             const isLast = index === breadcrumbs.length - 1;
 

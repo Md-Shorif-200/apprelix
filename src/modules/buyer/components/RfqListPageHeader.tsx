@@ -1,4 +1,3 @@
-// components/rfq/RfqListPageHeader.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,11 +7,22 @@ import CustomSelect from "@/components/inputs/CustomSelect";
 import RfqListsFilterSheet from "./RfqListsFilterSheet";
 import { cn } from "@/lib/utils";
 import { SortOptionsType } from "../types/rfq-list.type";
-import { useRfqStore } from "../stores/rfq.store";
 import { useDebounce } from "@/hooks/useDebounce";
+import { UseRfqFiltersReturn } from "../hooks/useRfqFilters";
 
-const RfqListPageHeader = () => {
-  const { sortBy, setSortBy, setSearchTerm } = useRfqStore();
+type RfqListPageHeaderProps = Pick<
+  UseRfqFiltersReturn,
+  "sortBy" | "setSortBy" | "setSearchTerm" | "filter" | "setFilter" | "resetFilters"
+>;
+
+const RfqListPageHeader = ({
+  sortBy,
+  setSortBy,
+  setSearchTerm,
+  filter,
+  setFilter,
+  resetFilters,
+}: RfqListPageHeaderProps) => {
   const [search, setSearch] = useState<string>("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -24,18 +34,16 @@ const RfqListPageHeader = () => {
 
   return (
     <>
-      <div className="flex items-center gap-3 mb-4">
-        {/* Search */}
+      <div className="mb-4 flex items-center gap-3">
         <div className="flex-grow">
           <CustomSearchInput
             placeholder="Search By RFQ Title..."
-            className="bg-gray-50/80 border-gray-200"
+            className="border-gray-200 bg-gray-50/80"
             onChange={(value) => setSearch(value)}
           />
         </div>
 
-        {/* Sort */}
-        <div className="w-44 mb-4">
+        <div className="mb-4 w-44">
           <CustomSelect
             options={SortOptionsType}
             placeholder="Sort By"
@@ -44,17 +52,16 @@ const RfqListPageHeader = () => {
           />
         </div>
 
-        {/* Filter Button */}
         <button
           type="button"
           onClick={() => setIsFilterOpen(true)}
           className={cn(
-            "inline-flex items-center gap-2 h-10 px-4 mb-4 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer",
-            "bg-[#14b8a6] text-white border border-[#14b8a6]",
+            "mb-4 inline-flex h-10 cursor-pointer items-center gap-2 rounded-lg px-4 text-sm font-medium transition-all duration-200",
+            "border border-[#14b8a6] bg-[#14b8a6] text-white",
             "shadow-sm shadow-teal-500/10",
-            "hover:bg-[#0d9488] hover:border-[#0d9488] hover:shadow-md hover:shadow-teal-600/20",
+            "hover:border-[#0d9488] hover:bg-[#0d9488] hover:shadow-md hover:shadow-teal-600/20",
             "active:scale-[0.98]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/40 focus-visible:ring-offset-2",
+            "focus-visible:ring-2 focus-visible:ring-teal-500/40 focus-visible:ring-offset-2 focus-visible:outline-none",
           )}
         >
           <ListFilter size={16} strokeWidth={2.2} />
@@ -62,7 +69,13 @@ const RfqListPageHeader = () => {
         </button>
       </div>
 
-      <RfqListsFilterSheet open={isFilterOpen} onOpenChange={setIsFilterOpen} />
+      <RfqListsFilterSheet
+        open={isFilterOpen}
+        onOpenChange={setIsFilterOpen}
+        filter={filter}
+        setFilter={setFilter}
+        resetFilters={resetFilters}
+      />
     </>
   );
 };

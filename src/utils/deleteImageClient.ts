@@ -7,5 +7,11 @@ export const deleteImageClient = async (public_id: string) => {
     body: JSON.stringify({ public_id }),
   });
 
-  return res.json();
+  const data = await res.json();
+
+  if (!res.ok || !data.success) {
+    throw new Error(data.message || "Failed to delete file from Cloudinary.");
+  }
+
+  return data;
 };

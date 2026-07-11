@@ -1,4 +1,4 @@
-import { RfqFormValues } from "../schema/rfq-form.schema";
+import { RfqEditFormValues, RfqFormValues } from "../schema/rfq-form.schema";
 
 export type RfqStatus =
   | "pending"
@@ -25,6 +25,23 @@ export type CreateRfqPayload = Omit<
   otherAttachments: UploadedFile[];
 };
 
+export type EditRfqApiPayload = Omit<
+  RfqEditFormValues,
+  "referenceImages" | "techSheet" | "otherAttachments"
+> & {
+  total_budget: number | null;
+  referenceImages: UploadedFile[];
+  techSheet: UploadedFile | null;
+  otherAttachments: UploadedFile[];
+};
+
+export type EditRfqPayload = EditRfqApiPayload & {
+  _id: string;
+  newReferenceImages?: File[];
+  newTechSheet?: File;
+  newOtherAttachments?: File[];
+};
+
 // Single RFQ
 export type CreateRfqResponse = CreateRfqPayload & {
   _id: string;
@@ -45,8 +62,9 @@ export type GetRfqsResponse = {
   };
 };
 
-export type CreateRfqApiResponse = {
+export type ApiResponse<T> = {
   success: boolean;
   message: string;
-  data: CreateRfqResponse;
+  data: T;
 };
+

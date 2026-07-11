@@ -61,19 +61,7 @@ const FeaturedRfqsCard = ({ rfq, index = 0 }: FeaturedRfqsCardProps) => {
           </span>
         </div>
 
-        {/* Status Badge - Top Right */}
-        <div className="absolute top-3 right-3">
-          <span
-            className={`text-[11px] font-semibold px-3 py-1.5 rounded-lg tracking-wider uppercase border backdrop-blur-md ${
-              isUrgent
-                ? "bg-rose-500/15 border-rose-400/30 text-rose-500"
-                : "bg-emerald-500/15 border-emerald-400/30 text-emerald-500"
-            }`}
-          >
-            {rfq.status}
-          </span>
-        </div>
-
+       
         {/* Quotes Count - Bottom Left (inside image) */}
         <div className="absolute bottom-3 left-3">
           <span className="bg-white/15 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-white/20">

@@ -1,16 +1,8 @@
-import { RfqStatus } from "./rfq-form.types";
+import { CreateRfqResponse, RfqStatus } from "./rfq-form.types";
 
-export type RfqItem = {
-  _id: string;
-  rfq_title: string;
-  product_category: string;
-  total_quantity: number;
-  total_budget: number | null;
-  required_delivery_date: string;
-  status: string;
-  createdAt: string;
-  referenceImages: { url: string; publicId: string }[];
-  [key: string]: unknown;
+export type RfqItem = CreateRfqResponse & {
+  buyerName?: string;
+  quotesCount?: number;
 };
 
 export type GetRfqQueryType = {
@@ -19,6 +11,9 @@ export type GetRfqQueryType = {
   sort?: string;
   page?: number;
   limit?: number;
+  search?: string;
+  color_codes?: string;
+  [key: string]: string | number | string[] | undefined;
 };
 
 export type UseGetRfqsOptions = {
@@ -31,6 +26,7 @@ export interface RfqFilterStateType {
   gender: string;
   material_febric: string;
   required_colors: string[];
+  product_sizes: string[];
   sample_requirement: string;
   printing_embroidery: string;
   packaging_requirement: string;
@@ -46,6 +42,7 @@ export const DEFAULT_FILTERS: RfqFilterStateType = {
   gender: "",
   material_febric: "",
   required_colors: [],
+  product_sizes: [],
   sample_requirement: "",
   printing_embroidery: "",
   packaging_requirement: "",
@@ -58,9 +55,14 @@ export const DEFAULT_FILTERS: RfqFilterStateType = {
 export const STATUS_OPTIONS = [
   { label: "Active", value: "active" },
   { label: "Pending", value: "pending" },
-  { label: "Closed", value: "closed" },
-  { label: "Draft", value: "draft" },
+  { label: "Rejected", value: "rejected" },
+  { label: "Selected", value: "selected" },
+  { label: "Completed", value: "completed" },
+  { label: "Cancelled", value: "cancelled" },
+  { label: "Expired", value: "expired" },
 ];
+
+
 
 // rfq sort options
 export const SortOptionsType = [

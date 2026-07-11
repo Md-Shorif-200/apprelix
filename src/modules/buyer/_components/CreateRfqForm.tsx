@@ -23,6 +23,7 @@ import CustomSearchSelectInput from "@/components/inputs/CustomSearchSelectInput
 import CustomMultiSelectInput from "@/components/inputs/CustomMultiSelectInput";
 import CustomCalanderInput from "@/components/inputs/CustomCalanderInput";
 import DropZone from "./DropZone";
+import { RfqReferenceImagesPreview } from "./RfqReferenceImagesPreview";
 import { rfqFormSchema, RfqFormValues } from "../schema/rfq-form.schema";
 import CustomTextArea from "@/components/inputs/CustomTextArea";
 import { productCategoriesOptions } from "@/modules/auth/utils/register-select-options";
@@ -40,7 +41,7 @@ import {
 } from "../utils/rfq-form.select-options";
 import CustomColorSelectInput from "@/components/inputs/CustomColorSelectInput";
 import { CustomButton } from "@/components/common/CustomButton";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { uploadImageClient } from "@/utils/uploadImageClient";
 import { RfqFileType } from "@/types/image";
 import { toast } from "sonner";
@@ -306,8 +307,9 @@ export default function CreateRfqForm() {
                   <CustomColorSelectInput
                     placeholder="Select colors"
                     options={popularColorOptions}
-                    value={(field.value ?? []) as string[]}
+                    value={(field.value ?? []) as Array<{ name: string; code: string }>}
                     onChange={field.onChange}
+                    emitObjects
                   />
                 )}
               />
@@ -564,15 +566,28 @@ export default function CreateRfqForm() {
               name="referenceImages"
               control={control}
               render={({ field, fieldState: { error } }) => (
-                <DropZone
-                  label="Reference Images"
-                  hint="JPG, PNG — max 5 files, 5 MB each"
-                  accept="image/jpeg,image/png,image/webp"
-                  multiple
-                  icon={ImageIcon}
-                  onChange={field.onChange}
-                  error={error?.message}
-                />
+                <>
+                  <RfqReferenceImagesPreview
+                    images={field.value || []}
+                    title="Selected Reference Images"
+                    onRemove={(index) => {
+                      const currentImages = (field.value as File[] | undefined) ?? [];
+                      const updated = currentImages.filter((_, i) => i !== index);
+                      field.onChange(updated.length > 0 ? updated : undefined);
+                    }}
+                  />
+                  <DropZone
+                    label="Reference Images"
+                    hint="JPG, PNG — max 5 files, 5 MB each"
+                    accept="image/jpeg,image/png,image/webp"
+                    multiple
+                    icon={ImageIcon}
+                    onChange={field.onChange}
+                    value={field.value}
+                    hideFileList
+                    error={error?.message}
+                  />
+                </>
               )}
             />
           </div>

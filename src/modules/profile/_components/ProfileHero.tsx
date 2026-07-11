@@ -22,7 +22,7 @@ const ProfileHero = ({ user }: ProfileHeroProps) => {
 
   const displayName = getUserDisplayName(user);
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100">
+    <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
       {/* ── Banner ── */}
       <div className="h-28 w-full bg-gradient-to-r from-teal-600 to-teal-400" />
 
@@ -40,16 +40,16 @@ const ProfileHero = ({ user }: ProfileHeroProps) => {
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-end">
           {/* Avatar — overlaps banner */}
           <div className="relative -mt-14 shrink-0">
-            <div className="relative flex h-24 w-24 items-center justify-center rounded-2xl border-4 border-white bg-teal-50 shadow-md overflow-hidden">
+            <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl border-4 border-white bg-teal-50 shadow-md dark:border-gray-900 dark:bg-teal-500/10">
               {user.profilePhoto?.url ? (
                 <Image
                   src={user.profilePhoto?.url}
                   alt={displayName}
                   fill
-                  className="object-cover rounded-2xl"
+                  className="rounded-2xl object-cover"
                 />
               ) : (
-                <span className="text-3xl font-bold text-teal-600">
+                <span className="text-3xl font-bold text-teal-600 dark:text-teal-400">
                   {getInitials(displayName)}
                 </span>
               )}
@@ -62,9 +62,13 @@ const ProfileHero = ({ user }: ProfileHeroProps) => {
           </div>
 
           {/* Name & Email */}
-          <div className="mt-2 text-center sm:text-left sm:pb-1">
-            <h1 className="text-2xl font-bold text-gray-800">{displayName}</h1>
-            <p className="mt-0.5 text-sm text-gray-500">{user.email}</p>
+          <div className="mt-2 text-center sm:pb-1 sm:text-left">
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+              {displayName}
+            </h1>
+            <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
+              {user.email}
+            </p>
           </div>
 
           {/* Status Badges — pushed right */}
@@ -76,12 +80,12 @@ const ProfileHero = ({ user }: ProfileHeroProps) => {
         {/* ── Info Pills Row ── */}
         <div className="mt-5 flex flex-wrap gap-3">
           {/* Phone */}
-          <InfoPill icon={<Phone size={13} className="text-teal-600" />}>
+          <InfoPill icon={<Phone size={13} className="text-teal-600 dark:text-teal-400" />}>
             {user.phone || "N/A"}
           </InfoPill>
 
           {/* Member Since */}
-          <InfoPill icon={<Calendar size={13} className="text-teal-600" />}>
+          <InfoPill icon={<Calendar size={13} className="text-teal-600 dark:text-teal-400" />}>
             Joined{" "}
             {user.createdAt
               ? new Date(user.createdAt).toLocaleDateString(undefined, {
@@ -93,7 +97,7 @@ const ProfileHero = ({ user }: ProfileHeroProps) => {
           </InfoPill>
 
           {/* Last Updated */}
-          <InfoPill icon={<RefreshCw size={13} className="text-teal-600" />}>
+          <InfoPill icon={<RefreshCw size={13} className="text-teal-600 dark:text-teal-400" />}>
             Updated{" "}
             {user.updatedAt
               ? new Date(user.updatedAt).toLocaleDateString(undefined, {

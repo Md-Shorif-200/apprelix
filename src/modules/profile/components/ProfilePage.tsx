@@ -17,15 +17,15 @@ const ProfilePage = () => {
   // ── Error ──
   if (isError) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-        <div className="w-full max-w-md rounded-2xl border border-red-100 bg-white p-8 text-center shadow-sm">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-50">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 dark:bg-gray-950">
+        <div className="w-full max-w-md rounded-2xl border border-red-100 bg-white p-8 text-center shadow-sm dark:border-red-500/20 dark:bg-gray-900">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-50 dark:bg-red-500/10">
             <span className="text-2xl">⚠️</span>
           </div>
-          <h3 className="text-lg font-bold text-gray-800">
+          <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">
             Failed to load profile
           </h3>
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
             Something went wrong while fetching your data.
           </p>
         </div>
@@ -37,10 +37,12 @@ const ProfilePage = () => {
 
   if (!user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-        <div className="w-full max-w-md rounded-2xl border border-gray-100 bg-white p-8 text-center shadow-sm">
-          <h3 className="text-lg font-bold text-gray-800">Profile not found</h3>
-          <p className="mt-2 text-sm text-gray-500">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 dark:bg-gray-950">
+        <div className="w-full max-w-md rounded-2xl border border-gray-100 bg-white p-8 text-center shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">
+            Profile not found
+          </h3>
+          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
             We could not find your profile data.
           </p>
         </div>
@@ -49,7 +51,7 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-10 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 px-4 py-10 sm:px-6 lg:px-8 dark:bg-gray-950">
       <div className="mx-auto max-w-5xl space-y-6">
         {/* ── Section 1: Profile Hero ── */}
         <ProfileHero user={user} />

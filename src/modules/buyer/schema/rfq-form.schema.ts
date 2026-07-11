@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+export type RfqColorValue = {
+  name: string;
+  code: string;
+};
+
 export const rfqFormSchema = z.object({
   // ── Section 1: Product Details ──────────────────────────────────────────────
   rfq_title: z.string().min(1, "RFQ title is required."),
@@ -27,7 +32,14 @@ export const rfqFormSchema = z.object({
     .number({ error: "Quantity must be a number." })
     .positive("Quantity must be a positive number."),
 
-  required_colors: z.array(z.string()).optional(),
+  required_colors: z
+    .array(
+      z.object({
+        name: z.string().min(1, "Color name is required."),
+        code: z.string().min(1, "Color code is required."),
+      }),
+    )
+    .optional(),
   product_sizes: z.array(z.string()).optional(),
 
   printing_embroidery: z.string().optional(),
@@ -94,3 +106,22 @@ export const rfqFormSchema = z.object({
 });
 
 export type RfqFormValues = z.infer<typeof rfqFormSchema>;
+
+// Edit mode — files are optional (existing files are kept separately)
+export const rfqEditFormSchema = rfqFormSchema
+  .omit({
+    referenceImages: true,
+    techSheet: true,
+    otherAttachments: true,
+    required_delivery_date: true,
+  })
+  .extend({
+    required_delivery_date: z
+      .string({ error: "Delivery date is required." })
+      .min(1, "Delivery date is required."),
+    referenceImages: z.array(z.any()).optional(),
+    techSheet: z.any().optional(),
+    otherAttachments: z.array(z.any()).optional(),
+  });
+
+export type RfqEditFormValues = z.infer<typeof rfqEditFormSchema>;

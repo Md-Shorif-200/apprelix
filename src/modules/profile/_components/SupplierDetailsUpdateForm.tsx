@@ -96,7 +96,7 @@ const SupplierDetailsUpdateForm = ({ id, roleDetails, closeModal }: Props) => {
 
         {/* Production Capacity - UPDATED to CustomSelect */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
             Production Capacity
           </label>
           <Controller
@@ -119,7 +119,7 @@ const SupplierDetailsUpdateForm = ({ id, roleDetails, closeModal }: Props) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
             Date Established
           </label>
           <Controller
@@ -143,7 +143,7 @@ const SupplierDetailsUpdateForm = ({ id, roleDetails, closeModal }: Props) => {
 
         {/* Number of Employees - UPDATED to CustomSelect */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
             Number of Employees
           </label>
           <Controller
@@ -167,7 +167,7 @@ const SupplierDetailsUpdateForm = ({ id, roleDetails, closeModal }: Props) => {
 
         {/* Product Categories - UPDATED to CustomSelect */}
         <div className="sm:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label className="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-300">
             Product Categories
           </label>
           <Controller
@@ -203,7 +203,7 @@ const SupplierDetailsUpdateForm = ({ id, roleDetails, closeModal }: Props) => {
         <button
           type="button"
           onClick={closeModal}
-          className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50"
+          className="rounded-xl border border-gray-200 px-4 py-2 text-gray-600 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
         >
           Cancel
         </button>

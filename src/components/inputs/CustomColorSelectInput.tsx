@@ -21,13 +21,18 @@ import { cn } from "@/lib/utils";
 type MultiSelectOption = {
   label: string;
   value: string;
+  code?: string;
+  name?: string;
 };
+
+type ColorSelectionValue = { name: string; code: string } | string;
 
 type CustomColorSelectProps = {
   placeholder?: string;
   options: MultiSelectOption[];
-  value: string[];
-  onChange: (selectedValues: string[]) => void;
+  value: ColorSelectionValue[];
+  onChange: (selectedValues: ColorSelectionValue[]) => void;
+  emitObjects?: boolean;
 };
 
 export default function CustomColorSelectInput({
@@ -35,32 +40,75 @@ export default function CustomColorSelectInput({
   options,
   value = [],
   onChange,
+  emitObjects = false,
 }: CustomColorSelectProps) {
   const [open, setOpen] = React.useState(false);
 
+  const getOptionKey = (option: MultiSelectOption) => option.code ?? option.value;
+
+  const normalizeValue = (item: ColorSelectionValue) => {
+    if (typeof item === "string") {
+      return { name: item, code: item };
+    }
+    return item;
+  };
+
+  const isSameSelection = (item: ColorSelectionValue, option: MultiSelectOption) => {
+    const normalized = normalizeValue(item);
+    return (
+      normalized.code === getOptionKey(option) ||
+      normalized.name === option.label ||
+      normalized.name === option.name
+    );
+  };
+
   // Build a map for quick option lookup by value
   const optionsMap = React.useMemo(() => {
-    return new Map(options.map((option) => [option.value, option]));
+    return new Map(options.map((option) => [getOptionKey(option), option]));
   }, [options]);
 
   // Get full option objects for currently selected values
   const selectedOptions = value
-    .map((val) => optionsMap.get(val))
+    .map((val) => {
+      const normalized = normalizeValue(val);
+      return optionsMap.get(normalized.code);
+    })
     .filter(Boolean) as MultiSelectOption[];
 
   // Toggle select/deselect on item click
   const handleSelect = (selectedValue: string) => {
-    if (value.includes(selectedValue)) {
-      onChange(value.filter((v) => v !== selectedValue));
-    } else {
-      onChange([...value, selectedValue]);
+    const selectedOption = options.find(
+      (option) => getOptionKey(option) === selectedValue,
+    );
+
+    if (!selectedOption) return;
+
+    const isSelected = value.some((item) => isSameSelection(item, selectedOption));
+
+    if (isSelected) {
+      onChange(value.filter((item) => !isSameSelection(item, selectedOption)));
+      return;
     }
+
+    const nextValue = emitObjects
+      ? [...value, { name: selectedOption.label, code: getOptionKey(selectedOption) }]
+      : [...value, getOptionKey(selectedOption)];
+
+    onChange(nextValue);
   };
 
   // Remove a single selected item
   const handleRemove = (e: React.MouseEvent, removedValue: string) => {
     e.stopPropagation();
-    onChange(value.filter((v) => v !== removedValue));
+
+    const nextValue = value.filter((item) => {
+      if (typeof item === "string") {
+        return item !== removedValue;
+      }
+      return item.code !== removedValue && item.name !== removedValue;
+    });
+
+    onChange(nextValue);
   };
 
   return (
@@ -86,10 +134,15 @@ export default function CustomColorSelectInput({
                     className="inline-block h-3.5 w-3.5 rounded border border-black/10"
                     style={{ backgroundColor: option.value }}
                   />
-                  {option.label}
+                  <span className="flex flex-col leading-none">
+                    <span>{option.label}</span>
+                    <span className="text-[10px] font-normal text-[#0f766e]">
+                      {getOptionKey(option)}
+                    </span>
+                  </span>
                   <button
                     type="button"
-                    onClick={(e) => handleRemove(e, option.value)}
+                    onClick={(e) => handleRemove(e, getOptionKey(option))}
                     className="cursor-pointer rounded-full p-0.5 transition-colors hover:bg-[#0d9488]/20 focus:outline-none"
                   >
                     <X size={12} />
@@ -112,7 +165,7 @@ export default function CustomColorSelectInput({
       </PopoverTrigger>
 
       <PopoverContent
-        className="z-50 w-[var(--radix-popover-trigger-width)] rounded-xl border border-gray-200 bg-white p-1.5 shadow-lg"
+        className="z-50 w-(--radix-popover-trigger-width) rounded-xl border border-gray-200 bg-white p-1.5 shadow-lg"
         align="start"
       >
         <Command>
@@ -121,7 +174,7 @@ export default function CustomColorSelectInput({
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
-                const isSelected = value.includes(option.value);
+                const isSelected = value.some((item) => isSameSelection(item, option));
                 return (
                   // Each dropdown option with color box + label
                   <CommandItem
@@ -140,7 +193,12 @@ export default function CustomColorSelectInput({
                         className="inline-block h-4 w-4  rounded border border-black/10"
                         style={{ backgroundColor: option.value }}
                       />
-                      {option.label}
+                      <span className="flex flex-col">
+                        <span>{option.label}</span>
+                        <span className="text-[11px] text-gray-400">
+                          {getOptionKey(option)}
+                        </span>
+                      </span>
                     </div>
                   </CommandItem>
                 );

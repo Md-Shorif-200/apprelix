@@ -24,7 +24,7 @@ const TableActionDropdown = ({ actions }: TableActionDropdownProps) => {
   const btnRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // বাইরে ক্লিক করলে বা স্ক্রল করলে ড্রপডাউন বন্ধ করার লজিক
+
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       if (
@@ -38,12 +38,12 @@ const TableActionDropdown = ({ actions }: TableActionDropdownProps) => {
     };
 
     const handleScroll = () => {
-      if (open) setOpen(false); // টেবিল বা পেজ স্ক্রল করলে ড্রপডাউন হাইড হবে
+      if (open) setOpen(false); 
     };
 
     if (open) {
       document.addEventListener("mousedown", handleOutsideClick);
-      // capture: true দেওয়া হয়েছে যেন টেবিলের ভেতরের স্ক্রলও ডিটেক্ট করতে পারে
+   
       window.addEventListener("scroll", handleScroll, true);
     }
 
@@ -53,21 +53,21 @@ const TableActionDropdown = ({ actions }: TableActionDropdownProps) => {
     };
   }, [open]);
 
-  // পজিশন ক্যালকুলেট করার ফাংশন
+
   const toggleDropdown = () => {
     if (!open && btnRef.current) {
       const rect = btnRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
 
-      // নিচে ২০০ পিক্সেলের কম জায়গা থাকলে এটি উপরের দিকে ওপেন হবে
+    
       const isSpaceLimited = spaceBelow < 200;
 
       setDropdownStyle({
         position: "fixed",
-        right: window.innerWidth - rect.right, // বাটনের ডানদিকের সাথে ড্রপডাউন এলাইন করবে
+        right: window.innerWidth - rect.right,
         ...(isSpaceLimited
-          ? { bottom: window.innerHeight - rect.top + 4 } // বাটনের ঠিক উপরে বসবে
-          : { top: rect.bottom + 4 }), // বাটনের ঠিক নিচে বসবে
+          ? { bottom: window.innerHeight - rect.top + 4 } 
+          : { top: rect.bottom + 4 }), 
       });
     }
     setOpen((prev) => !prev);

@@ -21,6 +21,7 @@ type DropZoneProps = {
   onChange: (value: File | File[] | undefined) => void;
   value?: File | File[];
   error?: string;
+  hideFileList?: boolean;
 };
 
 export default function DropZone({
@@ -32,6 +33,7 @@ export default function DropZone({
   onChange,
   value,
   error,
+  hideFileList = false,
 }: DropZoneProps) {
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -114,7 +116,7 @@ export default function DropZone({
 
       {error && <p className="text-xs text-red-500">{error}</p>}
 
-      {files.length > 0 && (
+      {!hideFileList && files.length > 0 && (
         <div className="mt-1 space-y-1.5">
           {files.map((file, i) => (
             <div

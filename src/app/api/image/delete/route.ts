@@ -31,7 +31,15 @@ export async function POST(req: Request) {
       );
     }
 
-    const result = await cloudinary.uploader.destroy(public_id);
+    let result = await cloudinary.uploader.destroy(public_id, {
+      resource_type: "image",
+    });
+
+    if (result.result === "not found") {
+      result = await cloudinary.uploader.destroy(public_id, {
+        resource_type: "raw",
+      });
+    }
 
     if (result.result !== "ok" && result.result !== "not found") {
       console.error("Cloudinary delete failed:", result);

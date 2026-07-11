@@ -1,4 +1,4 @@
-import { Eye, Pencil, XCircle } from "lucide-react";
+import { Eye, Pencil, RefreshCcw, Trash, XCircle } from "lucide-react";
 import Image from "next/image";
 import { CustomTableColumn } from "@/components/common/CustomTable";
 import { RfqItem } from "../types/rfq-list.type";
@@ -19,7 +19,7 @@ export const formatDate = (dateStr: string): string => {
 
 // ─── Helper: Status Badge ─────────────────────────────────────────────────────
 
-const getStatusStyle = (status: string): string => {
+export const getStatusStyle = (status: string): string => {
   const styles: Record<string, string> = {
     pending: "bg-amber-50 text-amber-700 border border-amber-200",
 
@@ -42,30 +42,70 @@ const getStatusStyle = (status: string): string => {
 // ─── RFQ Action Handlers ──────────────────────────────────────────────────────
 // You can replace these console.logs with real router.push / API calls later
 
-const getRfqActions = (row: RfqItem): DropdownAction[] => [
+const getRfqActions = (
+  row: RfqItem,
+  onViewDetails: (rfq: RfqItem) => void,
+  onEdit: (rfq: RfqItem) => void,
+  onDelete: (rfq: RfqItem) => void,
+  onCancel: (rfq: RfqItem) => void,
+  onReactivate: (rfq: RfqItem) => void,
+): DropdownAction[] => [
   {
     label: "View Details",
     icon: Eye,
     variant: "default",
-    onClick: () => console.log("View Details", row._id),
+    onClick: () => onViewDetails(row),
   },
   {
     label: "Edit RFQ",
     icon: Pencil,
     variant: "default",
-    onClick: () => console.log("Edit RFQ", row._id),
+    onClick: () => onEdit(row),
   },
-  {
-    label: "Cancel RFQ",
-    icon: XCircle,
-    variant: "danger",
-    onClick: () => console.log("Cancel RFQ", row._id),
-  },
+  ...(row.status === "pending"
+    ? [
+        {
+          label: "Cancel RFQ",
+          icon: XCircle,
+          variant: "danger" as const,
+          onClick: () => onCancel(row),
+        },
+      ]
+    : []),
+  ...(row.status === "cancelled"
+    ? [
+        {
+          label: "Reactivate Rfq",
+          icon: RefreshCcw,
+          variant: "default" as const,
+
+          onClick: () => onReactivate(row),
+        },
+      ]
+    : []),
+  ...(row.status === "pending" ||
+  row.status === "rejected" ||
+  row.status === "cancelled"
+    ? [
+        {
+          label: "Delete RFQ",
+          icon: Trash,
+          variant: "danger" as const,
+          onClick: () => onDelete(row),
+        },
+      ]
+    : []),
 ];
 
 // ─── Table Columns ────────────────────────────────────────────────────────────
 
-export const rfqTableColumns: CustomTableColumn<RfqItem>[] = [
+export const getRfqTableColumns = (
+  onViewDetails: (rfq: RfqItem) => void,
+  onEdit: (rfq: RfqItem) => void,
+  onDelete: (rfq: RfqItem) => void,
+  onCancel: (rfq: RfqItem) => void,
+  onReactivate: (rfq: RfqItem) => void,
+): CustomTableColumn<RfqItem>[] => [
   {
     key: "sl",
     header: "Sl.",
@@ -163,6 +203,17 @@ export const rfqTableColumns: CustomTableColumn<RfqItem>[] = [
     width: "80px",
     headerClassName: "text-white font-semibold text-center",
     cellClassName: "text-center",
-    cell: (row) => <TableActionDropdown actions={getRfqActions(row)} />,
+    cell: (row) => (
+      <TableActionDropdown
+        actions={getRfqActions(
+          row,
+          onViewDetails,
+          onEdit,
+          onDelete,
+          onCancel,
+          onReactivate,
+        )}
+      />
+    ),
   },
 ];
