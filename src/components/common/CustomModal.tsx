@@ -51,13 +51,15 @@ interface CustomModalProps {
 
 const EmptyState = () => (
   <div className="flex flex-col items-center justify-center gap-3 py-12 text-center">
-    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50">
-      <PackageOpen size={30} className="text-teal-500" />
+    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50 dark:bg-teal-500/10">
+      <PackageOpen size={30} className="text-[#14b8a6] dark:text-teal-400" />
     </div>
 
-    <p className="text-sm font-semibold text-gray-700">No content available</p>
+    <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+      No content available
+    </p>
 
-    <p className="max-w-[200px] text-xs text-gray-400">
+    <p className="max-w-[200px] text-xs text-gray-400 dark:text-gray-500">
       There is nothing to display here yet.
     </p>
   </div>
@@ -81,10 +83,11 @@ const CustomModal = ({
           ${sizeClasses[size ?? "lg"]}
           w-full gap-0 overflow-hidden rounded-2xl border border-gray-100
           bg-white p-0 shadow-2xl ring-0
+          dark:border-gray-800 dark:bg-gray-900
         `}
       >
         {/* Header */}
-        <DialogHeader className="relative overflow-hidden rounded-t-2xl border-b border-teal-500/20 bg-gradient-to-r from-teal-600 to-teal-400 p-4">
+        <DialogHeader className="relative overflow-hidden rounded-t-2xl border-b border-[#14b8a6]/20 bg-gradient-to-r from-teal-600 to-teal-400 p-4">
           <div className="relative flex items-center justify-between gap-4">
             <div>
               <DialogTitle className="text-sm sm:text-base font-bold tracking-tight text-white">
@@ -100,12 +103,12 @@ const CustomModal = ({
           </div>
         </DialogHeader>
         {/* Body */}
-        <div className="max-h-[65vh] overflow-y-auto px-6 py-2">
+        <div className="max-h-[65vh] overflow-y-auto bg-white px-6 py-2 dark:bg-gray-900">
           {children ? children : <EmptyState />}
         </div>
         {/* Footer (Dynamic) */}
         {footer && (
-          <DialogFooter className="mx-0 mb-0 flex flex-row items-center justify-end gap-3 rounded-b-2xl border-t border-gray-100 bg-white px-6 py-4">
+          <DialogFooter className="mx-0 mb-0 flex flex-row items-center justify-end gap-3 rounded-b-2xl border-t border-gray-100 bg-white px-6 py-4 dark:border-gray-800 dark:bg-gray-900">
             {footer}
           </DialogFooter>
         )}

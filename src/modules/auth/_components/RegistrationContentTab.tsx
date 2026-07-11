@@ -99,7 +99,7 @@ const RegistrationContentTab = () => {
               className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-300 cursor-pointer
                 ${
                   isActive
-                    ? "bg-teal-500 text-white shadow-lg shadow-teal-500/30"
+                    ? "bg-[#14b8a6] text-white shadow-lg shadow-[#14b8a6]/30"
                     : "text-teal-200/70 hover:text-white"
                 }`}
             >
@@ -128,7 +128,7 @@ const RegistrationContentTab = () => {
               className="group flex items-start gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-teal-400/30 rounded-xl px-4 py-3 transition-all duration-300"
             >
               {/* Icon Box */}
-              <div className="mt-0.5 p-2 bg-teal-500/20 group-hover:bg-teal-500/30 border border-teal-400/20 rounded-lg shrink-0 transition-all duration-300">
+              <div className="mt-0.5 p-2 bg-[#14b8a6]/20 group-hover:bg-[#14b8a6]/30 border border-teal-400/20 rounded-lg shrink-0 transition-all duration-300">
                 <Icon className="w-3.5 h-3.5 text-teal-400" />
               </div>
 

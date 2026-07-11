@@ -1,27 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Loader } from "lucide-react";
 import Link from "next/link";
 
 type CustomButtonProps = {
   text: string;
   icon?: React.ReactNode;
-  activeIcon?: React.ReactNode;
+  isLoading?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: React.ComponentProps<"button">["type"];
-  variant?:
-    | "primary"
-    | "secondary"
-    | "danger"
-    | "success"
-    | "outline"
-    | "light"
-    | "dark"
-    | "accent";
+  variant?: "primary" | "secondary" | "danger" | "outline" | "light" | "accent";
   animation?: "scale" | "slide" | "none";
   className?: string;
   isActive?: boolean;
   href?: string;
-  disabled?: boolean; // ✅ added
+  disabled?: boolean;
   /** Associate a submit button with a `<form id="...">` outside the form tree. */
   form?: string;
 };
@@ -29,31 +22,27 @@ type CustomButtonProps = {
 export const CustomButton = ({
   text,
   icon,
-  activeIcon,
+  isLoading,
   onClick,
   type = "button",
   variant = "primary",
   animation = "none",
   className,
-  isActive = false,
   href,
-  disabled = false, // ✅ default
+  disabled = false,
   form,
 }: CustomButtonProps) => {
   const variantStyle = {
     primary:
-      "bg-ds-primary text-ds-secondary  transition-colors duration-200  border-none outline-none",
+      "bg-ds-primary  text-ds-secondary  transition-colors duration-200  border-none outline-none hover:shadow-lg hover:shadow-ds-primary/30 hover:brightness-105 hover:-translate-y-0.2 ",
     secondary:
       "bg-gray-600 hover:bg-gray-700 text-white disabled:opacity-60 border-none outline-none",
     danger:
       "bg-[#FF383C80] hover:bg-red-800  text-white disabled:opacity-60 border-none outline-none",
-    success:
-      "bg-green-600 hover:bg-green-700 text-white disabled:opacity-60 border-none outline-none",
     outline:
       "border border-(--ds-accent) text-white hover:text-(--ds-accent) bg-transparent border-none outline-none",
     light:
       "bg-white text-gray-700 border border-gray-200 font-semibold text-sm sm:text-base disabled:opacity-60 border-none outline-none",
-    dark: "bg-gray-800 text-white hover:bg-gray-900 disabled:opacity-60 border-none outline-none",
     accent:
       "bg-gradient-to-r from-ds-primary to-ds-accent hover:from-teal-600 hover:to-cyan-600 text-ds-secondary transition-colors duration-200 border-none outline-none  ",
   };
@@ -64,38 +53,23 @@ export const CustomButton = ({
     none: "",
   };
 
-  const activeStyle = isActive
-    ? "btn_gradient text-black text-sm sm:text-base font-semibold"
-    : "";
-
   const disabledStyle =
     " disabled:  disabled:!border-[#6B728080] disabled:opacity-80 disabled:cursor-not-allowed";
 
   const combinedClass = cn(
-    "flex items-center gap-2 cursor-pointer",
+    "flex items-center gap-2 cursor-pointer h-auto",
     variantStyle[variant],
     animationStyle[animation],
-    activeStyle,
     disabled && disabledStyle,
     className,
   );
 
-  // ✅ icon logic
+  //  icon logic
   const content = (
     <>
-      {isActive && activeIcon ? (
-        <>
-          {activeIcon}
-          {text}
-        </>
-      ) : icon ? (
-        <>
-          {text}
-          {icon}
-        </>
-      ) : (
-        text
-      )}
+      {isLoading ? <Loader className="h-4 w-4 animate-spin" /> : icon}
+
+      {text}
     </>
   );
 

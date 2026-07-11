@@ -11,12 +11,12 @@ const NotFoundPage = () => {
         {/* Icon */}
         <div className="flex justify-center mb-6">
           <div className="h-20 w-20 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center">
-            <FileQuestion size={40} className="text-teal-500" />
+            <FileQuestion size={40} className="text-[#14b8a6]" />
           </div>
         </div>
 
         {/* Text */}
-        <h1 className="text-6xl font-bold text-teal-500 mb-3">404</h1>
+        <h1 className="text-6xl font-bold text-[#14b8a6] mb-3">404</h1>
         <h2 className="text-xl font-semibold text-gray-800 mb-2">
           Page Not Found
         </h2>
@@ -28,7 +28,7 @@ const NotFoundPage = () => {
         <div className="flex items-center justify-center gap-3">
           <Link
             href="/"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-500 text-white text-sm font-medium hover:bg-teal-600 transition"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#14b8a6] text-white text-sm font-medium hover:bg-teal-600 transition"
           >
             <Home size={15} />
             Go Home

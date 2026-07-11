@@ -24,7 +24,7 @@ const Logo = ({ section }: { section: "navbar" | "footer" }) => {
         <div className="flex flex-col items-start leading-none">
           {/* Brand Name */}
           <div className=" text-lg sm:text-xl  font-bold tracking-[.5px]">
-            <span className="text-teal-500">Appre</span>
+            <span className="text-[#14b8a6]">Appre</span>
             <span
               className={section === "navbar" ? "text-ds-text" : "text-white"}
             >

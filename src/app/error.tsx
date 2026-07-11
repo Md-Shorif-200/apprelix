@@ -39,7 +39,7 @@ const ErrorPage = ({ reset }: ErrorPageProps) => {
         <div className="flex items-center justify-center gap-3 mt-6">
           <button
             onClick={reset}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-500 text-white text-sm font-medium hover:bg-teal-600 transition cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#14b8a6] text-white text-sm font-medium hover:bg-teal-600 transition cursor-pointer"
           >
             <RefreshCw size={15} />
             Try Again

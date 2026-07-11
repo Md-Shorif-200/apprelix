@@ -40,7 +40,7 @@ export default function RootLayout({
           <TanStackQueryProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <AOSInit />
-              <main className="bg-ds-background overflow-x-clip">
+              <main className=" bg-ds-background overflow-x-clip">
                 {children}
               </main>
 

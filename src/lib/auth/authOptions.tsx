@@ -1,5 +1,6 @@
 import { loginUser } from "@/modules/auth/services/authService";
-import type { NextAuthOptions, Session } from "next-auth";
+
+import type { NextAuthOptions } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -38,6 +39,8 @@ export const authOptions: NextAuthOptions = {
             ...user,
             id: user._id,
             name: user.fullName,
+            phone: user.phone,
+            image: user.profilePhoto?.url || null,
           };
         } catch {
           return null;
@@ -53,36 +56,33 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
-    async jwt({
-      token,
-      user,
-    }: {
-      token: JWT;
-      user?: { id?: string; role?: string; phone?: string };
-    }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
+        token.name = user.name;
+        token.picture = user.image;
+
         token.role = user.role;
         token.phone = user.phone;
+      }
+
+      if (trigger === "update" && session?.user) {
+        token.name = session.user.name;
+        token.picture = session.user.image;
       }
 
       return token;
     },
 
-    async session({
-      session,
-      token,
-    }: {
-      session: Session;
-      token: JWT & { id?: string; role?: string; phone?: string };
-    }) {
-      session.user = {
-        ...session.user,
-        id: token.id as string,
-        role: token.role as string,
-        phone: token.phone as string,
-      };
+    async session({ session, token }) {
+      if (token && session.user) {
+        session.user.id = token.id as string;
+        session.user.image = token.picture as string;
+        session.user.name = token.name;
 
+        session.user.role = token.role as "buyer" | "supplier" | "admin";
+        session.user.phone = token.phone as string;
+      }
       return session;
     },
   },

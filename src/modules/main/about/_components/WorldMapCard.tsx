@@ -26,7 +26,7 @@ function MapPin({ country, top, left }: MapPinType) {
       className="absolute flex flex-col items-center z-10"
       style={{ top, left, transform: "translate(-50%, -100%)" }}
     >
-      <div className="w-3 h-3 rounded-full bg-teal-500 border-2 border-white shadow-md" />
+      <div className="w-3 h-3 rounded-full bg-[#14b8a6] border-2 border-white shadow-md" />
 
       <span className="mt-1 text-[9px] font-semibold text-teal-700 bg-white border border-teal-200 rounded px-1 shadow-sm whitespace-nowrap">
         {country}

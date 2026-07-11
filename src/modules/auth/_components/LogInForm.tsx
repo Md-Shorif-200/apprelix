@@ -5,9 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2, Lock, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "../schema/auth.schema";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 type LoginFormData = {
   email: string;
@@ -32,6 +33,28 @@ const LogInForm = () => {
   });
 
   const router = useRouter();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (!session?.user?.role) return;
+
+    switch (session.user.role) {
+      case "admin":
+        router.replace("/dashboard/admin");
+        break;
+
+      case "buyer":
+        router.replace("/dashboard/buyer");
+        break;
+
+      case "supplier":
+        router.replace("/dashboard/supplier");
+        break;
+
+      default:
+        router.replace("/");
+    }
+  }, [session, router]);
 
   async function onSubmit(data: LoginFormData) {
     try {
@@ -50,7 +73,6 @@ const LogInForm = () => {
 
       toast.success("Login successful");
       reset(defaultValues);
-      router.push("/");
       router.refresh();
     } catch (err) {
       console.error("Login error:", err);

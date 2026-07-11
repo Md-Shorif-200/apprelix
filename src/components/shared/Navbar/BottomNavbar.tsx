@@ -39,7 +39,7 @@ const BottomNavbar = () => {
               icon={<Heart size={17} />}
               count={wishlistCount}
               label="Wishlist"
-              badgeColor="bg-teal-500"
+              badgeColor="bg-[#14b8a6]"
             />
 
             {/* Notification Icon Button */}

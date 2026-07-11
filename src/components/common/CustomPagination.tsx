@@ -2,129 +2,88 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const pageBtnBase =
-  "min-w-9 rounded-lg border px-3 py-2.5 text-sm font-semibold transition-colors disabled:pointer-events-none disabled:opacity-50 cursor-pointer";
-const pageBtnActive =
-  "border-[#ffd785] bg-[#ffd785] text-black hover:opacity-90";
-const pageBtnInactive =
-  "border-white/10 bg-transparent text-[#d1d1d1] hover:border-white/20 hover:bg-white/5";
-const navBtnBase =
-  "inline-flex items-center justify-center rounded-lg border border-white/10 bg-transparent p-2.5 text-[#d1d1d1] transition-colors hover:border-white/20 hover:bg-white/5 disabled:pointer-events-none disabled:opacity-50 cursor-pointer";
-
-export interface CustomPagination1Props {
-  /** Total number of items across all pages */
-  totalCount: number;
-  /** Current page (1-based) */
+type CustomPaginationProps = {
   currentPage: number;
-  /** Number of items per page */
-  perPage: number;
-  /** Called when Previous is clicked */
-  onPrev: () => void;
-  /** Called when Next is clicked */
-  onNext: () => void;
-  /** Called when a page number is clicked */
-  onPageChange?: (page: number) => void;
-  /** Optional aria-label for the nav */
-  ariaLabel?: string;
-  /** Optional class for the nav wrapper */
-  className?: string;
-}
+  totalPages: number;
+  onPageChange: (page: number) => void;
+};
 
-function getVisiblePages(
-  currentPage: number,
-  totalPages: number,
-): (number | "ellipsis")[] {
-  if (totalPages <= 5) {
-    return Array.from({ length: totalPages }, (_, i) => i + 1);
-  }
-  const pages: (number | "ellipsis")[] = [1, 2, 3, 4];
-  if (totalPages <= 4) return pages.slice(0, totalPages);
-  pages.push("ellipsis");
-  if (currentPage > 4 && currentPage < totalPages) {
-    pages.push(currentPage);
-    if (currentPage < totalPages - 1) pages.push("ellipsis");
-  }
-  pages.push(totalPages);
-  return pages;
-}
-
-export const CustomPagination1 = ({
-  totalCount,
+const CustomPagination = ({
   currentPage,
-  perPage,
-  onPrev,
-  onNext,
+  totalPages,
   onPageChange,
-  ariaLabel = "Pagination",
-  className = "",
-}: CustomPagination1Props) => {
-  const totalPages = Math.ceil(totalCount / perPage) || 1;
-  const hasPrev = currentPage > 1;
-  const hasNext = currentPage < totalPages;
+}: CustomPaginationProps) => {
+  if (totalPages <= 1) return null;
 
-  const start = totalCount === 0 ? 0 : (currentPage - 1) * perPage + 1;
-  const end = Math.min(currentPage * perPage, totalCount);
+  // Build a compact page list with ellipses for large page counts
+  const getPageList = (): (number | "ellipsis")[] => {
+    const pages: (number | "ellipsis")[] = [];
+    const siblings = 1;
 
-  const visiblePages = getVisiblePages(currentPage, totalPages);
+    const start = Math.max(2, currentPage - siblings);
+    const end = Math.min(totalPages - 1, currentPage + siblings);
+
+    pages.push(1);
+    if (start > 2) pages.push("ellipsis");
+    for (let i = start; i <= end; i++) pages.push(i);
+    if (end < totalPages - 1) pages.push("ellipsis");
+    if (totalPages > 1) pages.push(totalPages);
+
+    return pages;
+  };
+
+  const pages = getPageList();
 
   return (
-    <nav
-      aria-label={ariaLabel}
-      className={`mt-6 flex flex-wrap items-center justify-between gap-4 ${className}`.trim()}
-    >
-      <p className="text-sm text-[#d1d1d1]">
-        Showing data {start} to {end} of {totalCount} entries.
-      </p>
+    <div className="flex items-center justify-end gap-1 mt-6">
+      {/* Prev */}
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="flex h-8 items-center gap-1 rounded-md border border-gray-200 px-2.5 text-xs font-medium text-gray-600 transition-colors hover:border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent cursor-pointer"
+      >
+        <ChevronLeft className="h-3.5 w-3.5" strokeWidth={2} />
+        <span>Prev</span>
+      </button>
 
-      {totalCount > 0 && totalPages > 1 && (
-        <div className="flex items-center gap-1">
-          <button
-            type="button"
-            onClick={onPrev}
-            disabled={!hasPrev}
-            aria-label="Previous page"
-            className={navBtnBase}
-          >
-            <ChevronLeft className="h-4 w-4 shrink-0" />
-          </button>
-          <div className="flex items-center gap-1">
-            {visiblePages.map((item, idx) =>
-              item === "ellipsis" ? (
-                <span
-                  key={`ellipsis-${idx}`}
-                  className="min-w-9 rounded-lg border border-white/10 bg-transparent px-3 py-2.5 text-center text-sm font-semibold text-[#d1d1d1]"
-                >
-                  ...
-                </span>
-              ) : (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => onPageChange?.(item)}
-                  aria-label={`Page ${item}`}
-                  aria-current={currentPage === item ? "page" : undefined}
-                  className={`${pageBtnBase} ${
-                    currentPage === item ? pageBtnActive : pageBtnInactive
-                  }`}
-                >
-                  {item}
-                </button>
-              ),
-            )}
-          </div>
-          <button
-            type="button"
-            onClick={onNext}
-            disabled={!hasNext}
-            aria-label="Next page"
-            className={navBtnBase}
-          >
-            <ChevronRight className="h-4 w-4 shrink-0" />
-          </button>
-        </div>
-      )}
-    </nav>
+      {/* Page Numbers */}
+      <div className="flex items-center gap-1">
+        {pages.map((page, idx) =>
+          page === "ellipsis" ? (
+            <span
+              key={`ellipsis-${idx}`}
+              className="flex h-8 w-8 items-center justify-center text-xs text-gray-400"
+            >
+              &#8230;
+            </span>
+          ) : (
+            <button
+              key={page}
+              onClick={() => onPageChange(page)}
+              aria-current={currentPage === page ? "page" : undefined}
+              className={`flex h-8 w-8 items-center justify-center rounded-md border text-xs font-medium transition-colors cursor-pointer ${
+                currentPage === page
+                  ? "border-teal-500 bg-teal-500 text-white shadow-sm"
+                  : "border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50"
+              }`}
+            >
+              {page}
+            </button>
+          ),
+        )}
+      </div>
+
+      {/* Next */}
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className="flex h-8 items-center gap-1 rounded-md border border-gray-200 px-2.5 text-xs font-medium text-gray-600 transition-colors hover:border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent cursor-pointer"
+      >
+        <span>Next</span>
+        <ChevronRight className="h-3.5 w-3.5" strokeWidth={2} />
+      </button>
+    </div>
   );
 };
 
-export default CustomPagination1;
+export default CustomPagination;

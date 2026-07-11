@@ -18,12 +18,18 @@ interface CustomCalanderInputProps {
   value?: Date;
   onChange: (date: Date | undefined) => void;
   error?: string;
+  startMonth?: Date;
+  endMonth?: Date;
+  disablePastDates?: boolean; // ← নতুন prop
 }
 
 const CustomCalanderInput = ({
   value,
   onChange,
   error,
+  startMonth,
+  endMonth,
+  disablePastDates = false,
 }: CustomCalanderInputProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -34,7 +40,7 @@ const CustomCalanderInput = ({
           <Button
             variant={"outline"}
             className={cn(
-              "group h-11 w-full justify-start text-left font-normal px-4 rounded-xl border border-gray-200 bg-gray-50/80 text-sm text-gray-700 transition-all outline-none hover:bg-gray-50/80 hover:border-teal-500 focus-visible:bg-white focus-visible:border-teal-600 focus-visible:ring-2 focus-visible:ring-teal-100",
+              "group h-11 w-full justify-start text-left font-normal px-4 rounded-xl border border-gray-200 bg-gray-50/80 text-sm text-gray-700 transition-all outline-none hover:bg-gray-50/80 hover:border-[#14b8a6] focus-visible:bg-white focus-visible:border-teal-600 focus-visible:ring-2 focus-visible:ring-teal-100",
               "data-[state=open]:bg-white",
               !value && "text-gray-400",
               error &&
@@ -49,7 +55,7 @@ const CustomCalanderInput = ({
                   : "text-gray-400 group-hover:text-teal-600",
               )}
             />
-            {/* এই অংশটি আগের মতোই ঠিক আছে */}
+
             {value ? (
               <span className="text-gray-700">{format(value, "PPP")}</span>
             ) : (
@@ -71,9 +77,9 @@ const CustomCalanderInput = ({
             }}
             className="p-3 rounded-xl"
             captionLayout="dropdown"
-            fromYear={1950}
-            toYear={new Date().getFullYear()}
-            disabled={{ after: new Date() }}
+            startMonth={startMonth}
+            endMonth={endMonth}
+            disabled={disablePastDates ? { before: new Date() } : undefined}
             classNames={{
               today: "bg-teal-50 text-teal-900",
             }}

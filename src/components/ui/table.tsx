@@ -8,7 +8,8 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div
       data-slot="table-container"
-      className="relative w-full overflow-x-auto"
+      /* এখানে table-horizontal-scrollbar ক্লাসটি যোগ করা হয়েছে */
+      className="relative w-full overflow-x-auto table-horizontal-scrollbar"
     >
       <table
         data-slot="table"
@@ -57,7 +58,7 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
     <tr
       data-slot="table-row"
       className={cn(
-        "border-b transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted",
+        "border-b border-slate-200 transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted",
         className,
       )}
       {...props}

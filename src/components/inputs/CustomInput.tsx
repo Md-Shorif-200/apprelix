@@ -20,6 +20,7 @@ const inputClassName = (left: boolean, right: boolean) => `
   transition-all outline-none
   placeholder:text-gray-400
   focus:border-teal-600 focus:ring-2 focus:ring-teal-100 focus:bg-white
+  [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
   ${left ? "pl-10" : "pl-4"}
   ${right ? "pr-10" : "pr-4"}
 `;
@@ -84,7 +85,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
 
           <label
             htmlFor={id}
-            className="flex h-11 cursor-pointer items-center justify-between rounded-xl border border-gray-200 bg-gray-50 px-4 hover:border-teal-500"
+            className="flex h-11 cursor-pointer items-center justify-between rounded-xl border border-gray-200 bg-gray-50 px-4 hover:border-[#14b8a6]"
           >
             <span className="text-sm text-gray-500 truncate">
               {fileName ? fileName : fileHint}

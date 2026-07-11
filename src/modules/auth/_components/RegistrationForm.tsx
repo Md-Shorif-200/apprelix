@@ -132,7 +132,6 @@ export default function RegistrationForm() {
   };
 
   const onSubmit: SubmitHandler<RegistrationFormOutput> = async (data) => {
-    console.log(data);
     try {
       const {
         role,
@@ -324,7 +323,7 @@ export default function RegistrationForm() {
                     className={`relative flex cursor-pointer items-center gap-2.5 rounded-xl border-2 py-2.5 pl-2.5 pr-8 transition-all duration-200
                       ${
                         isSelected
-                          ? "border-teal-500 bg-teal-50/50"
+                          ? "border-[#14b8a6] bg-teal-50/50"
                           : "border-gray-200 bg-white hover:border-gray-300"
                       }`}
                   >
@@ -358,7 +357,7 @@ export default function RegistrationForm() {
                     {isSelected && (
                       <CheckCircle2
                         size={14}
-                        className="text-teal-500 absolute right-2"
+                        className="text-[#14b8a6] absolute right-2"
                       />
                     )}
                   </label>
@@ -486,6 +485,8 @@ export default function RegistrationForm() {
                               onChange(date ? date.toISOString() : undefined)
                             }
                             error={error?.message}
+                            startMonth={new Date(1950, 0)}
+                            endMonth={new Date()}
                           />
                         );
                       }}

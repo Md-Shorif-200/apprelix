@@ -29,7 +29,7 @@ const CustomTextArea = forwardRef<HTMLTextAreaElement, CustomTextAreaProps>(
             ${
               hasError
                 ? "border-red-500 focus-within:border-red-500 focus-within:ring-red-100"
-                : "border-gray-200 focus-within:border-teal-500 focus-within:ring-teal-100"
+                : "border-gray-200 focus-within:border-[#14b8a6] focus-within:ring-teal-100"
             }`}
         >
           <Textarea
