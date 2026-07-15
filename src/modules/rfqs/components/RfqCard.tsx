@@ -11,41 +11,18 @@ import {
 
 import { RfqItem } from "@/modules/buyer/types/rfq-list.type";
 import { formatDate } from "@/modules/buyer/utils/rfq-table-columns.utils";
-import { materialFabricOptions } from "@/modules/buyer/utils/rfq-form.select-options";
 
 type RfqCardProps = {
   rfq: RfqItem;
   onView?: (rfq: RfqItem) => void;
 };
 
-const formatLabel = (value?: string) => {
-  if (!value) return "—";
-  return value.replace(/_/g, " ");
-};
-
-const formatMaterial = (value?: string) => {
-  if (!value) return "—";
-  const option = materialFabricOptions.find((item) => item.value === value);
-  return option?.label ?? formatLabel(value);
-};
-
-const formatBudget = (budget: number | null | undefined) => {
-  if (budget == null) return "—";
-  return `$${budget.toLocaleString()}`;
-};
-
-const formatLocation = (rfq: RfqItem) => {
-  const place = rfq.delivery_place?.trim();
-  const country = rfq.deliveryCountry?.trim();
-
-  if (place && country) return `${place}, ${country}`;
-  return place || country || "—";
-};
-
 const RfqCard = ({ rfq, onView }: RfqCardProps) => {
   const imageUrl = rfq.referenceImages?.[0]?.url;
-  const footerTitle = rfq.buyerName || formatLabel(rfq.status);
-  const footerInitial = footerTitle.charAt(0).toUpperCase();
+
+  const creatorProfilePic = rfq.createdBy?.profilePhoto?.url;
+  const creatorFullName = rfq.createdBy?.fullName || "Anonymous Buyer";
+  const creatorLocation = rfq.createdBy?.companyInfo?.location?.countryName;
 
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ds-border bg-ds-card text-ds-card-foreground shadow-sm transition-all duration-500 ease-out hover:border-ds-primary/30 hover:shadow-[0_20px_40px_-8px_rgba(0,0,0,0.25)]">
@@ -70,7 +47,7 @@ const RfqCard = ({ rfq, onView }: RfqCardProps) => {
 
         <div className="absolute top-3 left-3">
           <span className="rounded-lg bg-slate-900/80 px-3 py-1.5 text-[11px] font-medium tracking-wide text-white capitalize backdrop-blur-md">
-            {formatLabel(rfq.product_category)}
+            {rfq?.product_category}
           </span>
         </div>
 
@@ -115,7 +92,7 @@ const RfqCard = ({ rfq, onView }: RfqCardProps) => {
               <span>Est. Budget</span>
             </div>
             <span className="font-bold text-ds-primary">
-              {formatBudget(rfq.total_budget)}
+              {rfq?.total_budget}
             </span>
           </div>
 
@@ -127,7 +104,7 @@ const RfqCard = ({ rfq, onView }: RfqCardProps) => {
               <span>Material</span>
             </div>
             <span className="max-w-[130px] truncate font-medium capitalize text-ds-text">
-              {formatMaterial(rfq.material_febric)}
+              {rfq?.material_febric}
             </span>
           </div>
 
@@ -149,16 +126,28 @@ const RfqCard = ({ rfq, onView }: RfqCardProps) => {
         <div className="relative h-14 overflow-hidden border-t border-ds-border pt-4">
           <div className="absolute inset-0 flex items-center justify-between px-0 transition-all duration-500 ease-in-out group-hover:translate-y-4 group-hover:opacity-0">
             <div className="flex min-w-0 items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-teal-400 to-teal-600 text-xs font-bold text-white shadow-sm">
-                {footerInitial}
+              <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-ds-muted shadow-sm">
+                {creatorProfilePic ? (
+                  <Image
+                    src={creatorProfilePic}
+                    alt={`${creatorFullName}'s profile photo`}
+                    fill
+                    className="object-cover"
+                    sizes="32px"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-teal-400 to-teal-600 text-xs font-bold text-white">
+                    {creatorFullName.charAt(0).toUpperCase()}
+                  </div>
+                )}
               </div>
               <div className="flex min-w-0 flex-col">
                 <span className="max-w-[100px] truncate text-xs font-semibold tracking-tight text-ds-text capitalize">
-                  {footerTitle}
+                  {creatorFullName}
                 </span>
                 <span className="flex max-w-[100px] items-center gap-0.5 truncate text-[10px] text-ds-muted-foreground">
                   <MapPin className="h-2.5 w-2.5 shrink-0" />
-                  {formatLocation(rfq)}
+                  {creatorLocation}
                 </span>
               </div>
             </div>

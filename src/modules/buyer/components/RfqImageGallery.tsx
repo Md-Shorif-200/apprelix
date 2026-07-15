@@ -15,13 +15,16 @@ import "swiper/css/thumbs";
 type UploadedFile = { url: string; publicId: string };
 
 function ZoomableImage({ src, alt }: { src: string; alt: string }) {
-  const [zoomStyle, setZoomStyle] = useState<React.CSSProperties>({ display: "none" });
+  const [zoomStyle, setZoomStyle] = useState<React.CSSProperties>({
+    display: "none",
+  });
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
-    const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-    
+    const { left, top, width, height } =
+      containerRef.current.getBoundingClientRect();
+
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
 
@@ -29,7 +32,7 @@ function ZoomableImage({ src, alt }: { src: string; alt: string }) {
       display: "block",
       backgroundImage: `url(${src})`,
       backgroundPosition: `${x}% ${y}%`,
-      backgroundSize: "200%", 
+      backgroundSize: "200%",
     });
   };
 
@@ -44,7 +47,6 @@ function ZoomableImage({ src, alt }: { src: string; alt: string }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-
       <Image
         src={src}
         alt={alt}
@@ -61,8 +63,11 @@ function ZoomableImage({ src, alt }: { src: string; alt: string }) {
   );
 }
 
-
-export default function RfqImageGallery({ images }: { images: UploadedFile[] }) {
+export default function RfqImageGallery({
+  images,
+}: {
+  images: UploadedFile[];
+}) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
@@ -84,13 +89,19 @@ export default function RfqImageGallery({ images }: { images: UploadedFile[] }) 
             nextEl: ".swiper-button-next-custom",
             prevEl: ".swiper-button-prev-custom",
           }}
-          thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
+          thumbs={{
+            swiper:
+              thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
+          }}
           modules={[FreeMode, Navigation, Thumbs]}
           className="w-full rounded-xl"
         >
           {images.map((image, index) => (
             <SwiperSlide key={image.publicId || index}>
-              <ZoomableImage src={image.url} alt={`Reference Large ${index + 1}`} />
+              <ZoomableImage
+                src={image.url}
+                alt={`Reference Large ${index + 1}`}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -123,7 +134,6 @@ export default function RfqImageGallery({ images }: { images: UploadedFile[] }) 
               key={`thumb-${image.publicId || index}`}
               className="cursor-pointer opacity-60 [.swiper-slide-thumb-active_&]:opacity-100 transition-opacity duration-200"
             >
-          
               <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-slate-50 border-2 border-transparent [.swiper-slide-thumb-active_&]:border-[#14b8a6] shadow-sm">
                 <Image
                   src={image.url}

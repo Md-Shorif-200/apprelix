@@ -7,10 +7,12 @@ import {
   TrendingUp,
   Plus,
   FileText,
-  Clock,
-  CheckCircle,
-  XCircle,
+  // Clock,
+  // CheckCircle,
+  // XCircle,
   List,
+  ShieldCheck,
+  FileBadge,
 } from "lucide-react";
 import { RoleConfigtype, RoleType } from "../types/dashboard.types";
 
@@ -21,9 +23,30 @@ export const roleConfig: Record<RoleType, RoleConfigtype> = {
     label: "Admin Panel",
     navItems: [
       { label: "Dashboard", href: "/dashboard/admin", icon: LayoutDashboard },
-      { label: "Users", href: "/dashboard/admin/users", icon: Users },
+      {
+        label: "User Management",
+        href: "/dashboard/admin/users",
+        icon: ShieldCheck,
+        children: [
+          { label: "Users", href: "/dashboard/admin/users", icon: Users },
+        ],
+      },
+      {
+        label: "Product Management",
+        href: "/dashboard/admin/rfqs",
+        icon: Package,
+        children: [
+          { label: "Rfqs", href: "/dashboard/admin/rfqs", icon: List },
+          {
+            label: "Quoations",
+            href: "/dashboard/admin/rfqs",
+            icon: FileBadge,
+          },
+        ],
+      },
+
       { label: "Orders", href: "/dashboard/admin/orders", icon: ShoppingCart },
-      { label: "Products", href: "/dashboard/admin/products", icon: Package },
+
       { label: "Settings", href: "/dashboard/admin/settings", icon: Settings },
     ],
   },
@@ -33,7 +56,6 @@ export const roleConfig: Record<RoleType, RoleConfigtype> = {
     navItems: [
       { label: "Dashboard", href: "/dashboard/buyer", icon: LayoutDashboard },
 
-      // ── Nested: RFQs ──────────────────────────────────────────────────────
       {
         label: "RFQs",
         href: "/dashboard/buyer/rfqs",
@@ -51,7 +73,6 @@ export const roleConfig: Record<RoleType, RoleConfigtype> = {
           },
         ],
       },
-      // ─────────────────────────────────────────────────────────────────────
 
       {
         label: "My Orders",

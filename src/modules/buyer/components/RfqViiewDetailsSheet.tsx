@@ -46,8 +46,14 @@ function showValue(value: unknown): string {
       .map((item) => {
         if (typeof item === "string") return item;
         if (item && typeof item === "object") {
-          const name = "name" in item ? String((item as { name?: unknown }).name ?? "").trim() : "";
-          const code = "code" in item ? String((item as { code?: unknown }).code ?? "").trim() : "";
+          const name =
+            "name" in item
+              ? String((item as { name?: unknown }).name ?? "").trim()
+              : "";
+          const code =
+            "code" in item
+              ? String((item as { code?: unknown }).code ?? "").trim()
+              : "";
           return name && code ? `${name} (${code})` : name || code;
         }
         return String(item);
@@ -75,8 +81,14 @@ function toColorList(value: unknown): RfqColorValue[] {
           return { name: item, code: item };
         }
         if (item && typeof item === "object") {
-          const name = "name" in item ? String((item as { name?: unknown }).name ?? "").trim() : "";
-          const code = "code" in item ? String((item as { code?: unknown }).code ?? "").trim() : "";
+          const name =
+            "name" in item
+              ? String((item as { name?: unknown }).name ?? "").trim()
+              : "";
+          const code =
+            "code" in item
+              ? String((item as { code?: unknown }).code ?? "").trim()
+              : "";
 
           if (name && code) {
             return { name, code };
@@ -85,7 +97,8 @@ function toColorList(value: unknown): RfqColorValue[] {
         return null;
       })
       .filter(
-        (item): item is RfqColorValue => Boolean(item?.name) && Boolean(item?.code),
+        (item): item is RfqColorValue =>
+          Boolean(item?.name) && Boolean(item?.code),
       );
   }
 
@@ -95,7 +108,6 @@ function toColorList(value: unknown): RfqColorValue[] {
 
   return [];
 }
-
 
 const COLOR_NAME_TO_HEX: Record<string, string> = {
   red: "#ef4444",
@@ -169,7 +181,6 @@ function SectionCard({
   );
 }
 
-
 function InfoGridItem({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col space-y-1">
@@ -180,7 +191,6 @@ function InfoGridItem({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
-
 
 function ColorSwatch({ color }: { color: RfqColorValue }) {
   const hex = color.code || getColorHex(color.name);
@@ -200,7 +210,6 @@ function ColorSwatch({ color }: { color: RfqColorValue }) {
   );
 }
 
-
 function FileItem({ url, label }: { url: string; label: string }) {
   return (
     <a
@@ -209,10 +218,11 @@ function FileItem({ url, label }: { url: string; label: string }) {
       rel="noopener noreferrer"
       className="flex items-center gap-2.5 text-sm text-slate-600 bg-slate-50 hover:bg-[#14b8a6]/5 px-3.5 py-2.5 rounded-xl border border-slate-100 hover:border-[#14b8a6]/30 transition-colors group"
     >
-      <span
-        className="flex items-center justify-center w-7 h-7 rounded-lg bg-white border border-slate-200 shrink-0 group-hover:border-[#14b8a6]/40"
-      >
-        <Paperclip size={13} className="text-slate-400 group-hover:text-[#14b8a6]" />
+      <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-white border border-slate-200 shrink-0 group-hover:border-[#14b8a6]/40">
+        <Paperclip
+          size={13}
+          className="text-slate-400 group-hover:text-[#14b8a6]"
+        />
       </span>
       <span className="font-medium truncate group-hover:text-[#14b8a6]">
         {label}
@@ -290,7 +300,6 @@ const RfqViiewDetailsSheet = ({
 
         {/* Body */}
         <div className="flex-1 overflow-y-auto p-5 space-y-5">
-
           {referenceImages.length > 0 && (
             <RfqImageGallery images={referenceImages} />
           )}
@@ -298,18 +307,41 @@ const RfqViiewDetailsSheet = ({
           {/* Product Details */}
           <SectionCard title="Product Specifications" icon={<Tag size={15} />}>
             <div className="grid grid-cols-2 gap-x-4 gap-y-5">
-              <InfoGridItem label="Category" value={showValue(rfq.product_category)} />
+              <InfoGridItem
+                label="Category"
+                value={showValue(rfq.product_category)}
+              />
               <InfoGridItem label="Gender" value={showValue(rfq.gender)} />
-              <InfoGridItem label="Material / Fabric" value={showValue(rfq.material_febric)} />
-              <InfoGridItem label="Fabric GSM" value={showValue(rfq.febric_gsm)} />
-              <InfoGridItem label="Total Quantity" value={showValue(rfq.total_quantity)} />
-              <InfoGridItem label="Sizes" value={showValue(rfq.product_sizes)} />
-              <InfoGridItem label="Printing & Embroidery" value={showValue(rfq.printing_embroidery)} />
-              <InfoGridItem label="Packaging" value={showValue(rfq.packaging_requirement)} />
-              <InfoGridItem label="Sample Required" value={showValue(rfq.sample_requirement)} />
+              <InfoGridItem
+                label="Material / Fabric"
+                value={showValue(rfq.material_febric)}
+              />
+              <InfoGridItem
+                label="Fabric GSM"
+                value={showValue(rfq.febric_gsm)}
+              />
+              <InfoGridItem
+                label="Total Quantity"
+                value={showValue(rfq.total_quantity)}
+              />
+              <InfoGridItem
+                label="Sizes"
+                value={showValue(rfq.product_sizes)}
+              />
+              <InfoGridItem
+                label="Printing & Embroidery"
+                value={showValue(rfq.printing_embroidery)}
+              />
+              <InfoGridItem
+                label="Packaging"
+                value={showValue(rfq.packaging_requirement)}
+              />
+              <InfoGridItem
+                label="Sample Required"
+                value={showValue(rfq.sample_requirement)}
+              />
             </div>
 
-          
             <div className="mt-5 pt-5 border-t border-slate-100">
               <div className="flex items-center gap-1.5 text-xs font-medium text-slate-400 mb-2.5">
                 <Palette size={13} />
@@ -331,31 +363,65 @@ const RfqViiewDetailsSheet = ({
           </SectionCard>
 
           {/* Business & Logistics */}
-          <SectionCard title="Logistics & Financials" icon={<DollarSign size={15} />}>
+          <SectionCard
+            title="Logistics & Financials"
+            icon={<DollarSign size={15} />}
+          >
             <div className="grid grid-cols-2 gap-x-4 gap-y-5">
-              <InfoGridItem label="Budget Per Piece" value={formatMoney(rfq.budget_per_piece)} />
-              <InfoGridItem label="Total Budget" value={formatMoney(rfq.total_budget)} />
+              <InfoGridItem
+                label="Budget Per Piece"
+                value={formatMoney(rfq.budget_per_piece)}
+              />
+              <InfoGridItem
+                label="Total Budget"
+                value={formatMoney(rfq.total_budget)}
+              />
               <InfoGridItem
                 label="Delivery Date"
-                value={rfq.required_delivery_date ? formatDate(rfq.required_delivery_date) : "—"}
+                value={
+                  rfq.required_delivery_date
+                    ? formatDate(rfq.required_delivery_date)
+                    : "—"
+                }
               />
-              <InfoGridItem label="Delivery Country" value={showValue(rfq.deliveryCountry)} />
-              <InfoGridItem label="Delivery Place" value={showValue(rfq.delivery_place)} />
-              <InfoGridItem label="Incoterms" value={showValue(rfq.Incoterms)} />
-              <InfoGridItem label="Payment Terms" value={showValue(rfq.payment_terms)} />
-              <InfoGridItem label="Certifications" value={showValue(rfq.certifications)} />
+              <InfoGridItem
+                label="Delivery Country"
+                value={showValue(rfq.deliveryCountry)}
+              />
+              <InfoGridItem
+                label="Delivery Place"
+                value={showValue(rfq.delivery_place)}
+              />
+              <InfoGridItem
+                label="Incoterms"
+                value={showValue(rfq.Incoterms)}
+              />
+              <InfoGridItem
+                label="Payment Terms"
+                value={showValue(rfq.payment_terms)}
+              />
+              <InfoGridItem
+                label="Certifications"
+                value={showValue(rfq.certifications)}
+              />
             </div>
           </SectionCard>
 
           {/* Description */}
-          <SectionCard title="Detailed Description" icon={<FileText size={15} />}>
+          <SectionCard
+            title="Detailed Description"
+            icon={<FileText size={15} />}
+          >
             <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">
               {showValue(rfq.description)}
             </p>
           </SectionCard>
 
           {/* Attachments */}
-          <SectionCard title="Documents & Attachments" icon={<Archive size={15} />}>
+          <SectionCard
+            title="Documents & Attachments"
+            icon={<Archive size={15} />}
+          >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {techSheet?.url ? (
                 <FileItem url={techSheet.url} label="Technical Spec Sheet" />
@@ -384,7 +450,9 @@ const RfqViiewDetailsSheet = ({
               />
               <InfoGridItem
                 label="Last Updated"
-                value={rfq.updatedAt ? formatDate(rfq.updatedAt as string) : "—"}
+                value={
+                  rfq.updatedAt ? formatDate(rfq.updatedAt as string) : "—"
+                }
               />
             </div>
           </SectionCard>

@@ -1,4 +1,5 @@
 import { RfqEditFormValues, RfqFormValues } from "../schema/rfq-form.schema";
+import { RfqItem } from "./rfq-list.type";
 
 export type RfqStatus =
   | "pending"
@@ -52,14 +53,12 @@ export type CreateRfqResponse = CreateRfqPayload & {
 
 // API Response Wrapper
 export type GetRfqsResponse = {
-  data: {
-    success: boolean;
-    message: string;
-    count: number;
-    next: string | null;
-    previous: string | null;
-    results: CreateRfqResponse[];
-  };
+  success: boolean;
+  message: string;
+  count: number;
+  next: number | null;
+  previous: number | null;
+  results: RfqItem[];
 };
 
 export type ApiResponse<T> = {
@@ -67,4 +66,3 @@ export type ApiResponse<T> = {
   message: string;
   data: T;
 };
-

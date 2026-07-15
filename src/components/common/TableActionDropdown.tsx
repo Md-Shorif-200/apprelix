@@ -9,7 +9,7 @@ export type DropdownAction = {
   label: string;
   icon: LucideIcon;
   onClick: () => void;
-  variant?: "default" | "danger";
+  variant?: "default" | "danger" | "success" | "warning";
 };
 
 type TableActionDropdownProps = {
@@ -24,7 +24,6 @@ const TableActionDropdown = ({ actions }: TableActionDropdownProps) => {
   const btnRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       if (
@@ -38,12 +37,12 @@ const TableActionDropdown = ({ actions }: TableActionDropdownProps) => {
     };
 
     const handleScroll = () => {
-      if (open) setOpen(false); 
+      if (open) setOpen(false);
     };
 
     if (open) {
       document.addEventListener("mousedown", handleOutsideClick);
-   
+
       window.addEventListener("scroll", handleScroll, true);
     }
 
@@ -53,21 +52,19 @@ const TableActionDropdown = ({ actions }: TableActionDropdownProps) => {
     };
   }, [open]);
 
-
   const toggleDropdown = () => {
     if (!open && btnRef.current) {
       const rect = btnRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
 
-    
       const isSpaceLimited = spaceBelow < 200;
 
       setDropdownStyle({
         position: "fixed",
         right: window.innerWidth - rect.right,
         ...(isSpaceLimited
-          ? { bottom: window.innerHeight - rect.top + 4 } 
-          : { top: rect.bottom + 4 }), 
+          ? { bottom: window.innerHeight - rect.top + 4 }
+          : { top: rect.bottom + 4 }),
       });
     }
     setOpen((prev) => !prev);

@@ -1,7 +1,27 @@
-import { CreateRfqResponse, RfqStatus } from "./rfq-form.types";
+import { CreateRfqResponse, RfqStatus, UploadedFile } from "./rfq-form.types";
 
-export type RfqItem = CreateRfqResponse & {
-  buyerName?: string;
+export interface locationType {
+  countryCode: string;
+  countryName: string;
+  stateCode: string;
+  stateName: string;
+  city: string;
+}
+
+interface IPopulatedCreator {
+  _id: string;
+  fullName: string;
+  email: string;
+  role: "buyer" | "supplier" | "admin";
+  profilePhoto: UploadedFile;
+  companyInfo?: {
+    companyLogo?: UploadedFile;
+    location?: locationType;
+  };
+}
+
+export type RfqItem = Omit<CreateRfqResponse, "createdBy"> & {
+  createdBy: IPopulatedCreator;
   quotesCount?: number;
 };
 
@@ -61,8 +81,6 @@ export const STATUS_OPTIONS = [
   { label: "Cancelled", value: "cancelled" },
   { label: "Expired", value: "expired" },
 ];
-
-
 
 // rfq sort options
 export const SortOptionsType = [

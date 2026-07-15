@@ -27,10 +27,12 @@ export function buildRfqQueryParams({
   if (sortBy) params.sort = sortBy;
 
   if (filter.status) params.status = filter.status;
-  if (filter.product_category) params.product_category = filter.product_category;
+  if (filter.product_category)
+    params.product_category = filter.product_category;
   if (filter.gender) params.gender = filter.gender;
   if (filter.material_febric) params.material_febric = filter.material_febric;
-  if (filter.sample_requirement) params.sample_requirement = filter.sample_requirement;
+  if (filter.sample_requirement)
+    params.sample_requirement = filter.sample_requirement;
   if (filter.printing_embroidery) {
     params.printing_embroidery = filter.printing_embroidery;
   }

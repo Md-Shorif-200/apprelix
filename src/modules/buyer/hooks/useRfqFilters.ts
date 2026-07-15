@@ -6,7 +6,8 @@ import { DEFAULT_FILTERS, RfqFilterStateType } from "../types/rfq-list.type";
 export function useRfqFilters() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("");
-  const [filter, setFilterState] = useState<RfqFilterStateType>(DEFAULT_FILTERS);
+  const [filter, setFilterState] =
+    useState<RfqFilterStateType>(DEFAULT_FILTERS);
 
   const setFilter = useCallback(
     (key: keyof RfqFilterStateType, value: string | string[]) => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AlertTriangle ,CheckCircle,  Loader2, X } from "lucide-react";
+import { AlertTriangle, CheckCircle, Loader2, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -151,7 +151,7 @@ const ConfirmationModal = ({
                 </>
               ) : (
                 <>
-                  < CheckCircle className="size-3.5" strokeWidth={2.5} />
+                  <CheckCircle className="size-3.5" strokeWidth={2.5} />
                   Confirm
                 </>
               )}
