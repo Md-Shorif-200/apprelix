@@ -1,28 +1,12 @@
-import { FileText, LogIn, ShieldCheck, Truck } from "lucide-react";
+// Replace with
+import { LogIn } from "lucide-react";
 import Link from "next/link";
 import LogInForm from "@/modules/auth/_components/LogInForm";
 
-const highlights = [
-  {
-    icon: ShieldCheck,
-    title: "Secure Access",
-    description: "Enterprise-grade encryption keeps your account safe",
-  },
-  {
-    icon: FileText,
-    title: "RFQ & Quotes",
-    description: "Manage sourcing requests and supplier offers in one place",
-  },
-  {
-    icon: Truck,
-    title: "Live Tracking",
-    description: "Monitor production and shipment updates in real time",
-  },
-];
 
 export default function LogInPage() {
   return (
-    <div className="flex min-h-full w-full items-center justify-center bg-gradient-to-br from-teal-50/60 via-white to-gray-50 px-4 py-10 lg:min-h-dvh">
+    <div className="flex min-h-full w-full items-center justify-center bg-gradient-to-br from-teal-50/60 via-white to-gray-50 px-4 py-7 lg:min-h-dvh">
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="mb-8 text-center lg:text-left">
@@ -35,10 +19,10 @@ export default function LogInPage() {
             Log in to your account
           </h1>
 
-          <p className="mb-3 text-sm leading-relaxed text-gray-500">
+          {/* <p className="mb-3 text-sm leading-relaxed text-gray-500">
             Access your dashboard to manage sourcing, quotations, and production
             — built for modern apparel businesses.
-          </p>
+          </p> */}
 
           <p className="text-sm text-gray-500">
             Don&apos;t have an account?{" "}
@@ -53,37 +37,45 @@ export default function LogInPage() {
 
         <LogInForm />
 
-        {/* Platform highlights */}
-        <div className="mt-8 space-y-3">
-          <p className="text-center text-xs font-semibold tracking-widest text-gray-400 uppercase lg:text-left">
-            Why professionals choose Apprelix
-          </p>
+{/* Demo Login Credentials */}
+<div className="mt-8 rounded-2xl border border-teal-100 bg-white p-6 shadow-sm">
+  <h2 className="mb-4 text-center text-sm font-semibold uppercase tracking-wider text-teal-700 lg:text-left">
+    Demo Login Credentials
+  </h2>
 
-          <ul className="grid gap-2.5">
-            {highlights.map((item) => {
-              const Icon = item.icon;
+  <div className="space-y-4">
+    <div className="rounded-lg border border-gray-100 bg-gray-50 p-4">
+      <p className="text-sm font-semibold text-gray-800">Buyer Account</p>
+      <p className="mt-2 text-sm text-gray-600">
+        <span className="font-medium">Email:</span> shorif.buyer@gmail.com
+      </p>
+      <p className="text-sm text-gray-600">
+        <span className="font-medium">Password:</span> Aa123456
+      </p>
+    </div>
 
-              return (
-                <li
-                  key={item.title}
-                  className="flex items-start gap-3 rounded-xl border border-gray-100 bg-white/70 px-4 py-3 backdrop-blur-sm"
-                >
-                  <div className="mt-0.5 rounded-lg bg-teal-50 p-2 text-teal-600">
-                    <Icon size={14} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-gray-800">
-                      {item.title}
-                    </p>
-                    <p className="mt-0.5 text-xs leading-relaxed text-gray-500">
-                      {item.description}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+    <div className="rounded-lg border border-gray-100 bg-gray-50 p-4">
+      <p className="text-sm font-semibold text-gray-800">Supplier Account</p>
+      <p className="mt-2 text-sm text-gray-600">
+        <span className="font-medium">Email:</span> shorif.supplier@gmail.com
+      </p>
+      <p className="text-sm text-gray-600">
+        <span className="font-medium">Password:</span> Sr123456
+      </p>
+    </div>
+
+    <div className="rounded-lg border border-gray-100 bg-gray-50 p-4">
+      <p className="text-sm font-semibold text-gray-800">Admin Account</p>
+      <p className="mt-2 text-sm text-gray-600">
+        <span className="font-medium">Email:</span> shorif.admin@gmail.com
+      </p>
+      <p className="text-sm text-gray-600">
+        <span className="font-medium">Password:</span> Aa123456
+      </p>
+    </div>
+  </div>
+</div> 
+        
 
         <p className="mt-6 text-center text-xs leading-relaxed text-gray-400 lg:text-left">
           Protected sign-in with encrypted credentials. Need help?{" "}
