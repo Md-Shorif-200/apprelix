@@ -35,7 +35,9 @@ export function collectRfqPublicIds(rfq: RfqItem): string[] {
   return publicIds;
 }
 
-export async function deleteCloudinaryFiles(publicIds: string[]): Promise<void> {
+export async function deleteCloudinaryFiles(
+  publicIds: string[],
+): Promise<void> {
   const uniqueIds = [...new Set(publicIds.filter(Boolean))];
   if (uniqueIds.length === 0) return;
 
@@ -149,14 +151,19 @@ export async function resolveRfqFileUpdates({
 
   await deleteCloudinaryFiles([
     ...unreplacedReferenceRemovals.map((file) => file.publicId),
-    ...(removedFiles.techSheet && newTechSheet ? [] : removedFiles.techSheet
-      ? [removedFiles.techSheet.publicId]
-      : []),
+    ...(removedFiles.techSheet && newTechSheet
+      ? []
+      : removedFiles.techSheet
+        ? [removedFiles.techSheet.publicId]
+        : []),
     ...unreplacedAttachmentRemovals.map((file) => file.publicId),
   ]);
 
   return {
-    referenceImages: [...existingFiles.referenceImages, ...uploadedReferenceImages],
+    referenceImages: [
+      ...existingFiles.referenceImages,
+      ...uploadedReferenceImages,
+    ],
     techSheet,
     otherAttachments: [
       ...existingFiles.otherAttachments,

@@ -1,6 +1,11 @@
 "use client";
 import { useState, useMemo } from "react";
-import { useCancelRfq, useDeleteSingleRfq, useGetRfqs, useReactivateRfq } from "../hooks/rfq.hooks";
+import {
+  useCancelRfq,
+  useDeleteSingleRfq,
+  useGetRfqs,
+  useReactivateRfq,
+} from "../hooks/rfq.hooks";
 import CustomTable from "@/components/common/CustomTable";
 import EmptyState from "@/components/common/EmptyState";
 import { RfqItem } from "../types/rfq-list.type";
@@ -21,10 +26,7 @@ import { buildRfqQueryParams } from "../utils/rfq-query.utils";
 
 const ITEMS_PER_PAGE = 12;
 
-type ConfirmationState = Omit<
-  ConfirmationModalProps,
-  "open" | "onOpenChange"
->;
+type ConfirmationState = Omit<ConfirmationModalProps, "open" | "onOpenChange">;
 
 const RfqListsPage = () => {
   const rfqFilters = useRfqFilters();
@@ -72,15 +74,15 @@ const RfqListsPage = () => {
     limit: ITEMS_PER_PAGE,
   });
 
-  const { data,isPending } = useGetRfqs(queryParams, { enabled: !!userId });
+  const { data, isPending } = useGetRfqs(queryParams, { enabled: !!userId });
   const { mutate: deleteRfq } = useDeleteSingleRfq();
-  const { mutate: cancelRfq,  } = useCancelRfq();
- const { mutate: reactivateRfq } = useReactivateRfq();
+  const { mutate: cancelRfq } = useCancelRfq();
+  const { mutate: reactivateRfq } = useReactivateRfq();
 
   const rfqList: RfqItem[] = data?.results || [];
   const totalRfqs = data?.count || 0;
 
-  const isLoading = isPending || status === "loading" ;
+  const isLoading = isPending || status === "loading";
 
   const hasNoData = !isLoading && totalRfqs === 0;
 

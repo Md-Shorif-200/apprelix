@@ -80,12 +80,23 @@ const ProfileHero = ({ user }: ProfileHeroProps) => {
         {/* ── Info Pills Row ── */}
         <div className="mt-5 flex flex-wrap gap-3">
           {/* Phone */}
-          <InfoPill icon={<Phone size={13} className="text-teal-600 dark:text-teal-400" />}>
+          <InfoPill
+            icon={
+              <Phone size={13} className="text-teal-600 dark:text-teal-400" />
+            }
+          >
             {user.phone || "N/A"}
           </InfoPill>
 
           {/* Member Since */}
-          <InfoPill icon={<Calendar size={13} className="text-teal-600 dark:text-teal-400" />}>
+          <InfoPill
+            icon={
+              <Calendar
+                size={13}
+                className="text-teal-600 dark:text-teal-400"
+              />
+            }
+          >
             Joined{" "}
             {user.createdAt
               ? new Date(user.createdAt).toLocaleDateString(undefined, {
@@ -97,7 +108,14 @@ const ProfileHero = ({ user }: ProfileHeroProps) => {
           </InfoPill>
 
           {/* Last Updated */}
-          <InfoPill icon={<RefreshCw size={13} className="text-teal-600 dark:text-teal-400" />}>
+          <InfoPill
+            icon={
+              <RefreshCw
+                size={13}
+                className="text-teal-600 dark:text-teal-400"
+              />
+            }
+          >
             Updated{" "}
             {user.updatedAt
               ? new Date(user.updatedAt).toLocaleDateString(undefined, {

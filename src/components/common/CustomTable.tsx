@@ -20,7 +20,7 @@ export type CustomTableColumn<T> = {
   width?: string; // Added width property for custom column widths
 };
 
-type CustomTableProps<T extends Record<string, unknown>> = {
+type CustomTableProps<T> = {
   columns: CustomTableColumn<T>[];
   data: T[];
   rowKey: (row: T) => React.Key;
@@ -36,13 +36,21 @@ type CustomTableProps<T extends Record<string, unknown>> = {
   caption?: string;
 };
 
-function getNestedValue(obj: Record<string, unknown>, path: string): unknown {
-  return path.split(".").reduce<unknown>((acc, key) => {
-    if (acc !== null && typeof acc === "object" && key in acc) {
-      return (acc as Record<string, unknown>)[key];
-    }
-    return undefined;
-  }, obj);
+function getNestedValue(obj: object, path: string): unknown {
+  return path.split(".").reduce<unknown>(
+    (acc, key) => {
+      if (
+        acc !== null &&
+        acc !== undefined &&
+        typeof acc === "object" &&
+        key in acc
+      ) {
+        return (acc as Record<string, unknown>)[key];
+      }
+      return undefined;
+    },
+    obj as Record<string, unknown>,
+  );
 }
 
 function toDisplayString(value: unknown): string {
@@ -65,7 +73,7 @@ const SkeletonRow = ({ colCount }: { colCount: number }) => (
   </TableRow>
 );
 
-const CustomTable = <T extends Record<string, unknown>>({
+const CustomTable = <T,>({
   columns,
   data,
   rowKey,

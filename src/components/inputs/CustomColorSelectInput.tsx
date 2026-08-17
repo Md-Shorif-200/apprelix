@@ -44,7 +44,8 @@ export default function CustomColorSelectInput({
 }: CustomColorSelectProps) {
   const [open, setOpen] = React.useState(false);
 
-  const getOptionKey = (option: MultiSelectOption) => option.code ?? option.value;
+  const getOptionKey = (option: MultiSelectOption) =>
+    option.code ?? option.value;
 
   const normalizeValue = (item: ColorSelectionValue) => {
     if (typeof item === "string") {
@@ -53,7 +54,10 @@ export default function CustomColorSelectInput({
     return item;
   };
 
-  const isSameSelection = (item: ColorSelectionValue, option: MultiSelectOption) => {
+  const isSameSelection = (
+    item: ColorSelectionValue,
+    option: MultiSelectOption,
+  ) => {
     const normalized = normalizeValue(item);
     return (
       normalized.code === getOptionKey(option) ||
@@ -83,7 +87,9 @@ export default function CustomColorSelectInput({
 
     if (!selectedOption) return;
 
-    const isSelected = value.some((item) => isSameSelection(item, selectedOption));
+    const isSelected = value.some((item) =>
+      isSameSelection(item, selectedOption),
+    );
 
     if (isSelected) {
       onChange(value.filter((item) => !isSameSelection(item, selectedOption)));
@@ -91,7 +97,10 @@ export default function CustomColorSelectInput({
     }
 
     const nextValue = emitObjects
-      ? [...value, { name: selectedOption.label, code: getOptionKey(selectedOption) }]
+      ? [
+          ...value,
+          { name: selectedOption.label, code: getOptionKey(selectedOption) },
+        ]
       : [...value, getOptionKey(selectedOption)];
 
     onChange(nextValue);
@@ -174,7 +183,9 @@ export default function CustomColorSelectInput({
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
-                const isSelected = value.some((item) => isSameSelection(item, option));
+                const isSelected = value.some((item) =>
+                  isSameSelection(item, option),
+                );
                 return (
                   // Each dropdown option with color box + label
                   <CommandItem

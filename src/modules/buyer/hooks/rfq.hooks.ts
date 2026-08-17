@@ -54,28 +54,26 @@ export const useDeleteSingleRfq = () => {
   });
 };
 
-
-// cancel rfq 
+// cancel rfq
 export const useCancelRfq = () => {
   const queryClient = useQueryClient();
 
-   return useMutation({
+  return useMutation({
     mutationFn: cancelRfqService,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rfqs"] });
     },
-   })
-}
+  });
+};
 
-
-// cancel rfq 
+// cancel rfq
 export const useReactivateRfq = () => {
   const queryClient = useQueryClient();
 
-   return useMutation({
+  return useMutation({
     mutationFn: reactivateRfqService,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rfqs"] });
     },
-   })
-}
+  });
+};

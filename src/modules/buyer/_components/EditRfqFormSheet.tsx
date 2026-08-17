@@ -134,7 +134,8 @@ function normalizeColorValues(value: unknown): RfqColorValue[] {
       return null;
     })
     .filter(
-      (item): item is RfqColorValue => Boolean(item?.name) && Boolean(item?.code),
+      (item): item is RfqColorValue =>
+        Boolean(item?.name) && Boolean(item?.code),
     );
 }
 
@@ -450,7 +451,12 @@ const EditRfqFormSheet = ({
                     <CustomColorSelectInput
                       placeholder="Select colors"
                       options={popularColorOptions}
-                      value={(field.value ?? []) as Array<{ name: string; code: string }>}
+                      value={
+                        (field.value ?? []) as Array<{
+                          name: string;
+                          code: string;
+                        }>
+                      }
                       onChange={field.onChange}
                       emitObjects
                     />
@@ -724,8 +730,12 @@ const EditRfqFormSheet = ({
                       onRemove={(index) => {
                         const currentImages =
                           (field.value as File[] | undefined) ?? [];
-                        const updated = currentImages.filter((_, i) => i !== index);
-                        field.onChange(updated.length > 0 ? updated : undefined);
+                        const updated = currentImages.filter(
+                          (_, i) => i !== index,
+                        );
+                        field.onChange(
+                          updated.length > 0 ? updated : undefined,
+                        );
                       }}
                     />
                     <DropZone

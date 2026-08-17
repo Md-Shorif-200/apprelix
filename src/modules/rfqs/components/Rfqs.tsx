@@ -3,9 +3,6 @@ import { useState, useMemo } from "react";
 
 import EmptyState from "@/components/common/EmptyState";
 
-// import DashboardSectionHeader from "@/modules/dashboard/components/DashboardSectionheader";
-import { useSession } from "next-auth/react";
-
 import { FileSearch } from "lucide-react";
 import CustomPagination from "@/components/common/CustomPagination";
 import { useRfqFilters } from "@/modules/buyer/hooks/useRfqFilters";
@@ -18,10 +15,9 @@ import RfqCard, { RfqCardSkeleton } from "./RfqCard";
 const ITEMS_PER_PAGE = 12;
 
 const Rfqs = () => {
+  const isDashboard = false;
   const rfqFilters = useRfqFilters();
   const { searchTerm, sortBy, filter } = rfqFilters;
-  const { data: session, status } = useSession();
-  const userId = session?.user?.id;
 
   const [currentPage, setCurrentPage] = useState(1);
   //   const [selectedRfq, setSelectedRfq] = useState<RfqItem | null>(null);
@@ -49,7 +45,6 @@ const Rfqs = () => {
   );
 
   const queryParams = buildRfqQueryParams({
-    userId,
     filter,
     searchTerm,
     sortBy,
@@ -57,7 +52,7 @@ const Rfqs = () => {
     limit: ITEMS_PER_PAGE,
   });
 
-  const { data, isPending } = useGetRfqs(queryParams, { enabled: !!userId });
+  const { data, isPending } = useGetRfqs(queryParams);
 
   const rfqList: RfqItem[] = data?.results || [];
   const totalRfqs = data?.count || 0;
@@ -78,7 +73,7 @@ const Rfqs = () => {
     <div className="w-full py-10">
       {/* --- Modified: Show total count in the header --- */}
       {/* <DashboardSectionHeader title="R" count={totalRfqs} /> */}
-      <RfqListPageHeader {...rfqFilters} />
+      <RfqListPageHeader isDashboard={isDashboard} {...rfqFilters} />
 
       {hasNoData ? (
         <EmptyState
@@ -97,9 +92,7 @@ const Rfqs = () => {
               ? Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
                   <RfqCardSkeleton key={index} />
                 ))
-              : rfqList.map((rfq) => (
-                  <RfqCard key={rfq._id} rfq={rfq} />
-                ))}
+              : rfqList.map((rfq) => <RfqCard key={rfq._id} rfq={rfq} />)}
           </div>
 
           {totalPages > 1 && (

@@ -61,7 +61,6 @@ const FeaturedRfqsCard = ({ rfq, index = 0 }: FeaturedRfqsCardProps) => {
           </span>
         </div>
 
-       
         {/* Quotes Count - Bottom Left (inside image) */}
         <div className="absolute bottom-3 left-3">
           <span className="bg-white/15 backdrop-blur-md text-white text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-white/20">

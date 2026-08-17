@@ -77,7 +77,10 @@ export const SupplierFactoryDetails = ({ user, openModal }: Props) => {
           </dt>
           <dd className="mt-1">
             <div className="flex items-start gap-2 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm text-gray-600 dark:border-gray-700 dark:bg-gray-800/60 dark:text-gray-300">
-              <MapPin size={14} className="mt-0.5 shrink-0 text-teal-600 dark:text-teal-400" />
+              <MapPin
+                size={14}
+                className="mt-0.5 shrink-0 text-teal-600 dark:text-teal-400"
+              />
               <span>{renderValue(user?.roleDetails?.factoryLocation)}</span>
             </div>
           </dd>
@@ -102,7 +105,9 @@ export const SupplierFactoryDetails = ({ user, openModal }: Props) => {
                 ))}
               </div>
             ) : (
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">N/A</span>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                N/A
+              </span>
             )}
           </dd>
         </div>

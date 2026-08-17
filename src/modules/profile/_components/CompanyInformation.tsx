@@ -124,7 +124,10 @@ const CompanyInformation = ({ user }: CompanyInformationProps) => {
           </dt>
           <dd className="mt-1">
             <div className="flex items-start gap-2 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm text-gray-600 dark:border-gray-700 dark:bg-gray-800/60 dark:text-gray-300">
-              <MapPin size={14} className="mt-0.5 shrink-0 text-teal-600 dark:text-teal-400" />
+              <MapPin
+                size={14}
+                className="mt-0.5 shrink-0 text-teal-600 dark:text-teal-400"
+              />
               <span>{user?.companyInfo?.streetAddress || "N/A"}</span>
             </div>
           </dd>

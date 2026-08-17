@@ -26,6 +26,15 @@ export interface CompanyInfoType {
   };
 }
 
+export type RejectionReasonType = {
+  reasonCategory: string;
+  reasonDetails?: string;
+  rejectedAt: string; 
+  rejectedBy: string; 
+};
+
+
+
 export interface UserType {
   _id: string;
   fullName: string;
@@ -39,6 +48,9 @@ export interface UserType {
   };
   roleDetails?: RoleDetailsType;
   status: "pending" | "accepted" | "rejected" | "blocked";
+  rejection_reason?: RejectionReasonType[];
+  rfqsCreatedCount?: number;
+  quotesSubmittedCount?: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -80,7 +92,13 @@ export function getUserDisplayName(user: Pick<UserType, "fullName">): string {
 
 export interface Users_Response_Type {
   success: boolean;
-  data: UserType[];
+  message: string;
+  data: {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: UserType[];
+  };
 }
 
 export type Single_User_Response_Type = {
@@ -92,4 +110,10 @@ export type Update_UserProfile_Response_Type = {
   success: boolean;
   message: string;
   data?: Update_UserProfile_Payload_Type;
+};
+
+export type UserTableActionResponseType = {
+  success: boolean;
+  message: string;
+  data?: UserType;
 };

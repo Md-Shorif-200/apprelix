@@ -307,7 +307,12 @@ export default function CreateRfqForm() {
                   <CustomColorSelectInput
                     placeholder="Select colors"
                     options={popularColorOptions}
-                    value={(field.value ?? []) as Array<{ name: string; code: string }>}
+                    value={
+                      (field.value ?? []) as Array<{
+                        name: string;
+                        code: string;
+                      }>
+                    }
                     onChange={field.onChange}
                     emitObjects
                   />
@@ -571,8 +576,11 @@ export default function CreateRfqForm() {
                     images={field.value || []}
                     title="Selected Reference Images"
                     onRemove={(index) => {
-                      const currentImages = (field.value as File[] | undefined) ?? [];
-                      const updated = currentImages.filter((_, i) => i !== index);
+                      const currentImages =
+                        (field.value as File[] | undefined) ?? [];
+                      const updated = currentImages.filter(
+                        (_, i) => i !== index,
+                      );
                       field.onChange(updated.length > 0 ? updated : undefined);
                     }}
                   />

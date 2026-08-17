@@ -23,6 +23,28 @@ const sizeClasses = {
   "7xl": "max-w-7xl",
 };
 
+// ─── Header Variant Color Map ──────────────────────────────────────────────
+const headerVariantClasses = {
+  default: "border-[#14b8a6]/20 bg-gradient-to-r from-teal-600 to-teal-400",
+  primary: "border-teal-500/20 bg-gradient-to-r from-teal-700 to-teal-500",
+  danger: "border-red-500/20 bg-gradient-to-r from-red-600 to-red-400",
+  success: "border-green-500/20 bg-gradient-to-r from-green-600 to-green-400",
+  warning: "border-amber-500/20 bg-gradient-to-r from-amber-600 to-amber-400",
+  info: "border-blue-500/20 bg-gradient-to-r from-blue-600 to-blue-400",
+} as const;
+
+type ModalVariant = keyof typeof headerVariantClasses;
+
+// Matching text/accent color for subtitle dot + subtitle text per variant
+const subtitleVariantClasses: Record<ModalVariant, string> = {
+  default: "text-teal-100",
+  primary: "text-teal-100",
+  danger: "text-red-100",
+  success: "text-green-100",
+  warning: "text-amber-100",
+  info: "text-blue-100",
+};
+
 interface CustomModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -45,6 +67,8 @@ interface CustomModalProps {
     | "5xl"
     | "6xl"
     | "7xl";
+
+  variant?: ModalVariant;
 }
 
 // Empty State
@@ -75,6 +99,7 @@ const CustomModal = ({
   children,
   footer,
   size,
+  variant = "default",
 }: CustomModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -87,14 +112,18 @@ const CustomModal = ({
         `}
       >
         {/* Header */}
-        <DialogHeader className="relative overflow-hidden rounded-t-2xl border-b border-[#14b8a6]/20 bg-gradient-to-r from-teal-600 to-teal-400 p-4">
+        <DialogHeader
+          className={`relative overflow-hidden rounded-t-2xl border-b p-4 ${headerVariantClasses[variant]}`}
+        >
           <div className="relative flex items-center justify-between gap-4">
             <div>
               <DialogTitle className="text-sm sm:text-base font-bold tracking-tight text-white">
                 {title}
               </DialogTitle>
               {subtitle && (
-                <p className="mt-0.5 flex items-center gap-1 text-xs sm:text-sm text-teal-100">
+                <p
+                  className={`mt-0.5 flex items-center gap-1 text-xs sm:text-sm ${subtitleVariantClasses[variant]}`}
+                >
                   <span className="inline-block h-1.5 w-1.5 rounded-full bg-white/80" />
                   {subtitle}
                 </p>

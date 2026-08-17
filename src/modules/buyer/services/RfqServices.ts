@@ -34,7 +34,7 @@ export const getRfqService = async (queryParams?: GetRfqQueryType) => {
     ? `/api/v1/buyer/rfq?${queryString}`
     : "/api/v1/buyer/rfq";
 
-  const res = await axiosRequest<GetRfqsResponse>({
+  const res = await axiosRequest<{ data: GetRfqsResponse }>({
     method: "GET",
     url,
   });
@@ -60,7 +60,6 @@ export const cancelRfqService = async (id: string) => {
   });
   return res.data;
 };
-
 
 // reactivate rfq
 export const reactivateRfqService = async (id: string) => {

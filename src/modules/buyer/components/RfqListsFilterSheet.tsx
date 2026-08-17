@@ -51,6 +51,7 @@ interface RfqListsFilterSheetProps {
   filter: RfqFilterStateType;
   setFilter: (key: keyof RfqFilterStateType, value: string | string[]) => void;
   resetFilters: () => void;
+  isDashboard?: boolean; // Optional prop to indicate if it's in dashboard context
 }
 
 function FilterSection({
@@ -86,8 +87,8 @@ const RfqListsFilterSheet = ({
   filter,
   setFilter,
   resetFilters,
+  isDashboard = true,
 }: RfqListsFilterSheetProps) => {
-
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
@@ -138,14 +139,16 @@ const RfqListsFilterSheet = ({
         {/* ── Scrollable Body ── */}
         <div className="flex-1 overflow-y-auto px-6 py-5 grid grid-cols-1 md:grid-cols-2 gap-5 content-start">
           {/* 1. Status — CustomSelect */}
-          <FilterSection title="Status" icon={<CheckCircle2 size={14} />}>
-            <CustomSelect
-              placeholder="Select status"
-              options={STATUS_OPTIONS}
-              value={filter.status}
-              onChange={(val) => setFilter("status", val as string)}
-            />
-          </FilterSection>
+          {isDashboard && (
+            <FilterSection title="Status" icon={<CheckCircle2 size={14} />}>
+              <CustomSelect
+                placeholder="Select status"
+                options={STATUS_OPTIONS}
+                value={filter.status}
+                onChange={(val) => setFilter("status", val as string)}
+              />
+            </FilterSection>
+          )}
 
           {/* 2. Product Category — CustomSearchSelectInput */}
           <FilterSection title="Product Category" icon={<Tag size={14} />}>
