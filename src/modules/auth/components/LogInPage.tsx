@@ -6,7 +6,7 @@ import LogInForm from "@/modules/auth/_components/LogInForm";
 
 export default function LogInPage() {
   return (
-    <div className="flex min-h-full w-full items-center justify-center bg-gradient-to-br from-teal-50/60 via-white to-gray-50 px-4 py-10 lg:min-h-dvh">
+    <div className="flex min-h-full w-full items-center justify-center bg-gradient-to-br from-teal-50/60 via-white to-gray-50 px-4 py-7 lg:min-h-dvh">
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="mb-8 text-center lg:text-left">
@@ -19,10 +19,10 @@ export default function LogInPage() {
             Log in to your account
           </h1>
 
-          <p className="mb-3 text-sm leading-relaxed text-gray-500">
+          {/* <p className="mb-3 text-sm leading-relaxed text-gray-500">
             Access your dashboard to manage sourcing, quotations, and production
             — built for modern apparel businesses.
-          </p>
+          </p> */}
 
           <p className="text-sm text-gray-500">
             Don&apos;t have an account?{" "}
